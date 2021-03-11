@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 6 */7 * *"
+name: SSLLabs scan
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Install
+        run: |
+          yarn
+
+      - name: ssllabs-scan
+        run: |
+          SCAN_OUTPUT=results/scan-$(date +"%Y%m%d_%I%M%S").json
+          node src/scan.js > $SCAN_OUTPUT
+          node src/toMarkdown.js $SCAN_OUTPUT > README.md
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+          add: '["README.md", "results"]'
+          author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          message: "chore: recap update"
+          pull_strategy: "--no-ff"

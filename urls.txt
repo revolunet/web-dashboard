@@ -1,0 +1,17 @@
+http://index-egapro.travail.gouv.fr
+https://archifiltre.fabrique.social.gouv.fr
+https://carnets.fabrique.social.gouv.fr
+https://code.travail.gouv.fr
+https://covid-19.sante.gouv.fr
+https://domifa.fabrique.social.gouv.fr
+https://emjpm.fabrique.social.gouv.fr
+https://fabrique.social.gouv.fr
+https://medle.fabrique.social.gouv.fr
+https://monsuivipsy.fabrique.social.gouv.fr
+https://onvs.fabrique.social.gouv.fr
+https://ozensemble.fabrique.social.gouv.fr
+https://pjm.social.gouv.fr
+https://sample-next-app.fabrique.social.gouv.fr
+https://standup.fabrique.social.gouv.fr
+https://tumeplay.fabrique.social.gouv.fr
+https://work-in-france.fabrique.social.gouv.fr
