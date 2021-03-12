@@ -20,66 +20,63 @@ const makeSmallerUrl = (url) => {
 };
 
 // https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide
-const makeBadge = (endpoint) => {
-  if (!endpoint.grade) {
+const makeBadge = (grade) => {
+  if (!grade) {
     return `![](https://img.shields.io/static/v1?label=&message=INVALID&color=red)`;
   }
   const colors = [
     "brightgreen",
     "green",
+    "yellowgreen",
     "yellow",
-    "greenyellow",
-    "orange,",
+    "orange",
     "red",
   ];
 
-  const color = colors[endpoint.grade.charCodeAt(0) - 65];
+  const color = colors[Math.min(colors.length - 1, grade.charCodeAt(0) - 65)];
 
   return `![](https://img.shields.io/static/v1?label=grade&message=${encodeURIComponent(
-    endpoint.grade
+    grade
   )}&color=${color})`;
 };
 
 const validBadge = (truthy) => {
   if (truthy) {
-    return "🏆";
+    return "✔️";
   }
   return "❌";
 };
 
-const makeTableRow = (row) => {
-  const endpoint = row.url.endpoints[0];
-  const cert = row.url.certs[0];
-  const hastTls = (version) =>
-    endpoint.details.protocols.find(
-      (p) => p.name === "TLS" && p.version === version
-    );
-  const hasTls12 = hastTls("1.2");
-  const hasTls13 = hastTls("1.3");
-  const hasHsts = endpoint.details.hstsPolicy;
-  const hasDnsCaa = cert.dnsCaa;
+const invalidBadge = (truthy) => {
+  if (truthy) {
+    return "⚠️";
+  }
+  return "✔️";
+};
 
-  return `[${smallUrl(
-    row.url.host
-  )}](https://www.ssllabs.com/ssltest/analyze.html?d=${
-    row.url.host
-  }) | ${makeBadge(endpoint)} | ${validBadge(hastTls("1.0"))} | ${validBadge(
-    hastTls("1.1")
-  )} | ${validBadge(hastTls("1.2"))} | ${validBadge(
-    hastTls("1.3")
-  )} | ${validBadge(hasHsts)} | ${validBadge(hasDnsCaa)} | ${format(
-    row.url.certs[0].notAfter,
-    "LLL Y"
-  )}`;
+const makeTableRow = (row) => {
+  const endpoint = row.tls.endpoints[0];
+  const hasCsp = row.http.details["content-security-policy"].pass;
+  const hasCookies = row.http.details["cookies"].pass;
+  const hasHsts = row.http.details["strict-transport-security"].pass;
+  return `[${smallUrl(row.url)}](https://observatory.mozilla.org/analyze/${
+    row.url
+  }) | [${makeBadge(
+    endpoint.grade
+  )}](https://www.ssllabs.com/ssltest/analyze.html?d=${row.url}) | [${makeBadge(
+    row.http.grade
+  )}](https://observatory.mozilla.org/analyze/${row.url}) | ${validBadge(
+    hasCsp
+  )}| ${validBadge(hasCookies)} | ${validBadge(hasHsts)} |`;
 };
 
 const toMarkdown = (results) => {
   const markdown = [
-    `# SSL dashboard\n`,
+    `# SSL dashboard`,
     ``,
     `
-Url | Grade   | TLS 1.0 | TLS 1.1 | TLS 1.2 | TLS 1.3 | HSTS | CAA | Expiration
-----|:-------:|:-------:|:-------:|:-------:|:-------:|:----:|:---:|-----------`,
+url | TLS_CERT   | HTTP    | CSP      | Cookies | HSTS
+----|:----------:|:-------:|:--------:|:-------:|:-----:`,
     results.map(makeTableRow).join("\n"),
   ];
 

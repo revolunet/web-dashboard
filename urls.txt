@@ -15,3 +15,8 @@ https://sample-next-app.fabrique.social.gouv.fr
 https://standup.fabrique.social.gouv.fr
 https://tumeplay.fabrique.social.gouv.fr
 https://work-in-france.fabrique.social.gouv.fr
+https://matomo.fabrique.social.gouv.fr
+https://sentry.fabrique.social.gouv.fr
+https://gitlab.factory.social.gouv.fr
+https://travail-emploi.gouv.fr
+https://solidarites-sante.gouv.fr
