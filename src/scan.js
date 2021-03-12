@@ -43,7 +43,7 @@ const scanTLS = async (url, tries = MAX_TRIES) => {
           }`
         );
         return new Promise((resolve) =>
-          setTimeout(() => scanUrl(url, tries - 1).then(resolve), INTERVAL)
+          setTimeout(() => scanTLS(url, tries - 1).then(resolve), INTERVAL)
         );
       } else if (
         json.endpoints &&
@@ -57,7 +57,7 @@ const scanTLS = async (url, tries = MAX_TRIES) => {
           }%)`
         );
         return new Promise((resolve) =>
-          setTimeout(() => scanUrl(url, tries - 1).then(resolve), INTERVAL)
+          setTimeout(() => scanTLS(url, tries - 1).then(resolve), INTERVAL)
         );
       }
       return json;
@@ -94,73 +94,6 @@ const scanHTTP = (url, tries = MAX_TRIES) => {
       throw new Error(`${MAX_TRIES} failed scans for ${url}`);
     });
 };
-
-// const scanTLS = (url, tries = MAX_TRIES) =>
-//   fetch(`${API_TLS}/scan?target=${url}&rescan=true`, {
-//     method: "POST",
-//   })
-//     .then((r) => {
-//       const r2 = r.clone();
-//       return r.json().catch((e) => r2.text());
-//     })
-//     .catch((e) => {
-//       console.error("e", url, e);
-//       if (tries > 0) {
-//         console.warn(
-//           `delay TLS ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`
-//         );
-//         return new Promise((resolve) =>
-//           setTimeout(() => scanTLS(url, tries - 1), INTERVAL)
-//         );
-//       }
-//       throw new Error(`${MAX_TRIES} failed scans for ${url}`);
-//     })
-//     .then((result) => {
-//       if (
-//         typeof result === "string" &&
-//         result.includes("Please try again in")
-//       ) {
-//         console.warn("Error:", result);
-//         if (tries > 0) {
-//           console.warn(
-//             `delay TLS ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`
-//           );
-//           return new Promise((resolve) =>
-//             setTimeout(() => scanTLS(url, tries - 1), INTERVAL)
-//           );
-//         } else {
-//           throw new Error(`${MAX_TRIES} failed scans for ${url}`);
-//         }
-//       }
-//       if (result && result.scan_id) {
-//         return fetch(`${API_TLS}/results?id=${result.scan_id}`, {
-//           method: "GET",
-//         })
-//           .then((r) => r.json())
-//           .then((json) => {
-//             if (json.completion_perc < 100) {
-//               console.warn(
-//                 `delay TLS ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`
-//               );
-//               return new Promise((resolve) =>
-//                 setTimeout(() => scanTLS(url, tries - 1), INTERVAL)
-//               );
-//             }
-//           })
-//           .then((details) => ({
-//             ...result,
-//             details,
-//           }));
-//       } else if (tries > 0) {
-//         console.warn(
-//           `delay TLS ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`
-//         );
-//         return new Promise((resolve) =>
-//           setTimeout(() => scanTLS(url, tries - 1), INTERVAL)
-//         );
-//       }
-//       throw new Error(`${MAX_TRIES} failed scans for ${url}`);
-//     });
 
 if (require.main === module) {
   scan()
