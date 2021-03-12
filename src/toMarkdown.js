@@ -55,6 +55,9 @@ const invalidBadge = (truthy) => {
 };
 
 const makeTableRow = (row) => {
+  if (!row.tls || !row.http) {
+    return "";
+  }
   const endpoint = row.tls.endpoints[0];
   const hasCsp = row.http.details["content-security-policy"].pass;
   const hasCookies = row.http.details["cookies"].pass;
