@@ -1,5 +1,5 @@
 on:
-  workflow_dispatch:
+  #  workflow_dispatch:
   # inputs:
   #   tags:
   #     description: "Test tags"
