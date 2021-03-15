@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
-    inputs:
-      tags:
-        description: "Test tags"
+  # inputs:
+  #   tags:
+  #     description: "Test tags"
   # push:
   #   branches:
   #     - master
