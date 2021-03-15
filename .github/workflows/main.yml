@@ -1,11 +1,15 @@
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Test tags"
+  # push:
+  #   branches:
+  #     - master
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron: "0 6 */7 * *"
-name: SSLLabs scan
+name: Scans
 jobs:
   scans:
     runs-on: ubuntu-latest
@@ -13,50 +17,54 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: master
 
+        # with:
+        #   ref: master
       - name: Install
         run: |
           yarn
+          mkdir -p results/$(GITHUB_RUN_ID)
 
-      - name: ssllabs-scan
+      - name: ssl-scan
         run: |
-          SCAN_OUTPUT=results/scan-$(date +"%Y%m%d_%I%M%S").json
+          SCAN_OUTPUT=results/$(GITHUB_RUN_ID)/ssl.json
           node src/ssl/scan.js > $SCAN_OUTPUT
 
-        #  node src/ssl/toMarkdown.js $SCAN_OUTPUT > README.md
+      #  node src/ssl/toMarkdown.js $SCAN_OUTPUT > README.md
       - name: trackers-scan
         run: |
-          SCAN_OUTPUT=results/scan-$(date +"%Y%m%d_%I%M%S").json
+          SCAN_OUTPUT=results/$(GITHUB_RUN_ID)/trackers.json
           node src/thirdparties/scan.js > $SCAN_OUTPUT
+      #   #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
 
-        #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
       - name: nuclei
         uses: projectdiscovery/nuclei-action@main
         with:
-          urls: |
-            https://www.free.fr
+          urls: "urls.txt"
           templates: "nuclei-templates"
-          output: "nuclei.log"
-
+          output: "results/${GUTHUB_RUN_ID}/nuclei.log"
+      # - name: Audit URLs using Lighthouse
+      #   uses: treosh/lighthouse-ci-action@v7
+      #   with:
+      #     urls: |
+      #       https://www.free.fr
+      #     uploadArtifacts: true
+      #     temporaryPublicStorage: false
       # - name: nuclei clean
       #   run: |
       #     node src/nuclei/generateReport.js ./nuclei-logs/nuclei.log > README.md
       #     cp nuclei-logs/nuclei.log results/nuclei-$(date +"%Y%m%d_%I%M%S").log
-
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v7
-        with:
-          urls: |
-            https://www.free.fr
-          uploadArtifacts: true
-          temporaryPublicStorage: false
-
-      - name: OWASP ZAP Scan
-        uses: zaproxy/action-baseline@v0.4.0
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          docker_name: "owasp/zap2docker-stable"
-          target: https://www.free.fr
-          cmd_options: "-a"
+      # - name: Audit URLs using Lighthouse
+      #   uses: treosh/lighthouse-ci-action@v7
+      #   with:
+      #     urls: |
+      #       https://www.free.fr
+      #     uploadArtifacts: true
+      #     temporaryPublicStorage: false
+      # - name: OWASP ZAP Scan
+      #   uses: zaproxy/action-baseline@v0.4.0
+      #   with:
+      #     #  token: "${{ secrets.GITHUB_TOKEN }}"
+      #     docker_name: "owasp/zap2docker-stable"
+      #     target: https://www.free.fr
+      #     cmd_options: "-a"

@@ -7,6 +7,7 @@
     "date-fns": "^2.19.0",
     "node-fetch": "^2.6.1",
     "node-ssllabs": "^2.1.0",
-    "p-all": "^3.0.0"
+    "p-all": "^3.0.0",
+    "puppeteer": "^8.0.0"
   }
 }
