@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
 
 const getUrls = () =>
   fs
-    .readFileSync(path.join(__dirname, "..", "urls.txt"))
+    .readFileSync(path.join(__dirname, "..", "..", "urls.txt"))
     .toString()
     .split("\n")
     .map((url) => url.replace(/^https?:\/\//, "".replace(/\/$/, ""))) // make hostnames
