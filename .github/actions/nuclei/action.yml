@@ -24,20 +24,20 @@ runs:
       shell: bash
 
     - run: |
-        mkdir -p /app/nuclei-templates
-        nuclei -ut -ud /app/nuclei-templates
+        mkdir nuclei-templates
+        nuclei -ut -ud ./nuclei-templates
 
         echo "-----"
         echo ${{ inputs.urls }}
         echo "-----"
         cat ${{ inputs.urls }}
         echo "-----"
-        ls /app/nuclei-templates
+        ls ./nuclei-templates
         echo "-----"
 
         nuclei \
           -l ${{ inputs.urls }} \
-          -t /app/nuclei-templates \
+          -t ./nuclei-templates \
           -o ${{ inputs.output }} \
           -H "User-Agent: ${{ inputs.user-agent }}" \
           -json \
