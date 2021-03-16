@@ -32,8 +32,8 @@ jobs:
           URLS="${URLS//$'\r'/'%0D'}"
 
           URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
-
-          echo "::set-output name=urls_json::$URLS_JSON"
+          URLS_JSON="${URLS_JSON//\"/\\\"}"
+          echo "::set-output name=urls_json::{\"include\":$URLS_JSON}"
           echo "::set-output name=urls::$URLS"
 
       # - name: Install
@@ -74,7 +74,8 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        url: ${{ fromJson( needs.scans.steps.parse-urls.outputs.urls_json ) }}
+        url: |
+          ${{ fromJson( needs.scans.steps.parse-urls.outputs.urls_json ) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
