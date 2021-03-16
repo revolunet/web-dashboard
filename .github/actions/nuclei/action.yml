@@ -29,6 +29,10 @@ runs:
           -update-directory /app/nuclei-templates \
           \
 
+        echo "-----"
+        echo ${{ inputs.urls }}
+        echo "-----"
+
         nuclei \
           -l ${{ inputs.urls }} \
           -t /app/nuclei-templates \
