@@ -24,10 +24,7 @@ runs:
       shell: bash
 
     - run: |
-        nuclei \
-          -update-templates \
-          -update-directory /app/nuclei-templates \
-          \
+        nuclei -ut -ud /app/nuclei-templates
 
         echo "-----"
         echo ${{ inputs.urls }}
