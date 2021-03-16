@@ -48,12 +48,11 @@ jobs:
           URLS=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
 
           echo "::set-output name=urls::$URLS"
-          echo "::set-output name=${JSON//'%'/'%25'}"
 
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v7
         with:
-          urls: ${{ fromJSON(steps.parse-urls.outputs.urls }}
+          urls: ${{ fromJSON(steps.parse-urls.outputs.urls) }}
           uploadArtifacts: true
           temporaryPublicStorage: false
 
