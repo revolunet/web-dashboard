@@ -6,18 +6,10 @@ inputs:
     description: "List of urls to run templates"
     required: true
     default: "urls.txt"
-  templates:
-    description: "Templates input file/files to check across hosts"
-    required: false
-    default: "nuclei-templates"
   output:
     description: "File to save output result"
     required: false
     default: "nuclei.log"
-  nuclei-ignore:
-    description: "define templates that will be blocked from execution"
-    required: false
-    default: ".nuclei-ignore"
   user-agent:
     description: "Set a User-Agent header"
     required: false
@@ -34,12 +26,12 @@ runs:
     - run: |
         nuclei \
           -update-templates \
-          -update-directory ./ \
+          -update-directory /app/nuclei-templates \
           \
 
         nuclei \
           -l ${{ inputs.urls }} \
-          -t ${{ inputs.templates }} \
+          -t /app/nuclei-templates \
           -o ${{ inputs.output }} \
           -H "User-Agent: ${{ inputs.user-agent }}" \
           -json \
