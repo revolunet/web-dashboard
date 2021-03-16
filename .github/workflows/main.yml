@@ -23,22 +23,22 @@ jobs:
           mkdir -p results/$GITHUB_RUN_ID
 
       ######@
-      # - name: ssl-scan
-      #   run: |
-      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
-      #     node src/ssl/scan.js > $SCAN_OUTPUT
-      #     ls results/$GITHUB_RUN_ID
+      - name: ssl-scan
+        run: |
+          SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
+          node src/ssl/scan.js > $SCAN_OUTPUT
+          ls results/$GITHUB_RUN_ID
 
-      # - name: trackers-scan
-      #   run: |
-      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
-      #     node src/thirdparties/scan.js > $SCAN_OUTPUT
-      #     ls results/$GITHUB_RUN_ID
+      - name: trackers-scan
+        run: |
+          SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
+          node src/thirdparties/scan.js > $SCAN_OUTPUT
+          ls results/$GITHUB_RUN_ID
 
-      # - uses: "./.github/actions/nuclei"
-      #   with:
-      #     urls: "urls.txt"
-      #     output: "nuclei.log"
+      - uses: "./.github/actions/nuclei"
+        with:
+          urls: "urls.txt"
+          output: "nuclei.log"
       ######@
 
       - name: "Parse urls for lighthouse"
