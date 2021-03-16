@@ -14,32 +14,11 @@ jobs:
   scans:
     runs-on: ubuntu-latest
     name: Scan
+    outputs:
+      urls: ${{ steps.parse-urls.outputs.urls }}
+
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install
-        run: |
-          yarn
-          mkdir -p results/$GITHUB_RUN_ID
-
-      ######@
-      - name: ssl-scan
-        run: |
-          SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
-          node src/ssl/scan.js > $SCAN_OUTPUT
-          ls results/$GITHUB_RUN_ID
-
-      - name: trackers-scan
-        run: |
-          SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
-          node src/thirdparties/scan.js > $SCAN_OUTPUT
-          ls results/$GITHUB_RUN_ID
-
-      - uses: "./.github/actions/nuclei"
-        with:
-          urls: "urls.txt"
-          output: "results/$GITHUB_RUN_ID/nuclei.log"
-      ######@
 
       - name: "Parse urls for lighthouse"
         id: "parse-urls"
@@ -53,18 +32,86 @@ jobs:
 
           echo "::set-output name=urls::$URLS"
 
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v7
-        with:
-          urls: |
-            ${{ steps.parse-urls.outputs.urls }}
-          uploadArtifacts: true
-          temporaryPublicStorage: false
+      # - name: Install
+      #   run: |
+      #     yarn
+      #     mkdir -p results/$GITHUB_RUN_ID
+      # - name: ssl-scan
+      #   run: |
+      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
+      #     node src/ssl/scan.js > $SCAN_OUTPUT
+      #     ls results/$GITHUB_RUN_ID
+      # - name: trackers-scan
+      #   run: |
+      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
+      #     node src/thirdparties/scan.js > $SCAN_OUTPUT
+      #     ls results/$GITHUB_RUN_ID
+      # - uses: "./.github/actions/nuclei"
+      #   with:
+      #     urls: "urls.txt"
+      #     output: "results/$GITHUB_RUN_ID/nuclei.log"
+      # - name: Audit URLs using Lighthouse
+      #   uses: treosh/lighthouse-ci-action@v7
+      #   with:
+      #     urls: |
+      #       ${{ steps.parse-urls.outputs.urls }}
+      #     uploadArtifacts: true
+      #     temporaryPublicStorage: false
+      # - name: cleanup
+      #   run: |
+      #     ls
+      #     ls results/$GITHUB_RUN_ID
 
-      - name: cleanup
-        run: |
-          ls
-          ls results/$GITHUB_RUN_ID
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Zap scan
+    needs: scans
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        url: ${{ needs.scans.steps.parse-urls.outputs.urls }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: debug
+        run: echo  ${{matrix.url}}
+      # - name: "Parse urls for Zap"
+      #   id: "parse-urls"
+      #   shell: bash
+      #   run: |
+      #     URLS=$(cat urls.txt | grep -e "^http")
+      #     URLS="${URLS//'%'/'%25'}"
+      #     URLS="${URLS//$'\n'/'%0A'}"
+      #     URLS="${URLS//$'\r'/'%0D'}"
+      #     echo "::set-output name=urls::$URLS"
+      # - name: ZAP Scan
+      #   uses: zaproxy/action-baseline@v0.4.0
+      #   with:
+      #     token: "${{ secrets.GITHUB_TOKEN }}"
+      #     docker_name: "owasp/zap2docker-stable"
+      #     target: "${{ matrix.url }}"
+      #     cmd_options: "-a"
+      # - name: Save results
+      #   run: |
+      #     slugify () {
+      #         echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
+      #     }
+      #     URL_SLUG=`slugify ${{matrix.url}}`
+      #     OUT_PATH=results/$URL_SLUG
+      #     mkdir -p $OUT_PATH || true
+      #     mv report_json.json $OUT_PATH/$(date +"%Y%m%d_%I%M%S").json
+      #     mv report_md.md $OUT_PATH/$(date +"%Y%m%d_%I%M%S").md
+      #     mv report_html.html $OUT_PATH/$(date +"%Y%m%d_%I%M%S").html
+      # - uses: EndBug/add-and-commit@v7
+      #   with:
+      #     add: '["results"]'
+      #     author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+      #     author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+      #     message: "chore: ${{matrix.url}} update"
+      #     pull_strategy: "--no-ff"
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
