@@ -33,6 +33,14 @@ jobs:
 
           URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
           URLS_JSON="${URLS_JSON//\"/\\\"}"
+
+          echo "---"
+          echo $URLS
+          echo "---"
+          echo $URLS_JSON
+          echo "---"
+
+
           echo "::set-output name=urls_json::{\"include\":$URLS_JSON}"
           echo "::set-output name=urls::$URLS"
 
