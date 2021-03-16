@@ -90,7 +90,7 @@ jobs:
         with:
           ref: master
       - name: debug
-        run: echo "${{matrix.url}}""
+        run: echo "${{matrix.url}}"
       # - name: "Parse urls for Zap"
       #   id: "parse-urls"
       #   shell: bash
