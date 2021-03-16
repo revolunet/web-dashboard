@@ -37,18 +37,13 @@ jobs:
           node src/thirdparties/scan.js > $SCAN_OUTPUT
           ls
       #   #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: /home/runner/go/bin/nuclei
-          key: ${{ runner.os }}-${{ hashFiles('/home/runner/go/bin/nuclei') }}
 
       - name: nuclei
         uses: projectdiscovery/nuclei-action@main
         with:
           urls: "urls.txt"
           templates: "nuclei-templates"
-          output: "results/${GUTHUB_RUN_ID}/nuclei.log"
+          output: "results/$GITHUB_RUN_ID/nuclei.log"
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
