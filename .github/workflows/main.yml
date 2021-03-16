@@ -38,12 +38,11 @@ jobs:
           ls
       #   #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
 
-      - name: nuclei
-        uses: projectdiscovery/nuclei-action@main
+      - uses: projectdiscovery/nuclei-action@main
         with:
           urls: "urls.txt"
           templates: "nuclei-templates"
-          output: "results/$GITHUB_RUN_ID/nuclei.log"
+          output: "nuclei.log"
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
