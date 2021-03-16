@@ -36,38 +36,44 @@ jobs:
           echo "::set-output name=urls_json::$URLS_JSON"
           echo "::set-output name=urls::$URLS"
 
-      - name: Test
+      - name: Install
         run: |
-          echo ${{ steps.parse-urls.outputs.urls_json }}
-      # - name: Install
-      #   run: |
-      #     yarn
-      #     mkdir -p results/$GITHUB_RUN_ID || true
-      # - name: ssl-scan
-      #   run: |
-      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
-      #     node src/ssl/scan.js > $SCAN_OUTPUT
-      #     ls results/$GITHUB_RUN_ID
-      # - name: trackers-scan
-      #   run: |
-      #     SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
-      #     node src/thirdparties/scan.js > $SCAN_OUTPUT
-      #     ls results/$GITHUB_RUN_ID
-      # - uses: "./.github/actions/nuclei"
-      #   with:
-      #     urls: "urls.txt"
-      #     output: "results/$GITHUB_RUN_ID/nuclei.log"
-      # - name: Audit URLs using Lighthouse
-      #   uses: treosh/lighthouse-ci-action@v7
-      #   with:
-      #     urls: |
-      #       ${{ steps.parse-urls.outputs.urls }}
-      #     uploadArtifacts: true
-      #     temporaryPublicStorage: false
-      # - name: cleanup
-      #   run: |
-      #     ls
-      #     ls results/$GITHUB_RUN_ID
+          yarn
+          mkdir -p results/$GITHUB_RUN_ID || true
+
+      - name: SSL-scan
+        run: |
+          SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
+          node src/ssl/scan.js > $SCAN_OUTPUT
+
+      - name: Trackers-scan
+        run: |
+          SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
+          node src/thirdparties/scan.js > $SCAN_OUTPUT
+
+      - name: Nuclei scan
+        uses: "./.github/actions/nuclei"
+        with:
+          urls: "urls.txt"
+          output: "results/$GITHUB_RUN_ID/nuclei.log"
+
+      - name: Lighthouse scan
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: |
+            ${{ steps.parse-urls.outputs.urls }}
+          uploadArtifacts: true
+          temporaryPublicStorage: false
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results/$GITHUB_RUN_ID
+
+      - name: cleanup
+        run: |
+          ls
+          ls results/$GITHUB_RUN_ID
 
   zap_scan:
     runs-on: ubuntu-latest
@@ -83,17 +89,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: master
-      # - name: debug
-      #   run: echo "${{matrix.url}}"
-      # - name: "Parse urls for Zap"
-      #   id: "parse-urls"
-      #   shell: bash
-      #   run: |
-      #     URLS=$(cat urls.txt | grep -e "^http")
-      #     URLS="${URLS//'%'/'%25'}"
-      #     URLS="${URLS//$'\n'/'%0A'}"
-      #     URLS="${URLS//$'\r'/'%0D'}"
-      #     echo "::set-output name=urls::$URLS"
+
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.4.0
         with:
@@ -101,6 +97,7 @@ jobs:
           docker_name: "owasp/zap2docker-stable"
           target: "${{ matrix.url }}"
           cmd_options: "-a"
+
       - name: Save results
         run: |
           ls
