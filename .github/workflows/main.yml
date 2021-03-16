@@ -46,6 +46,11 @@ jobs:
           SCAN_OUTPUT=scans/ssl.json
           node src/ssl/scan.js > $SCAN_OUTPUT
 
+      - name: HTTP-scan
+        run: |
+          SCAN_OUTPUT=scans/http.json
+          node src/http/scan.js > $SCAN_OUTPUT
+
       - name: Trackers-scan
         run: |
           SCAN_OUTPUT=scans/trackers.json
@@ -123,6 +128,10 @@ jobs:
       - scans
       - zap_scan
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
       - name: Test
         run: |
           echo "io"
@@ -136,18 +145,29 @@ jobs:
         with:
           name: zap
           path: zap
-      - name: Test
+      - name: Data massage
         run: |
           ls
           ls scans
           ls zap
-      # - uses: EndBug/add-and-commit@v7
-      #   with:
-      #     add: '["results"]'
-      #     author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-      #     author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
-      #     message: "chore: ${{matrix.url}} update"
-      #     pull_strategy: "--no-ff"
+
+          # make nuclei log a JSON
+          cat scans/nuclei.log | jq -s > scans/nuclei.json
+          rm scans/nuclei.log
+
+          OUTPUT="results/${GITHUB_RUN_ID}"
+          mkdir $OUTPUT || true
+          cp scans/* $OUTPUT/
+          cp zap/* $OUTPUT/
+          ls -la $OUTPUT
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+          add: '["results"]'
+          author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          message: "chore: scans update"
+          pull_strategy: "--no-ff"
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
