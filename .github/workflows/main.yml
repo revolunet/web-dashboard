@@ -45,9 +45,11 @@ jobs:
         id: "parse-urls"
         shell: bash
         run: |
-          URLS=$(cat urls.txt | grep -e "^http" | awk '{printf $0 "\\\\n"}')
+          URLS=$(cat urls.txt | grep -e "^http" | awk '{printf $0 "\\n"}')
 
-          echo $URLS
+          URLS="${URLS//'%'/'%25'}"
+          URLS="${URLS//$'\n'/'%0A'}"
+          URLS="${URLS//$'\r'/'%0D'}"
 
           echo "::set-output name=urls::$URLS"
 
