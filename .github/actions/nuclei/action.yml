@@ -37,8 +37,6 @@ runs:
           -update-directory ./ \
           \
 
-        [ -e ${{ inputs.nuclei-ignore }} ] && cp ${{ inputs.nuclei-ignore }} ${{ inputs.templates }}/.nuclei-ignore
-
         nuclei \
           -l ${{ inputs.urls }} \
           -t ${{ inputs.templates }} \
