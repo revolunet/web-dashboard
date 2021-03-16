@@ -35,11 +35,11 @@ jobs:
       #     node src/thirdparties/scan.js > $SCAN_OUTPUT
       #     ls results/$GITHUB_RUN_ID
 
+      # - uses: "./.github/actions/nuclei"
+      #   with:
+      #     urls: "urls.txt"
+      #     output: "nuclei.log"
       ######@
-      - uses: "./.github/actions/nuclei"
-        with:
-          urls: "urls.txt"
-          output: "nuclei.log"
 
       - name: "Parse urls for lighthouse"
         id: "parse-urls"

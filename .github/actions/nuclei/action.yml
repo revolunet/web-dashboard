@@ -27,14 +27,6 @@ runs:
         mkdir nuclei-templates
         nuclei -ut -ud ./nuclei-templates
 
-        echo "-----"
-        echo ${{ inputs.urls }}
-        echo "-----"
-        cat ${{ inputs.urls }}
-        echo "-----"
-        ls ./nuclei-templates
-        echo "-----"
-
         nuclei \
           -l ${{ inputs.urls }} \
           -t ./nuclei-templates \
