@@ -82,7 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 1
-      matrix: ${{fromJSON(needs.scans.outputs.urls_json)}}
+      matrix: ${{fromJson(needs.scans.outputs.urls_json)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
