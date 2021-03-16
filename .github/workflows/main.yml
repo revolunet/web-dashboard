@@ -47,6 +47,8 @@ jobs:
         run: |
           URLS=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
 
+          echo $URLS
+
           echo "::set-output name=urls::$URLS"
 
       - name: Audit URLs using Lighthouse
