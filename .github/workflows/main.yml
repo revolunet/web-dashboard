@@ -31,7 +31,7 @@ jobs:
           URLS="${URLS//$'\n'/'%0A'}"
           URLS="${URLS//$'\r'/'%0D'}"
 
-          URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]|totring' -)
+          URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]|tostring' -)
 
           echo "---"
           echo $URLS
