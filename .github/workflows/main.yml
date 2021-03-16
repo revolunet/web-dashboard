@@ -46,30 +46,66 @@ jobs:
         run: |
           SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
           node src/ssl/scan.js > $SCAN_OUTPUT
-          ls results
+          ls results/$GITHUB_RUN_ID
       # #  node src/ssl/toMarkdown.js $SCAN_OUTPUT > README.md
       - name: trackers-scan
         run: |
           SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
           node src/thirdparties/scan.js > $SCAN_OUTPUT
-          ls results
+          ls results/$GITHUB_RUN_ID
       #     ls
       # #   #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
-      # - uses: projectdiscovery/nuclei-action@main
-      #   with:
-      #     urls: "urls.txt"
-      #     templates: "nuclei-templates"
-      #     output: "nuclei.log"
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v7
+      - uses: "./.github/actions/nuclei.yml"
         with:
           urls: "urls.txt"
-          uploadArtifacts: true
-          temporaryPublicStorage: false
+          templates: "nuclei-templates"
+          output: "nuclei.log"
+
+      # - name: 'Lighthouse CI Action'
+      #   description: 'Audit URLs using Lighthouse and test performance with Lighthouse CI'
+      #   inputs:
+      #     urls:
+      #       description: 'List of URL(s) to analyze'
+      #     budgetPath:
+      #       description: 'Path to a Lighthouse budgets.json file'
+      #     configPath:
+      #       description: 'Path to a LHCI lighthouserc.json file'
+      #     uploadArtifacts:
+      #       description: 'Opt-out of saving Lighthouse results as an action artifacts'
+      #     temporaryPublicStorage:
+      #       descripton: 'Opt-in to saving Lighthouse results to temporary public storage'
+      #     runs:
+      #       description: 'Number of runs to do per URL'
+      #     serverBaseUrl:
+      #       description: 'Address of a LHCI server'
+      #     serverToken:
+      #       description: 'API token to push to LHCI server'
+      #     basicAuthUsername:
+      #       description: 'Basic auth username for LHCI server'
+      #     basicAuthPassword:
+      #       description: 'Basic auth password for LHCI server'
+      #   outputs:
+      #     urls:
+      #       description: 'Path to the folder with LHCI results'
+      #     links:
+      #       description: 'Links to compare/result UI for each URL (content of links.json)'
+      #     assertionResults:
+      #       description: 'Assertion results (content of assertion-results.json)'
+      #   runs:
+      #     using: 'node12'
+      #     main: 'src/index.js'
+
+      # - name: Audit URLs using Lighthouse
+      #   uses: treosh/lighthouse-ci-action@v7
+      #   with:
+      #     urls: "urls.txt"
+      #     uploadArtifacts: true
+      #     temporaryPublicStorage: false
 
       - name: cleanup
         run: |
           ls
+          ls results/$GITHUB_RUN_ID
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
