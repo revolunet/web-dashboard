@@ -23,16 +23,16 @@ jobs:
           path: /home/runner/go/bin/nuclei
           key: ${{ runner.os }}-${{ hashFiles('/home/runner/go/bin/nuclei') }}
 
-      - uses: projectdiscovery/nuclei-action@main
-        with:
-          urls: "urls.txt"
-          templates: "nuclei-templates"
-          output: "nuclei.log"
+      # - uses: projectdiscovery/nuclei-action@main
+      #   with:
+      #     urls: "urls.txt"
+      #     templates: "nuclei-templates"
+      #     output: "nuclei.log"
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: nuclei.log
-          path: nuclei.log
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: nuclei.log
+      #     path: nuclei.log
       # - name: Checkout
       #   uses: actions/checkout@v2
       #   # with:
@@ -57,17 +57,16 @@ jobs:
       #     urls: "urls.txt"
       #     templates: "nuclei-templates"
       #     output: "nuclei.log"
-      # - name: Audit URLs using Lighthouse
-      #   uses: treosh/lighthouse-ci-action@v7
-      #   with:
-      #     urls: |
-      #       https://www.free.fr
-      #     uploadArtifacts: true
-      #     temporaryPublicStorage: false
-      # - name: nuclei clean
-      #   run: |
-      #     node src/nuclei/generateReport.js ./nuclei-logs/nuclei.log > README.md
-      #     cp nuclei-logs/nuclei.log results/nuclei-$(date +"%Y%m%d_%I%M%S").log
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: "urls.txt"
+          uploadArtifacts: true
+          temporaryPublicStorage: false
+
+      - name: cleanup
+        run: |
+          ls
       # - name: Audit URLs using Lighthouse
       #   uses: treosh/lighthouse-ci-action@v7
       #   with:
