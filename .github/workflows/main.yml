@@ -39,7 +39,7 @@ jobs:
           echo $URLS_JSON
           echo "---"
 
-          echo "::set-output name=urls_json::$URLS_JSON"
+          echo "::set-output name=urls_json::{\"include\":$URLS_JSON}"
           echo "::set-output name=urls::$URLS"
 
       - name: Test
