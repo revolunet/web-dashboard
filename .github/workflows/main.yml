@@ -38,7 +38,7 @@ jobs:
       - uses: "./.github/actions/nuclei"
         with:
           urls: "urls.txt"
-          output: "nuclei.log"
+          output: "results/$GITHUB_RUN_ID/nuclei.log"
       ######@
 
       - name: "Parse urls for lighthouse"
