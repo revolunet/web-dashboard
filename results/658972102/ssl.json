@@ -1,0 +1,59 @@
+[
+  {
+    "url": "revolunet.com",
+    "result": {
+      "host": "revolunet.com",
+      "port": 443,
+      "protocol": "http",
+      "isPublic": false,
+      "status": "READY",
+      "startTime": 1615881398227,
+      "testTime": 1615881573150,
+      "engineVersion": "2.1.8",
+      "criteriaVersion": "2009q",
+      "endpoints": [
+        {
+          "ipAddress": "54.36.98.5",
+          "serverName": "5.ip-54-36-98.eu",
+          "statusMessage": "Ready",
+          "grade": "B",
+          "gradeTrustIgnored": "B",
+          "hasWarnings": true,
+          "isExceptional": false,
+          "progress": 100,
+          "duration": 174410,
+          "eta": 264,
+          "delegation": 1
+        }
+      ]
+    }
+  },
+  {
+    "url": "chez.com",
+    "result": {
+      "host": "chez.com",
+      "port": 443,
+      "protocol": "http",
+      "isPublic": false,
+      "status": "READY",
+      "startTime": 1615926142709,
+      "testTime": 1615926144288,
+      "engineVersion": "2.1.8",
+      "criteriaVersion": "2009q",
+      "cacheExpiryTime": 1615926744288,
+      "endpoints": [
+        {
+          "ipAddress": "212.27.63.127",
+          "serverName": "perso127-g5.free.fr",
+          "statusMessage": "Unable to connect to the server",
+          "statusDetails": "TESTING_PROTO_2_0",
+          "statusDetailsMessage": "Testing SSL 2.0",
+          "progress": -1,
+          "duration": 813,
+          "eta": -1,
+          "delegation": 1
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "url": "https://revolunet.com",
+    "trackers": [
+      {
+        "type": "unpkg",
+        "value": "https://unpkg.com/three@0.77.1"
+      },
+      {
+        "type": "unpkg",
+        "value": "https://unpkg.com/three@0.77.1/build/three.js"
+      }
+    ],
+    "cookies": [],
+    "headers": {
+      "content-encoding": "gzip",
+      "content-type": "text/html",
+      "date": "Tue, 16 Mar 2021 21:06:14 GMT",
+      "etag": "W/\"5fe7c5c8-34f3\"",
+      "last-modified": "Sat, 26 Dec 2020 23:22:48 GMT",
+      "server": "nginx/1.17.10",
+      "vary": "Accept-Encoding",
+      "content-length": "3921"
+    }
+  },
+  {
+    "url": "http://chez.com",
+    "trackers": [
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/js/jquery-1.2.6.min.js"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/css/base.css"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/im/puce_red.gif"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/im/creer.png"
+      },
+      {
+        "type": "unknown",
+        "value": "https://sdk.privacy-center.org/87df2f8d-232a-4617-8efc-3764b3bbd0c0/loader.js?target=chez.com"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/im/index_bg.png"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/im/head_top.png"
+      },
+      {
+        "type": "unknown",
+        "value": "http://img3.free.fr/im_chez/im/what.png"
+      },
+      {
+        "type": "unknown",
+        "value": "https://sdk.privacy-center.org/sdk.c232e98c06e98daf1e10a86b1ca1434b43c1568c.js"
+      },
+      {
+        "type": "unknown",
+        "value": "https://sdk.privacy-center.org/ui-gdpr-en.c232e98c06e98daf1e10a86b1ca1434b43c1568c.js"
+      },
+      {
+        "type": "unknown",
+        "value": "https://api.privacy-center.org/v1/events"
+      },
+      {
+        "type": "unknown",
+        "value": "https://www.free.fr/data/icon_footer/free.svg"
+      },
+      {
+        "type": "unknown",
+        "value": "https://api.privacy-center.org/v1/events"
+      }
+    ],
+    "cookies": [
+      {
+        "name": "didomi_token",
+        "value": "eyJ1c2VyX2lkIjoiMTc4M2NkYzUtMmI5My02NjY1LTliMTctZmQ2Mjg0MzhjZjBiIiwiY3JlYXRlZCI6IjIwMjEtMDMtMTZUMjE6MDY6MTUuNDMyWiIsInVwZGF0ZWQiOiIyMDIxLTAzLTE2VDIxOjA2OjE1LjQzMloiLCJ2ZXJzaW9uIjpudWxsfQ==",
+        "domain": ".chez.com",
+        "path": "/",
+        "expires": 1647551175,
+        "size": 200,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameParty": false,
+        "sourceScheme": "NonSecure",
+        "sourcePort": 80
+      }
+    ],
+    "headers": {
+      "content-type": "text/html",
+      "accept-ranges": "bytes",
+      "etag": "\"2869310730\"",
+      "last-modified": "Fri, 13 Nov 2020 15:22:04 GMT",
+      "content-length": "4557",
+      "date": "Tue, 16 Mar 2021 21:06:14 GMT",
+      "server": "lighttpd"
+    }
+  }
+]
