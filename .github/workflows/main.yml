@@ -39,7 +39,7 @@ jobs:
       - uses: "./.github/actions/nuclei"
         with:
           urls: "urls.txt"
-          templates: "nuclei-templates"
+          templates: "/root/nuclei-templates"
           output: "nuclei.log"
 
       - name: "Parse urls for lighthouse"
