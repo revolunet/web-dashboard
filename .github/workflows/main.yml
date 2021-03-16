@@ -35,6 +35,7 @@ jobs:
         run: |
           SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
           node src/thirdparties/scan.js > $SCAN_OUTPUT
+          ls
       #   #   node src/toMarkdown.js $SCAN_OUTPUT > README.md
 
       - name: nuclei
