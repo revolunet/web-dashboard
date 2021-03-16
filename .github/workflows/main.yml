@@ -49,7 +49,7 @@ jobs:
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v7
         with:
-          urls: ${{ steps.parse-urls.outputs.urls }}
+          urls: ${{ join(steps.parse-urls.outputs.urls) }}
           uploadArtifacts: true
           temporaryPublicStorage: false
 
