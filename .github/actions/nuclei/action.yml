@@ -24,6 +24,7 @@ runs:
       shell: bash
 
     - run: |
+        mkdir -p /app/nuclei-templates
         nuclei -ut -ud /app/nuclei-templates
 
         echo "-----"
