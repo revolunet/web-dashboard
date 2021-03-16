@@ -16,6 +16,7 @@ jobs:
     name: Scan
     outputs:
       urls: ${{ steps.parse-urls.outputs.urls }}
+      urls_json: ${{ steps.parse-urls.outputs.urls_json }}
 
     steps:
       - uses: actions/checkout@v2
