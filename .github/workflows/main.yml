@@ -39,23 +39,23 @@ jobs:
       - name: Install
         run: |
           yarn
-          mkdir -p results/$GITHUB_RUN_ID || true
+          mkdir -p scans || true
 
       - name: SSL-scan
         run: |
-          SCAN_OUTPUT=results/$GITHUB_RUN_ID/ssl.json
+          SCAN_OUTPUT=scans/ssl.json
           node src/ssl/scan.js > $SCAN_OUTPUT
 
       - name: Trackers-scan
         run: |
-          SCAN_OUTPUT=results/$GITHUB_RUN_ID/trackers.json
+          SCAN_OUTPUT=scans/trackers.json
           node src/thirdparties/scan.js > $SCAN_OUTPUT
 
       - name: Nuclei scan
         uses: "./.github/actions/nuclei"
         with:
           urls: "urls.txt"
-          output: "results/$GITHUB_RUN_ID/nuclei.log"
+          output: "scans/nuclei.log"
 
       - name: Lighthouse scan
         uses: treosh/lighthouse-ci-action@v7
@@ -67,13 +67,13 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: results
-          path: results/$GITHUB_RUN_ID
+          name: scans
+          path: scans
 
       - name: cleanup
         run: |
           ls
-          ls results/$GITHUB_RUN_ID
+          ls scans
 
   zap_scan:
     runs-on: ubuntu-latest
@@ -106,11 +106,41 @@ jobs:
               echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
           }
           URL_SLUG=`slugify ${{matrix.url}}`
-          OUT_PATH=results/$GITHUB_RUN_ID
+          OUT_PATH=zap
           mkdir -p $OUT_PATH || true
-          mv report_json.json $OUT_PATH/$(date +"%Y%m%d_%I%M%S").json
-          mv report_md.md $OUT_PATH/$(date +"%Y%m%d_%I%M%S").md
-          mv report_html.html $OUT_PATH/$(date +"%Y%m%d_%I%M%S").html
+          mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
+          mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
+          mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
+      - uses: actions/upload-artifact@v2
+        with:
+          name: zap
+          path: zap
+
+  summarize:
+    runs-on: ubuntu-latest
+    name: Summarize results
+    needs:
+      - scans
+      - zap_scan
+    steps:
+      - name: Test
+        run: |
+          echo "io"
+      - name: Download scans
+        uses: actions/download-artifact@v2
+        with:
+          name: scans
+          path: scans
+      - name: Download zap
+        uses: actions/download-artifact@v2
+        with:
+          name: zap
+          path: zap
+      - name: Test
+        run: |
+          ls
+          ls scans
+          ls zap
       # - uses: EndBug/add-and-commit@v7
       #   with:
       #     add: '["results"]'
