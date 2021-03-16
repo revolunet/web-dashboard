@@ -44,8 +44,6 @@ jobs:
 
       - name: Test
         run: |
-          echo ${{ steps.parse-urls.outputs.urls }}
-          echo "---"
           echo ${{ steps.parse-urls.outputs.urls_json }}
       # - name: Install
       #   run: |
