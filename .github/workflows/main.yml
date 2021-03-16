@@ -31,7 +31,7 @@ jobs:
           URLS="${URLS//$'\n'/'%0A'}"
           URLS="${URLS//$'\r'/'%0D'}"
 
-          URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc '{"include": split("\n") [0:-1]}|tostring' -)
+          URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]|tostring' -)
 
           echo "---"
           echo $URLS
@@ -82,7 +82,8 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 1
-      matrix: ${{fromJson(needs.scans.outputs.urls_json)}}
+      matrix:
+        url: ${{fromJson(needs.scans.outputs.urls_json)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
