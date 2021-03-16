@@ -45,7 +45,7 @@ jobs:
         id: "parse-urls"
         shell: bash
         run: |
-          URLS=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
+          URLS=$(cat urls.txt | grep -e "^http")
 
           echo $URLS
 
@@ -54,7 +54,7 @@ jobs:
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v7
         with:
-          urls: ${{ fromJSON(steps.parse-urls.outputs.urls) }}
+          urls: ${{ steps.parse-urls.outputs.urls }}
           uploadArtifacts: true
           temporaryPublicStorage: false
 
