@@ -7,7 +7,7 @@ const analyze = require("./analyze");
 
 const getUrls = () =>
   fs
-    .readFileSync(path.join(__dirname, "..", "urls.txt"))
+    .readFileSync(path.join(__dirname, "..", "..", "urls.txt"))
     .toString()
     .split("\n")
     .filter(Boolean);
