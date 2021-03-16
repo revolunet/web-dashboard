@@ -61,46 +61,17 @@ jobs:
           templates: "nuclei-templates"
           output: "nuclei.log"
 
-      # - name: 'Lighthouse CI Action'
-      #   description: 'Audit URLs using Lighthouse and test performance with Lighthouse CI'
-      #   inputs:
-      #     urls:
-      #       description: 'List of URL(s) to analyze'
-      #     budgetPath:
-      #       description: 'Path to a Lighthouse budgets.json file'
-      #     configPath:
-      #       description: 'Path to a LHCI lighthouserc.json file'
-      #     uploadArtifacts:
-      #       description: 'Opt-out of saving Lighthouse results as an action artifacts'
-      #     temporaryPublicStorage:
-      #       descripton: 'Opt-in to saving Lighthouse results to temporary public storage'
-      #     runs:
-      #       description: 'Number of runs to do per URL'
-      #     serverBaseUrl:
-      #       description: 'Address of a LHCI server'
-      #     serverToken:
-      #       description: 'API token to push to LHCI server'
-      #     basicAuthUsername:
-      #       description: 'Basic auth username for LHCI server'
-      #     basicAuthPassword:
-      #       description: 'Basic auth password for LHCI server'
-      #   outputs:
-      #     urls:
-      #       description: 'Path to the folder with LHCI results'
-      #     links:
-      #       description: 'Links to compare/result UI for each URL (content of links.json)'
-      #     assertionResults:
-      #       description: 'Assertion results (content of assertion-results.json)'
-      #   runs:
-      #     using: 'node12'
-      #     main: 'src/index.js'
+      - name: "Parse urls for lighthouse"
+        id: "parse-urls"
+        run: echo "::set-output name=urls::$(cat urls.txt)"
+        shell: bash
 
-      # - name: Audit URLs using Lighthouse
-      #   uses: treosh/lighthouse-ci-action@v7
-      #   with:
-      #     urls: "urls.txt"
-      #     uploadArtifacts: true
-      #     temporaryPublicStorage: false
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: ${{ steps.parse-urls.outputs.urls }}
+          uploadArtifacts: true
+          temporaryPublicStorage: false
 
       - name: cleanup
         run: |
