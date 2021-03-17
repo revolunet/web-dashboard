@@ -1,13 +1,6 @@
 on:
-  #  workflow_dispatch:
-  # inputs:
-  #   tags:
-  #     description: "Test tags"
-  push:
-    branches:
-      - master
+  workflow_dispatch:
   schedule:
-    # * is a special character in YAML so you have to quote this string
     - cron: "0 6 */7 * *"
 name: Scans
 jobs:
@@ -137,6 +130,11 @@ jobs:
         with:
           name: zap
           path: zap
+      - name: Download zap
+        uses: actions/download-artifact@v2
+        with:
+          name: lighthouse-results
+          path: lighthouse-results
       - name: Data massage
         run: |
           ls
@@ -149,6 +147,7 @@ jobs:
 
           OUTPUT="results/${GITHUB_RUN_ID}"
           mkdir $OUTPUT || true
+          cp lighthouse-results/* $OUTPUT/
           cp scans/* $OUTPUT/
           cp zap/* $OUTPUT/
           ls -la $OUTPUT
@@ -160,17 +159,3 @@ jobs:
           author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
           message: "chore: scans update"
           pull_strategy: "--no-ff"
-      # - name: Audit URLs using Lighthouse
-      #   uses: treosh/lighthouse-ci-action@v7
-      #   with:
-      #     urls: |
-      #       https://www.free.fr
-      #     uploadArtifacts: true
-      #     temporaryPublicStorage: false
-      # - name: OWASP ZAP Scan
-      #   uses: zaproxy/action-baseline@v0.4.0
-      #   with:
-      #     #  token: "${{ secrets.GITHUB_TOKEN }}"
-      #     docker_name: "owasp/zap2docker-stable"
-      #     target: https://www.free.fr
-      #     cmd_options: "-a"

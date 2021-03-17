@@ -43,6 +43,7 @@ const scanHTTP = (url, tries = MAX_TRIES) => {
         })
           .then((r) => r.json())
           .then((details) => ({
+            url,
             ...result,
             details,
           }));

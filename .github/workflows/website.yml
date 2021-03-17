@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+name: Website
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    name: Scan
+  steps:
+    - uses: actions/checkout@v2
+    - name: Install
+      run: |
+        ls results
+        LATEST=$(find ./results/* -type d -prune | tail -n 1)
+        echo $LATEST
+    - name: Build
+      run: |
+        echo $LATEST
+        node src/report > ./www/src/report.json
+        cp $LATEST/* ./www/public/report/
+        LATEST=$(find ./results/* -type d -prune | tail -n 1)
+        cd www
+        yarn
+        yarn build
+        ls build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: www/build
