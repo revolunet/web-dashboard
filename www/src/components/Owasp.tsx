@@ -50,8 +50,8 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
           <thead>
             <tr>
               <th>name</th>
-              <th>count</th>
-              <th>riskdesc</th>
+              <th className="text-center">count</th>
+              <th className="text-center">risk/confidence</th>
             </tr>
           </thead>
           <tbody>
@@ -60,7 +60,7 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
                 <tr key={alert.name}>
                   <td>{alert.name}</td>
                   <td className="text-center">{alert.count}</td>
-                  <td>
+                  <td className="text-center">
                     <OwaspBadge {...alert} />
                   </td>
                 </tr>
