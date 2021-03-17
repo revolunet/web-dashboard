@@ -48,13 +48,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
         <tbody>
           {Object.keys(report).map((key) => {
             const a11y =
-              report[key].lhr &&
+              report[key].lhr.length &&
               report[key].lhr[0].result.categories.accessibility.score;
             const webPerf =
-              report[key].lhr &&
+              report[key].lhr.length &&
               report[key].lhr[0].result.categories.performance.score;
             const seo =
-              report[key].lhr && report[key].lhr[0].result.categories.seo.score;
+              report[key].lhr.length &&
+              report[key].lhr[0].result.categories.seo.score;
             const ssl = report[key].ssl[0].result.endpoints[0].grade;
             const http = report[key].http[0].result.grade;
             const owaspAlerts =
