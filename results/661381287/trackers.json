@@ -1,0 +1,804 @@
+[
+  {
+    "url": "https://index-egapro.travail.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.11.78e9",
+        "value": "1",
+        "domain": "index-egapro.travail.gouv.fr",
+        "path": "/",
+        "expires": 1615993508,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.11.78e9",
+        "value": "2d65c1e51797f4ba.1615991709.",
+        "domain": "index-egapro.travail.gouv.fr",
+        "path": "/",
+        "expires": 1649946909,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:07 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "vary": "Accept-Encoding",
+      "last-modified": "Thu, 04 Mar 2021 17:32:47 GMT",
+      "etag": "W/\"604119bf-981\"",
+      "strict-transport-security": "max-age=15724800; includeSubDomains",
+      "content-encoding": "gzip"
+    }
+  },
+  {
+    "url": "https://index-egapro.travail.gouv.fr/consulter-index",
+    "trackers": [
+      {
+        "type": "google fonts",
+        "value": "https://fonts.googleapis.com/css2?family=Cabin&display=swap"
+      },
+      {
+        "type": "google fonts",
+        "value": "https://fonts.gstatic.com/s/cabin/v18/u-4X0qWljRw-PfU81xCKCpdpbgZJl6XFpfEd7eA9BIxxkV2EH7alxw.woff2"
+      }
+    ],
+    "cookies": [],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:07 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "vary": "Accept-Encoding",
+      "last-modified": "Thu, 11 Mar 2021 13:38:13 GMT",
+      "etag": "W/\"604a1d45-2aab\"",
+      "strict-transport-security": "max-age=15724800; includeSubDomains",
+      "content-encoding": "gzip"
+    }
+  },
+  {
+    "url": "https://archifiltre.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:13 GMT",
+      "content-type": "text/html",
+      "last-modified": "Tue, 16 Mar 2021 11:09:31 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"605091eb-ea35\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://carnets.fabrique.social.gouv.fr",
+    "trackers": [
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3215170?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/2741090?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3653887?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/4560647?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3169896?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3198250?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/2670245?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3173395?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/4506193?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/4076594?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3458651?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/4094168?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3799752?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3642248?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3734677?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3443898?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/3729659?s=400&v=4"
+      },
+      {
+        "type": "github",
+        "value": "https://avatars.githubusercontent.com/t/2612368?s=400&v=4"
+      }
+    ],
+    "cookies": [
+      {
+        "name": "_pk_ses.24.7771",
+        "value": "1",
+        "domain": "carnets.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993514,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.24.7771",
+        "value": "4ef6bdf9e1112117.1615991715.",
+        "domain": "carnets.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946915,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:14 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "x-powered-by": "Next.js",
+      "etag": "\"1483e-Y4cMe0ZqlaItfh1KDagim9Z48rg\"",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://code.travail.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.4.ef54",
+        "value": "1",
+        "domain": "code.travail.gouv.fr",
+        "path": "/",
+        "expires": 1615993520,
+        "size": 15,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.4.ef54",
+        "value": "31c10eb470c9e0da.1615991721.",
+        "domain": "code.travail.gouv.fr",
+        "path": "/",
+        "expires": 1649946921,
+        "size": 41,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:20 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "content-security-policy": "default-src 'self' *.travail.gouv.fr *.data.gouv.fr *.fabrique.social.gouv.fr;font-src 'self' data: blob:;frame-src 'self' https://mon-entreprise.fr https://matomo.fabrique.social.gouv.fr *.dailymotion.com;img-src 'self' data: *.fabrique.social.gouv.fr https://travail-emploi.gouv.fr https://mon-entreprise.fr https://ad.doubleclick.net https://cdtnadminprod.blob.core.windows.net;script-src 'self' 'unsafe-inline' https://mon-entreprise.fr https://www.googletagmanager.com *.fabrique.social.gouv.fr https://cdnjs.cloudflare.com;style-src 'self' 'unsafe-inline';report-uri https://c2aa7e731a494cfd8f7fb1ddabca11c9@sentry.fabrique.social.gouv.fr/5&sentry_environment=production&sentry_release=v4.44.1",
+      "etag": "\"3114f-heMDsIeFL4iyUHoRmOhnmNnYRlM\"",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://covid-19.sante.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.23.5c17",
+        "value": "1",
+        "domain": "covid-19.sante.gouv.fr",
+        "path": "/",
+        "expires": 1615993523,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.23.5c17",
+        "value": "0d3e05bd8c606c62.1615991723.",
+        "domain": "covid-19.sante.gouv.fr",
+        "path": "/",
+        "expires": 1649946923,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "connect.sid",
+        "value": "s%3Ad0OkQgyjBeYpZg5KZ-m8Rp03swdGl8qX.mQbL6Q%2Fo%2FRkEMSpVix9muuO1gDjZyHlbKBkU4KzN8Bo",
+        "domain": "covid-19.sante.gouv.fr",
+        "path": "/",
+        "expires": 1616013321.383322,
+        "size": 95,
+        "httpOnly": true,
+        "secure": true,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:21 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "content-security-policy": "default-src 'self'; worker-src 'self' blob:; script-src 'self' https://matomo.fabrique.social.gouv.fr; frame-src https://matomo.fabrique.social.gouv.fr https://covid-tests-kibana.fabrique.social.gouv.fr https://waked.fabrique.social.gouv.fr https://airtable.com/; connect-src 'self' https://*.gouv.fr https://api.mapbox.com https://events.mapbox.com; frame-ancestors 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.gouv.fr https://matomo.fabrique.social.gouv.fr; report-uri https://0445a2f1b69743d6ac24203c0ad15797@sentry.fabrique.social.gouv.fr/38&sentry_environment=production&sentry_release=",
+      "x-dns-prefetch-control": "off",
+      "x-frame-options": "SAMEORIGIN",
+      "strict-transport-security": "max-age=15724800; includeSubDomains",
+      "x-download-options": "noopen",
+      "x-content-type-options": "nosniff",
+      "x-xss-protection": "1; mode=block",
+      "x-robots-tag": "noindex, nofollow, nosnippet",
+      "etag": "\"4219-9mYYpIlF2jgfoqipTWVVLKGd8Hc\"",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "set-cookie": "connect.sid=s%3Ad0OkQgyjBeYpZg5KZ-m8Rp03swdGl8qX.mQbL6Q%2Fo%2FRkEMSpVix9muuO1gDjZyHlbKBkU4KzN8Bo; Path=/; Expires=Wed, 17 Mar 2021 20:35:21 GMT; HttpOnly; Secure; SameSite=Lax"
+    }
+  },
+  {
+    "url": "https://domifa.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.17.b1ca",
+        "value": "1",
+        "domain": "domifa.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993527,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.17.b1ca",
+        "value": "9a3819be29bd465a.1615991727.",
+        "domain": "domifa.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946927,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:26 GMT",
+      "content-type": "text/html",
+      "last-modified": "Mon, 15 Mar 2021 21:06:23 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"604fcc4f-7c5\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://emjpm.fabrique.social.gouv.fr",
+    "trackers": [
+      {
+        "type": "unknown",
+        "value": "https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css"
+      }
+    ],
+    "cookies": [],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:28 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "content-disposition": "inline; filename=\"index.html\"",
+      "accept-ranges": "bytes",
+      "etag": "\"d6583d4cafbbfe7b5170f23f9a92191664846a3c\"",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.2.6321",
+        "value": "1",
+        "domain": "www.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993533,
+        "size": 15,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.2.6321",
+        "value": "3109054247ff2214.1615991734.",
+        "domain": "www.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946934,
+        "size": 41,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:33 GMT",
+      "content-type": "text/html",
+      "last-modified": "Wed, 17 Mar 2021 00:10:30 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"605148f6-65be\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://medle.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.16.3682",
+        "value": "1",
+        "domain": "medle.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993536,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.16.3682",
+        "value": "18b67fffe2addcd3.1615991736.",
+        "domain": "medle.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946936,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:35 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "x-powered-by": "Next.js",
+      "etag": "\"19f5-hColCgf9id2M3s/eQKJXHZvz35s\"",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://monsuivipsy.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.33.4a6e",
+        "value": "1",
+        "domain": "monsuivipsy.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993540,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.33.4a6e",
+        "value": "86816efd666973e2.1615991740.",
+        "domain": "monsuivipsy.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946940,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:39 GMT",
+      "content-type": "text/html",
+      "last-modified": "Mon, 15 Mar 2021 17:36:02 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"604f9b02-2e18\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://onvs.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.25.0c04",
+        "value": "1",
+        "domain": "onvs.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993542,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.25.0c04",
+        "value": "44203ce6247ca358.1615991742.",
+        "domain": "onvs.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946942,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:41 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "x-powered-by": "Next.js",
+      "etag": "\"14d55-mq164FqgqzJU/nFhB5hK+XHR+LM\"",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://ozensemble.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.34.d3dd",
+        "value": "1",
+        "domain": "ozensemble.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993546,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.34.d3dd",
+        "value": "0c69b68b210f9f40.1615991746.",
+        "domain": "ozensemble.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946946,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:45 GMT",
+      "content-type": "text/html",
+      "last-modified": "Mon, 15 Mar 2021 18:17:27 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"604fa4b7-401a\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://pjm.social.gouv.fr",
+    "trackers": [
+      {
+        "type": "google fonts",
+        "value": "https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Open+Sans:ital,wght@0,600;0,700;1,400&family=Quicksand:wght@400;700&display=swap"
+      },
+      {
+        "type": "google fonts",
+        "value": "https://fonts.gstatic.com/s/comfortaa/v30/1Ptsg8LJRfWJmhDAuUs4TYFq.woff2"
+      },
+      {
+        "type": "google fonts",
+        "value": "https://fonts.gstatic.com/s/quicksand/v22/6xKtdSZaM9iE8KbpRA_hK1QN.woff2"
+      },
+      {
+        "type": "google fonts",
+        "value": "https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UNirkOUuhp.woff2"
+      }
+    ],
+    "cookies": [],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:47 GMT",
+      "content-type": "text/html",
+      "last-modified": "Tue, 02 Feb 2021 00:40:29 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"60189f7d-1069e\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://sample-next-app.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.1.fec2",
+        "value": "1",
+        "domain": "sample-next-app.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993554,
+        "size": 15,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.1.fec2",
+        "value": "b3a5f2a68d2e5643.1615991754.",
+        "domain": "sample-next-app.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946954,
+        "size": 41,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:51 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "x-powered-by": "Next.js",
+      "etag": "\"11ca-X10j9T/97w+gSFKEUMMhxOKePKo\"",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://standup.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:53 GMT",
+      "content-type": "text/html",
+      "last-modified": "Tue, 09 Mar 2021 16:55:50 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"6047a896-b6b\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://tumeplay.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.21.0d7f",
+        "value": "1",
+        "domain": "tumeplay.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993559,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.21.0d7f",
+        "value": "f5e8380d3fdb2eab.1615991760.",
+        "domain": "tumeplay.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946960,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:59 GMT",
+      "content-type": "text/html",
+      "last-modified": "Thu, 11 Mar 2021 09:21:21 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"6049e111-d15\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  },
+  {
+    "url": "https://work-in-france.fabrique.social.gouv.fr",
+    "trackers": [],
+    "cookies": [
+      {
+        "name": "_pk_ses.31.b61e",
+        "value": "1",
+        "domain": "work-in-france.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1615993559,
+        "size": 16,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      },
+      {
+        "name": "_pk_id.31.b61e",
+        "value": "b61eab132bba5834.1615991760.",
+        "domain": "work-in-france.fabrique.social.gouv.fr",
+        "path": "/",
+        "expires": 1649946960,
+        "size": 42,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax",
+        "sameParty": false,
+        "sourceScheme": "Secure",
+        "sourcePort": 443
+      }
+    ],
+    "headers": {
+      "server": "nginx/1.17.8",
+      "date": "Wed, 17 Mar 2021 14:35:59 GMT",
+      "content-type": "text/html",
+      "last-modified": "Mon, 15 Mar 2021 13:09:51 GMT",
+      "vary": "Accept-Encoding",
+      "etag": "W/\"604f5c9f-6e50\"",
+      "content-encoding": "gzip",
+      "strict-transport-security": "max-age=15724800; includeSubDomains"
+    }
+  }
+]
