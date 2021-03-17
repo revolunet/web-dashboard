@@ -56,8 +56,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
             const seo =
               report[key].lhr.length &&
               report[key].lhr[0].result.categories.seo.score;
-            const ssl = report[key].ssl[0].result.endpoints[0].grade;
-            const http = report[key].http[0].result.grade;
+            const ssl =
+              report[key].ssl.length &&
+              report[key].ssl[0].result.endpoints[0].grade;
+            const http =
+              report[key].http.length && report[key].http[0].result.grade;
             const owaspAlerts =
               (report[key].owasp.length &&
                 report[key].owasp[0].result.site[0].alerts.filter(
@@ -65,7 +68,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
                 )) ||
               [];
             const owasp = owaspAlerts.length;
-            const trackers = report[key].trackers[0].trackers.length;
+            const trackers =
+              report[key].trackers.length &&
+              report[key].trackers[0].trackers.length;
             const trackersGrade =
               trackers > 10
                 ? "F"
