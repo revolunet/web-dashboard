@@ -8,7 +8,13 @@ const getUrls = () =>
     .readFileSync(path.join(__dirname, "..", "..", "urls.txt"))
     .toString()
     .split("\n")
-    .map((url) => url.replace(/^https?:\/\//, "".replace(/\/$/, ""))) // make hostnames
+    .map((url) =>
+      // make hostnames
+      url
+        .replace(/^https?:\/\//, "")
+        .replace(/\/$/, "")
+        .replace(/^(.*)\/.*$/, "$1")
+    )
     .filter(Boolean);
 
 const scan = () => {

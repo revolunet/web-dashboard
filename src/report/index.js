@@ -1,8 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const requireJson = (resultsPath, filename) =>
-  require(path.join("..", "..", resultsPath, filename));
+const requireJson = (resultsPath, filename) => {
+  try {
+    return require(path.join("..", "..", resultsPath, filename));
+  } catch (e) {
+    return [];
+  }
+};
 
 const smallUrl = (url) =>
   url
@@ -32,7 +37,7 @@ const exportData = async (resultsPath) => {
   };
 
   // group by url
-  const byUrl = allData.http
+  const byUrl = allData.ssl
     .map((result) => result.url)
     .reduce((a, currentUrl) => {
       return {

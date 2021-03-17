@@ -23,7 +23,7 @@ const scan = () => {
 };
 
 const INTERVAL = 10000;
-const MAX_TRIES = 10;
+const MAX_TRIES = 20;
 
 const API_TLS = `https://api.ssllabs.com/api/v2`;
 
