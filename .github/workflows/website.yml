@@ -17,7 +17,7 @@ jobs:
           cp $LATEST/* ./www/public/report/
           cd www
           yarn
-          yarn build
+          CI=false yarn build
           ls build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
