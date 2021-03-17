@@ -41,7 +41,8 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
   });
   alerts.sort(orderBySeverity);
   const url =
-    data.length && `/report/${data[0].filename.replace(/\.json$/, ".html")}`;
+    data.length &&
+    `/web-dashboard/report/${data[0].filename.replace(/\.json$/, ".html")}`;
   return (
     (alerts.length && (
       <Panel title="OWASP" url={url}>
