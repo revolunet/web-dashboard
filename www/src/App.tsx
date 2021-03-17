@@ -12,6 +12,7 @@ import {
   Navbar,
   Nav,
   NavDropdown,
+  Jumbotron,
   Form,
   FormControl,
   Button,
@@ -30,13 +31,14 @@ import {
 import report from "./report.json";
 
 import { Dashboard } from "./components/Dashboard";
-import { LightHouse } from "./components/LightHouse";
-import { SSL } from "./components/SSL";
+import { GeoIP } from "./components/GeoIP";
 import { HTTP } from "./components/HTTP";
-import { Trackers } from "./components/Trackers";
-import { Owasp } from "./components/Owasp";
+import { LightHouse } from "./components/LightHouse";
 import { Nuclei } from "./components/Nuclei";
+import { Owasp } from "./components/Owasp";
 import { Sidebar } from "./components/Sidebar";
+import { SSL } from "./components/SSL";
+import { Trackers } from "./components/Trackers";
 
 const TopBar = () => (
   <Navbar
@@ -73,13 +75,18 @@ const UrlDetail: React.FC<UrlDetailProps> = ({ ...props }) => {
   const { url } = useParams<ParamTypes>();
   //@ts-expect-error
   const urlData = report[url] as any;
+  console.log("urlData", urlData);
   return (
     <div>
-      <h1 className="text-center">
-        <a href={`https://${url}`} target="_blank">
-          {url}
-        </a>
-      </h1>
+      <Jumbotron
+        style={{ height: 50, marginTop: 10, paddingTop: 20, marginBottom: 10 }}
+      >
+        <h3 className="text-center">
+          <a href={`https://${url}`} target="_blank">
+            https://{url}
+          </a>
+        </h3>
+      </Jumbotron>
       <LightHouse data={urlData.lhr} />
       <br />
       <SSL data={urlData.ssl} />
@@ -89,6 +96,8 @@ const UrlDetail: React.FC<UrlDetailProps> = ({ ...props }) => {
       <Nuclei data={urlData.nuclei} />
       <br />
       <Trackers data={urlData.trackers} />
+      <br />
+      <GeoIP data={urlData.geoip} />
       <br />
       <Owasp data={urlData.owasp} />
     </div>

@@ -252,6 +252,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
             </td>
             <td>Scan server misconfigurations</td>
           </tr>
+          <tr>
+            <td>
+              <a href="https://www.maxmind.com" target="_blank">
+                GeoIP
+              </a>
+            </td>
+            <td>MaxMind GeoIP detection for all requests</td>
+          </tr>
         </tbody>
       </Table>
     </div>

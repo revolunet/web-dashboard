@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const { toHostname } = require("../utils");
+
 const requireJson = (resultsPath, filename) => {
   try {
     return require(path.join("..", "..", resultsPath, filename));
@@ -16,6 +18,7 @@ const smallUrl = (url) =>
     .replace(/\/$/, "");
 
 const isSameUrl = (url1, url2) => smallUrl(url1) === smallUrl(url2);
+const isSameHost = (url1, url2) => toHostname(url1) === toHostname(url2);
 
 const exportData = async (resultsPath) => {
   // aggregate results
@@ -24,6 +27,7 @@ const exportData = async (resultsPath) => {
     ssl: requireJson(resultsPath, "ssl.json"),
     trackers: requireJson(resultsPath, "trackers.json"),
     nuclei: requireJson(resultsPath, "nuclei.json"),
+    geoip: requireJson(resultsPath, "geoip.json"),
     lhr: await getScansFiles(
       resultsPath,
       /^lhr-.*\.json$/,
@@ -59,6 +63,9 @@ const exportData = async (resultsPath) => {
             isSameUrl(currentUrl, result.url)
           ),
           owasp: allData.owasp.filter((result) =>
+            isSameHost(currentUrl, result.url)
+          ),
+          geoip: allData.geoip.filter((result) =>
             isSameUrl(currentUrl, result.url)
           ),
         },

@@ -5,6 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "date-fns": "^2.19.0",
+    "geoip-lite": "^1.4.2",
+    "geolite2-redist": "^2.0.3",
+    "maxmind": "^4.3.1",
     "node-fetch": "^2.6.1",
     "node-ssllabs": "^2.1.0",
     "p-all": "^3.0.0",

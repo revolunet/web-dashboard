@@ -37,13 +37,13 @@ export const HTTP: React.FC<HTTPProps> = ({ data }) => {
         info="Informations collectées par le Mozilla HTTP observatory"
         url={url}
       >
-        {data.map((row: any) => {
+        {data.map((row: any, i: number) => {
           const failures = Object.keys(row.result.details)
             .filter((key) => !row.result.details[key].pass)
             .map((key) => row.result.details[key]);
           failures.sort((a, b) => a.score_modifier - b.score_modifier);
           return (
-            <div key={row.url}>
+            <div key={row.url + i}>
               <Grade grade={row.result.grade} />
               <br />
               <br />

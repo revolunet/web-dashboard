@@ -49,6 +49,11 @@ jobs:
           SCAN_OUTPUT=scans/trackers.json
           node src/thirdparties/scan.js > $SCAN_OUTPUT
 
+      - name: GeoIP-scan
+        run: |
+          SCAN_OUTPUT=scans/geoip.json
+          node src/geoip/scan.js ../../scans/trackers.json > $SCAN_OUTPUT
+
       - name: Nuclei scan
         uses: "./.github/actions/nuclei"
         with:

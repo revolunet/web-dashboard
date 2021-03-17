@@ -59,9 +59,9 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {alerts.map((alert: any) => {
+            {alerts.map((alert: any, i: number) => {
               return (
-                <tr key={alert.name}>
+                <tr key={alert.name + i}>
                   <td>{alert.name}</td>
                   <td className="text-center">{alert.count}</td>
                   <td className="text-center">
