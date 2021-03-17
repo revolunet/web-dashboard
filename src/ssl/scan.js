@@ -53,9 +53,14 @@ const scanTLS = async (url, tries = MAX_TRIES) => {
           `delay ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES}) (${
             json.endpoints[0].progress > -1
               ? json.endpoints[0].progress + "%"
-              : "-"
+              : "0%"
           })`
         );
+        return new Promise((resolve) =>
+          setTimeout(() => scanTLS(url, tries - 1).then(resolve), INTERVAL)
+        );
+      } else if (json.status !== "READY" && tries > 0) {
+        console.warn(`delay ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`);
         return new Promise((resolve) =>
           setTimeout(() => scanTLS(url, tries - 1).then(resolve), INTERVAL)
         );
