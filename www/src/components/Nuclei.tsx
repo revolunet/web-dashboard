@@ -39,31 +39,34 @@ export const Nuclei: React.FC<NucleiProps> = ({ data }) => {
   const rows = data;
   rows.sort(nucleiOrder);
   return (
-    <Panel title="Nuclei" info="Metriques collectées par nuclei">
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>severity</th>
-            <th>name</th>
-            <th>matcher</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((failure: any) => {
-            return (
-              <tr key={failure.templateID}>
-                <td>{failure.templateID}</td>
-                <td>
-                  <NucleiBadge {...failure} />
-                </td>
-                <td>{failure.info.name}</td>
-                <td>{failure.matcher_name}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    </Panel>
+    (rows.length && (
+      <Panel title="Nuclei" info="Metriques collectées par nuclei">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>severity</th>
+              <th>name</th>
+              <th>matcher</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((failure: any) => {
+              return (
+                <tr key={failure.templateID}>
+                  <td>{failure.templateID}</td>
+                  <td>
+                    <NucleiBadge {...failure} />
+                  </td>
+                  <td>{failure.info.name}</td>
+                  <td>{failure.matcher_name}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </Panel>
+    )) ||
+    null
   );
 };

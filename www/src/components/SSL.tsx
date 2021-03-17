@@ -10,8 +10,9 @@ type SSLProps = { data: any };
 export const SSL: React.FC<SSLProps> = ({ data }) => {
   const firstGrade = data[0].result.endpoints[0].grade;
   const url =
-    data.length &&
-    `https://www.ssllabs.com/ssltest/analyze.html?d=${data[0].url}`;
+    (data.length &&
+      `https://www.ssllabs.com/ssltest/analyze.html?d=${data[0].url}`) ||
+    null;
   return (
     url && (
       <Panel title="SSL" info="Informations collectées via SSLlabs" url={url}>

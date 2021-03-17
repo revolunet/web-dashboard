@@ -28,7 +28,8 @@ const HttpRowBadge = (row: any) => {
 
 export const HTTP: React.FC<HTTPProps> = ({ data }) => {
   const url =
-    data.length && `https://observatory.mozilla.org/analyze/${data[0].url}`;
+    (data.length && `https://observatory.mozilla.org/analyze/${data[0].url}`) ||
+    null;
   return (
     url && (
       <Panel
