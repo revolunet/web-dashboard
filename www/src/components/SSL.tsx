@@ -8,9 +8,14 @@ import { Grade } from "./Grade";
 type SSLProps = { data: any };
 
 export const SSL: React.FC<SSLProps> = ({ data }) => {
-  const firstGrade = data[0].result.endpoints[0].grade;
+  const firstGrade =
+    data.length &&
+    data[0].result.endpoints &&
+    data[0].result.endpoints.length &&
+    data[0].result.endpoints[0].grade;
   const url =
     (data.length &&
+      data[0].result.endpoints &&
       `https://www.ssllabs.com/ssltest/analyze.html?d=${data[0].url}`) ||
     null;
   return (

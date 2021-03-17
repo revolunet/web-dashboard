@@ -34,11 +34,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ urls }) => {
 
         <ul className="nav flex-column">
           {urls.map((url) => (
-            <li className="nav-item" key={url}>
+            <li
+              className="nav-item"
+              key={url}
+              style={{
+                whiteSpace: "pre",
+              }}
+            >
               <NavLink
                 className="nav-link"
                 to={`/url/${url}`}
                 activeClassName="active"
+                exact={true}
               >
                 <Search size={16} style={{ marginTop: -5, marginRight: 5 }} />
                 {smallUrl(url)}

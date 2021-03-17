@@ -49,15 +49,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           {Object.keys(report).map((key) => {
             const a11y =
               report[key].lhr.length &&
-              report[key].lhr[0].result.categories.accessibility.score;
+              (report[key].lhr[0].result.categories.accessibility
+                .score as number);
             const webPerf =
               report[key].lhr.length &&
-              report[key].lhr[0].result.categories.performance.score;
+              (report[key].lhr[0].result.categories.performance
+                .score as number);
             const seo =
               report[key].lhr.length &&
-              report[key].lhr[0].result.categories.seo.score;
+              (report[key].lhr[0].result.categories.seo.score as number);
             const ssl =
               report[key].ssl.length &&
+              report[key].ssl[0].result.endpoints &&
+              report[key].ssl[0].result.endpoints.length &&
               report[key].ssl[0].result.endpoints[0].grade;
             const http =
               report[key].http.length && report[key].http[0].result.grade;
@@ -94,11 +98,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
               ...owaspAlerts.map((o: any) => parseInt(o.riskcode) || 0)
             );
 
-            console.log(
-              "owaspAlerts.map((o: any) => parseInt(o.riskcode) || 0)",
-              owaspAlerts.map((o: any) => parseInt(o.riskcode) || 0),
-              owaspMax
-            );
             const owaspGrade =
               owaspMax > 3
                 ? "F"
@@ -115,13 +114,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
                   <Link to={`/url/${key}`}>{smallUrl(key)}</Link>
                 </td>
                 <td className="text-center">
-                  <Grade grade={scoreToGrade(a11y)} label={a11y} />
+                  <Grade
+                    grade={scoreToGrade(1 - a11y)}
+                    label={(a11y * 100).toFixed() + " %"}
+                  />
                 </td>
                 <td className="text-center">
-                  <Grade grade={scoreToGrade(webPerf)} label={webPerf} />
+                  <Grade
+                    grade={scoreToGrade(1 - webPerf)}
+                    label={(webPerf * 100).toFixed() + " %"}
+                  />
                 </td>
                 <td className="text-center">
-                  <Grade grade={scoreToGrade(seo)} label={seo} />
+                  <Grade
+                    grade={scoreToGrade(1 - seo)}
+                    label={(seo * 100).toFixed() + " %"}
+                  />
                 </td>
                 <td className="text-center">
                   {ssl ? <Grade grade={ssl} /> : <Grade grade="F" label="-" />}

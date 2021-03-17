@@ -70,6 +70,7 @@ const UrlDetail: React.FC<UrlDetailProps> = ({ ...props }) => {
   const urlData = report[url] as any;
   return (
     <div>
+      <h1 className="text-center">{url}</h1>
       <LightHouse data={urlData.lhr} />
       <br />
       <SSL data={urlData.ssl} />
@@ -96,7 +97,7 @@ const App = () => {
             <Sidebar urls={urls} />
             <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
               <Switch>
-                <Route path="/url/:url">
+                <Route path="/url/:url*">
                   <UrlDetail />
                 </Route>
                 <Route path="/">
