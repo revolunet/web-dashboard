@@ -137,43 +137,50 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
                 </td>
                 <td className="text-center">
                   <Grade
+                    small
                     grade={scoreToGrade(1 - a11y)}
                     label={(a11y * 100).toFixed() + " %"}
                   />
                 </td>
                 <td className="text-center">
                   <Grade
+                    small
                     grade={scoreToGrade(1 - webPerf)}
                     label={(webPerf * 100).toFixed() + " %"}
                   />
                 </td>
                 <td className="text-center">
                   <Grade
+                    small
                     grade={scoreToGrade(1 - seo)}
                     label={(seo * 100).toFixed() + " %"}
                   />
                 </td>
                 <td className="text-center">
-                  {ssl ? <Grade grade={ssl} /> : <Grade grade="F" label="-" />}
-                </td>
-                <td className="text-center">
-                  {http ? (
-                    <Grade grade={http} />
+                  {ssl ? (
+                    <Grade small grade={ssl} />
                   ) : (
-                    <Grade grade="F" label="-" />
+                    <Grade small grade="F" label="-" />
                   )}
                 </td>
                 <td className="text-center">
-                  <Grade grade={owaspGrade} label={owasp} />
+                  {http ? (
+                    <Grade small grade={http} />
+                  ) : (
+                    <Grade small grade="F" label="-" />
+                  )}
                 </td>
                 <td className="text-center">
-                  <Grade grade={trackersGrade} label={trackers} />
+                  <Grade small grade={owaspGrade} label={owasp} />
                 </td>
                 <td className="text-center">
-                  <Grade grade={cookiesGrade} label={cookies} />
+                  <Grade small grade={trackersGrade} label={trackers} />
                 </td>
                 <td className="text-center">
-                  <Grade grade={nucleiGrade} label={nuclei} />
+                  <Grade small grade={cookiesGrade} label={cookies} />
+                </td>
+                <td className="text-center">
+                  <Grade small grade={nucleiGrade} label={nuclei} />
                 </td>
               </tr>
             );
@@ -235,7 +242,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>Trackers</td>
-            <td>Built-in third-party trackers list</td>
+            <td>Extract third-parties requests and cookies</td>
           </tr>
           <tr>
             <td>

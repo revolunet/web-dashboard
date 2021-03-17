@@ -2,9 +2,9 @@ import * as React from "react";
 
 import { Badge } from "react-bootstrap";
 
-type GradeProps = { grade: string; label?: string };
+type GradeProps = { grade: string; label?: string; small?: boolean };
 
-export const Grade: React.FC<GradeProps> = ({ grade, label }) => {
+export const Grade: React.FC<GradeProps> = ({ grade, label, small }) => {
   const newGrade = grade.substring(0, 1).toUpperCase();
   const variant =
     newGrade === "F"
@@ -19,7 +19,7 @@ export const Grade: React.FC<GradeProps> = ({ grade, label }) => {
       ? "info"
       : "success";
   return (
-    <Badge variant={variant} style={{ fontSize: "2em" }}>
+    <Badge variant={variant} style={{ fontSize: small ? "1.3em" : "2em" }}>
       {label !== undefined ? label : grade}
     </Badge>
   );
