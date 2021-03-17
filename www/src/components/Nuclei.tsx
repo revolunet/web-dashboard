@@ -40,7 +40,10 @@ export const Nuclei: React.FC<NucleiProps> = ({ data }) => {
   rows.sort(nucleiOrder);
   return (
     (rows.length && (
-      <Panel title="Nuclei" info="Metriques collectées par nuclei">
+      <Panel
+        title="Nuclei"
+        info="Détection d'erreurs de configuration et vulnérabilités"
+      >
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -51,9 +54,9 @@ export const Nuclei: React.FC<NucleiProps> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((failure: any) => {
+            {rows.map((failure: any, i: number) => {
               return (
-                <tr key={failure.templateID}>
+                <tr key={failure.templateID + i}>
                   <td>{failure.templateID}</td>
                   <td>
                     <NucleiBadge {...failure} />

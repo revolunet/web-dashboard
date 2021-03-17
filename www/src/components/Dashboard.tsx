@@ -1,6 +1,7 @@
 import * as React from "react";
 
-import { Nav, Table, Badge } from "react-bootstrap";
+import { Alert, Nav, Table, Badge } from "react-bootstrap";
+import { ExternalLink } from "react-feather";
 import { Link, NavLink } from "react-router-dom";
 
 import { smallUrl } from "../utils";
@@ -29,7 +30,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
   return (
     <div>
       <br />
-      <h3>Results</h3>
+      <Alert variant="info">
+        Cliquez sur une des URLs pour obtenir le détail puis sur{" "}
+        <ExternalLink size={16} /> pour accéder au rapport par produit.
+      </Alert>
       <br />
       <Table striped bordered hover>
         <thead>
@@ -42,6 +46,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
             <th className="text-center">HTTP</th>
             <th className="text-center">OWASP</th>
             <th className="text-center">Trackers</th>
+            <th className="text-center">Cookies</th>
             <th className="text-center">Nuclei</th>
           </tr>
         </thead>
@@ -73,14 +78,31 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
               [];
             const owasp = owaspAlerts.length;
             const trackers =
-              report[key].trackers.length &&
-              report[key].trackers[0].trackers.length;
+              (report[key].trackers &&
+                report[key].trackers.length &&
+                report[key].trackers[0].trackers.length) ||
+              0;
             const trackersGrade =
               trackers > 10
                 ? "F"
-                : trackers > 4
+                : trackers > 2
                 ? "C"
                 : trackers > 0
+                ? "B"
+                : "A";
+            const cookies =
+              (report[key].trackers &&
+                report[key].trackers.length &&
+                report[key].trackers[0].cookies.length) ||
+              0;
+            const cookiesGrade =
+              cookies > 10
+                ? "F"
+                : cookies > 5
+                ? "E"
+                : cookies > 2
+                ? "C"
+                : cookies > 0
                 ? "B"
                 : "A";
             const nuclei = report[key].nuclei.filter(
@@ -146,6 +168,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
                 </td>
                 <td className="text-center">
                   <Grade grade={trackersGrade} label={trackers} />
+                </td>
+                <td className="text-center">
+                  <Grade grade={cookiesGrade} label={cookies} />
                 </td>
                 <td className="text-center">
                   <Grade grade={nucleiGrade} label={nuclei} />

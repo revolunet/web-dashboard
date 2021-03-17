@@ -46,15 +46,20 @@ const TopBar = () => (
     expand="lg"
     className="p-0 flex-md-nowrap shadow"
   >
-    <Navbar.Brand className="px-3 col-sm-2 col-md-3 col-lg-2 mr-0" href="/">
-      <Cloud size={16} style={{ marginTop: -5, marginRight: 10 }} />
-      Meteo web
-    </Navbar.Brand>
-    <FormControl
+    <Link to="/">
+      <div
+        className="px-3"
+        style={{ height: 30, fontSize: "1.3rem", color: "var(--white)" }}
+      >
+        <Cloud size={16} style={{ marginTop: -5, marginRight: 10 }} />
+        Météo apps
+      </div>
+    </Link>
+    {/*<FormControl
       type="text"
       placeholder="Search url"
       className=" form-control-dark w-100"
-    />
+    />*/}
   </Navbar>
 );
 
@@ -70,7 +75,11 @@ const UrlDetail: React.FC<UrlDetailProps> = ({ ...props }) => {
   const urlData = report[url] as any;
   return (
     <div>
-      <h1 className="text-center">{url}</h1>
+      <h1 className="text-center">
+        <a href={`https://${url}`} target="_blank">
+          {url}
+        </a>
+      </h1>
       <LightHouse data={urlData.lhr} />
       <br />
       <SSL data={urlData.ssl} />
@@ -89,7 +98,7 @@ const UrlDetail: React.FC<UrlDetailProps> = ({ ...props }) => {
 const App = () => {
   const urls = Object.keys(report);
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div>
         <TopBar />
         <Container fluid>

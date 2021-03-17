@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Table } from "react-bootstrap";
+import { Alert, Table } from "react-bootstrap";
 
 import { Panel } from "./Panel";
 
@@ -9,12 +9,14 @@ type TrackersProps = { data: any };
 export const Trackers: React.FC<TrackersProps> = ({ data }) => {
   const rows = data;
   //rows.sort(nucleiOrder);
+  const hasIssues =
+    data.flatMap((row: any) => [...row.cookies, ...row.trackers]).length > 0;
   return (
-    (data.length && (
-      <Panel title="Trackers">
-        {data.map((row: any) => {
+    (hasIssues && (
+      <Panel title="Trackers" info="Scripts tiers embarqués dans la page web">
+        {data.map((row: any, i: number) => {
           return (
-            <div key={row.url}>
+            <div key={row.url + i}>
               {(row.cookies && row.cookies.length && (
                 <Table striped bordered hover style={{ marginBottom: 10 }}>
                   <thead>
@@ -33,7 +35,7 @@ export const Trackers: React.FC<TrackersProps> = ({ data }) => {
                   <tbody>
                     {row.cookies.map((cookie: any, i: number) => {
                       return (
-                        <tr key={cookie.templateID + i}>
+                        <tr key={cookie.templateID + "" + i}>
                           <td>{cookie.name}</td>
                           <td>{cookie.domain}</td>
                           <td className="text-center">
@@ -79,7 +81,10 @@ export const Trackers: React.FC<TrackersProps> = ({ data }) => {
           );
         })}
       </Panel>
-    )) ||
-    null
+    )) || (
+      <Panel title="Trackers" info="Scripts tiers embarqués dans la page web">
+        <Alert variant="success">Aucun script third-party detecté</Alert>
+      </Panel>
+    )
   );
 };

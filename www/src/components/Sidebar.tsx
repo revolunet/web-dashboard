@@ -23,7 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ urls }) => {
               exact={true}
             >
               <Home size={16} style={{ marginTop: -5, marginRight: 5 }} />
-              Dashboard
+              Tableau de bord
             </NavLink>
           </li>
         </ul>

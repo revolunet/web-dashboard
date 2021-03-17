@@ -45,7 +45,11 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
     `/web-dashboard/report/${data[0].filename.replace(/\.json$/, ".html")}`;
   return (
     (alerts.length && (
-      <Panel title="OWASP" url={url}>
+      <Panel
+        title="OWASP"
+        url={url}
+        info="Scan de vulnérabiliés OWASP baseline"
+      >
         <Table striped bordered hover>
           <thead>
             <tr>
