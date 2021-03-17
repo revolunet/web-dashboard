@@ -5,16 +5,17 @@ import { Badge } from "react-bootstrap";
 type GradeProps = { grade: string; label?: string };
 
 export const Grade: React.FC<GradeProps> = ({ grade, label }) => {
+  const newGrade = grade.substring(0, 1).toUpperCase();
   const variant =
-    grade === "F"
+    newGrade === "F"
       ? "danger"
-      : grade === "E"
+      : newGrade === "E"
       ? "danger"
-      : grade === "D"
+      : newGrade === "D"
       ? "warning"
-      : grade === "C"
-      ? "warning"
-      : grade === "B"
+      : newGrade === "C"
+      ? "info"
+      : newGrade === "B"
       ? "info"
       : "success";
   return (
