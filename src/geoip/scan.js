@@ -3,7 +3,7 @@ const geolite2 = require("geolite2-redist");
 const maxmind = require("maxmind");
 const pAll = require("p-all");
 
-const { getUrls, toHostname } = require("../utils");
+const { toHostname } = require("../utils");
 
 const dnsLookup = (url) =>
   new Promise((resolve, reject) => {

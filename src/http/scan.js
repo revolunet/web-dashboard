@@ -3,19 +3,7 @@ const path = require("path");
 const pAll = require("p-all");
 const fetch = require("node-fetch");
 
-const getUrls = () =>
-  fs
-    .readFileSync(path.join(__dirname, "..", "..", "urls.txt"))
-    .toString()
-    .split("\n")
-    .map((url) =>
-      // make hostnames
-      url
-        .replace(/^https?:\/\//, "")
-        .replace(/\/$/, "")
-        .replace(/^(.*)\/.*$/, "$1")
-    )
-    .filter(Boolean);
+const { getUrls, toHostname } = require("../utils");
 
 const scan = () => {
   const urls = getUrls();

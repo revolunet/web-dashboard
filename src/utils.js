@@ -9,10 +9,10 @@ const toHostname = (url) =>
 
 const getUrls = () =>
   fs
-    .readFileSync(path.join(__dirname, "..", "..", "urls.txt"))
+    .readFileSync(path.join(__dirname, "..", "urls.txt"))
     .toString()
     .split("\n")
-    .map(toHostname)
+    .filter((r) => !r.match(/^\s*#/))
     .filter(Boolean);
 
 module.exports = { toHostname, getUrls };
