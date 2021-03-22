@@ -101,7 +101,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
         <ExternalLink size={16} /> pour accéder au rapport par produit. Pour
         ajouter votre URL, éditez{" "}
         <a
-          href="https://github.com/SocialGouv/dnum-dashboard/edit/master/urls.txt"
+          href="https://github.com/SocialGouv/web-dashboard/edit/master/urls.txt"
           target="_blank"
           rel="noreferrer noopener"
         >
