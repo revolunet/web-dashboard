@@ -42,7 +42,7 @@ export const Owasp: React.FC<OwaspProps> = ({ data }) => {
   alerts.sort(orderBySeverity);
   const url =
     data.length &&
-    `/web-dashboard/report/${data[0].filename.replace(/\.json$/, ".html")}`;
+    `/dnum-dashboard/report/${data[0].filename.replace(/\.json$/, ".html")}`;
   return (
     (alerts.length && (
       <Panel
