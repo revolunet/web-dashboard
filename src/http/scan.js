@@ -8,7 +8,7 @@ const { getUrls, toHostname } = require("../utils");
 const scan = () => {
   const urls = getUrls();
   return pAll(
-    urls.map((url) => async () => ({
+    urls.map(toHostname).map((url) => async () => ({
       url,
       result: await scanHTTP(url),
     })),

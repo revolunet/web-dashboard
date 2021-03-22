@@ -60,14 +60,6 @@ jobs:
           urls: "urls.txt"
           output: "scans/nuclei.log"
 
-      - name: Lighthouse scan
-        uses: treosh/lighthouse-ci-action@v7
-        with:
-          urls: |
-            ${{ steps.parse-urls.outputs.urls }}
-          uploadArtifacts: true
-          temporaryPublicStorage: false
-
       - uses: actions/upload-artifact@v2
         with:
           name: scans
@@ -77,9 +69,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Zap scan
     needs: scans
+    continue-on-error: true
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 3
       matrix:
         url: ${{fromJson(needs.scans.outputs.urls_json)}}
     steps:
@@ -114,12 +107,33 @@ jobs:
           name: zap
           path: zap
 
+  lighthouse:
+    runs-on: ubuntu-latest
+    name: Lighthouse scan
+    needs:
+      - scans
+      - zap_scan
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        url: ${{fromJson(needs.scans.outputs.urls_json)}}
+    steps:
+      - name: Lighthouse scan
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: "${{ matrix.url }}"
+          uploadArtifacts: true
+          temporaryPublicStorage: false
+
   summarize:
     runs-on: ubuntu-latest
     name: Summarize results
     needs:
       - scans
       - zap_scan
+      - lighthouse
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -17,7 +17,9 @@ export const Grade: React.FC<GradeProps> = ({ grade, label, small }) => {
       ? "info"
       : newGrade === "B"
       ? "info"
-      : "success";
+      : newGrade === "A"
+      ? "success"
+      : "danger";
   return (
     <Badge variant={variant} style={{ fontSize: small ? "1.3em" : "2em" }}>
       {label !== undefined ? label : grade}

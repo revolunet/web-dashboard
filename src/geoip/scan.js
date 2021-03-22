@@ -25,18 +25,45 @@ const getDNSinfo = async (hostnames) => {
   );
 
   return Promise.all(
-    hostnames.map(async (hostname) => ({
-      hostname,
-      ip: await dnsLookup(hostname),
-    }))
-  )
-    .then((hosts) =>
-      Promise.all(
-        hosts.map(async ({ hostname, ip }) => ({
+    hostnames.map(async (hostname) => {
+      try {
+        const ip = await dnsLookup(hostname);
+        return {
           hostname,
           ip,
-          geoip: await lookup.get(ip),
-        }))
+        };
+      } catch (e) {
+        return { hostname, ip: null };
+      }
+    })
+  )
+    .then((hosts) =>
+      pAll(
+        hosts.map(({ hostname, ip }) => async () => {
+          console.error("hostname", hostname, ip);
+          if (!ip) {
+            return {
+              hostname,
+              ip,
+              geoip: {},
+            };
+          }
+          try {
+            const geoip = await lookup.get(ip);
+            return {
+              hostname,
+              ip,
+              geoip,
+            };
+          } catch (e) {
+            return {
+              hostname,
+              ip,
+              geoip: {},
+            };
+          }
+        }),
+        { concurrency: 2, stopOnError: false }
       )
     )
     .then((result) => {
@@ -62,7 +89,7 @@ const scanFromTrackers = (trackersData) =>
         result: await getDNSinfo(hostnames),
       };
     }),
-    { concurrency: 1 }
+    { concurrency: 1, stopOnError: false }
   );
 
 if (require.main === module) {

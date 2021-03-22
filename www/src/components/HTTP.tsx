@@ -38,13 +38,13 @@ export const HTTP: React.FC<HTTPProps> = ({ data }) => {
         url={url}
       >
         {data.map((row: any, i: number) => {
-          const failures = Object.keys(row.result.details)
-            .filter((key) => !row.result.details[key].pass)
-            .map((key) => row.result.details[key]);
+          const failures = Object.keys(row.details)
+            .filter((key) => !row.details[key].pass)
+            .map((key) => row.details[key]);
           failures.sort((a, b) => a.score_modifier - b.score_modifier);
           return (
             <div key={row.url + i}>
-              <Grade grade={row.result.grade} />
+              <Grade grade={row.grade} />
               <br />
               <br />
               <Table striped bordered hover>

@@ -26,6 +26,7 @@ export const Panel: React.FC<PanelProps> = ({ title, children, info, url }) => (
           style={{ color: "white", float: "right" }}
           href={url}
           target="_blank"
+          rel="noreferrer noopener"
         >
           <ExternalLink />
         </a>

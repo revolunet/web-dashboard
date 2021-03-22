@@ -3,7 +3,6 @@ import * as React from "react";
 import { Table, Badge } from "react-bootstrap";
 
 import { Panel } from "./Panel";
-import { Grade } from "./Grade";
 
 type NucleiProps = { data: any };
 

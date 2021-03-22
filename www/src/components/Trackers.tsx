@@ -7,8 +7,6 @@ import { Panel } from "./Panel";
 type TrackersProps = { data: any };
 
 export const Trackers: React.FC<TrackersProps> = ({ data }) => {
-  const rows = data;
-  //rows.sort(nucleiOrder);
   const hasIssues =
     data.flatMap((row: any) => [...row.cookies, ...row.trackers]).length > 0;
   return (

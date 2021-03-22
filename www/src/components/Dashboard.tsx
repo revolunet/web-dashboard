@@ -1,12 +1,15 @@
 import * as React from "react";
 
-import { Alert, Nav, Table, Badge } from "react-bootstrap";
-import { ExternalLink } from "react-feather";
-import { Link, NavLink } from "react-router-dom";
+import { Alert, Table } from "react-bootstrap";
+import { ExternalLink, Slash, Info } from "react-feather";
+import { Link } from "react-router-dom";
+import Tooltip from "rc-tooltip";
 
 import { smallUrl } from "../utils";
 
 import { Grade } from "./Grade";
+
+import "rc-tooltip/assets/bootstrap.css";
 
 type DashboardProps = { report: any };
 
@@ -24,6 +27,69 @@ const scoreToGrade = (score: number) => {
   return grades[newGrade];
 };
 
+const IconUnknown = () => <Slash size={20} />;
+
+const getGradeTrackers = (count: number) => {
+  return count > 10 ? "F" : count > 2 ? "C" : count > 0 ? "B" : "A";
+};
+
+const getGradeCookies = (count: number) => {
+  return count > 10
+    ? "F"
+    : count > 5
+    ? "E"
+    : count > 2
+    ? "C"
+    : count > 0
+    ? "B"
+    : "A";
+};
+
+const getNucleiGrade = (events: any) => {
+  return events.filter(
+    (n: any) => n.info.severity === "critical" || n.info.severity === "high"
+  ).length
+    ? "F"
+    : events.length
+    ? "B"
+    : "A";
+};
+
+const getOwaspGrade = (owaspAlerts: any) => {
+  const maxSeverity = Math.max(
+    ...owaspAlerts.map((o: any) => parseInt(o.riskcode) || 0)
+  );
+
+  return maxSeverity > 3
+    ? "F"
+    : maxSeverity > 2
+    ? "D"
+    : maxSeverity > 1
+    ? "C"
+    : maxSeverity > 0
+    ? "B"
+    : "A";
+};
+
+type ColumnHeaderProps = {
+  title: string;
+  info: string;
+};
+
+const ColumnHeader: React.FC<ColumnHeaderProps> = ({ title, info }) => (
+  <th className="text-center">
+    <Tooltip
+      placement="bottom"
+      trigger={["hover"]}
+      overlay={<span>{info}</span>}
+    >
+      <span>
+        {title} <Info size={16} style={{ marginLeft: 5 }} />
+      </span>
+    </Tooltip>
+  </th>
+);
+
 export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
   console.log("report", report);
 
@@ -32,155 +98,166 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
       <br />
       <Alert variant="info">
         Cliquez sur une des URLs pour obtenir le détail puis sur{" "}
-        <ExternalLink size={16} /> pour accéder au rapport par produit.
+        <ExternalLink size={16} /> pour accéder au rapport par produit. Pour
+        ajouter votre URL, éditez{" "}
+        <a
+          href="https://github.com/SocialGouv/dnum-dashboard/edit/master/urls.txt"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          ce fichier
+        </a>
+        .
       </Alert>
       <br />
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>url</th>
-            <th className="text-center">a11y</th>
-            <th className="text-center">perf</th>
-            <th className="text-center">SEO</th>
-            <th className="text-center">SSL</th>
-            <th className="text-center">HTTP</th>
-            <th className="text-center">OWASP</th>
-            <th className="text-center">Trackers</th>
-            <th className="text-center">Cookies</th>
-            <th className="text-center">Nuclei</th>
+            <ColumnHeader
+              title="Accessibilité"
+              info="Bonnes pratiques en matière d'accessibilité web"
+            />
+            <ColumnHeader
+              title="Performance"
+              info="Performances de chargement des pages web"
+            />
+            <ColumnHeader
+              title="SEO"
+              info="Bonnes pratiques en matière de référencement naturel"
+            />
+            <ColumnHeader
+              title="SSL"
+              info="Niveau de sécurité du certificat SSL"
+            />
+            <ColumnHeader
+              title="HTTP"
+              info="Bonnes pratiques de configuration HTTP"
+            />
+            <ColumnHeader
+              title="OWASP"
+              info="Bonnes pratiques de sécurité OWASP"
+            />
+            <ColumnHeader
+              title="Trackers"
+              info="Nombre de scripts externes présents"
+            />
+            <ColumnHeader title="Cookies" info="Nombre de cookies présents" />
+            <ColumnHeader title="Nuclei" info="Erreurs de configuration" />
           </tr>
         </thead>
         <tbody>
           {Object.keys(report).map((key) => {
+            // compute values
+
+            // LightHouse
+            const lhrCategories =
+              report[key].lhr.length && report[key].lhr[0].categories;
             const a11y =
-              report[key].lhr.length &&
-              (report[key].lhr[0].result.categories.accessibility
-                .score as number);
+              lhrCategories && (lhrCategories.accessibility.score as number);
             const webPerf =
-              report[key].lhr.length &&
-              (report[key].lhr[0].result.categories.performance
-                .score as number);
-            const seo =
-              report[key].lhr.length &&
-              (report[key].lhr[0].result.categories.seo.score as number);
+              lhrCategories && (lhrCategories.performance.score as number);
+            const seo = lhrCategories && (lhrCategories.seo.score as number);
+
+            // SSL
             const ssl =
               report[key].ssl.length &&
-              report[key].ssl[0].result.endpoints &&
-              report[key].ssl[0].result.endpoints.length &&
-              report[key].ssl[0].result.endpoints[0].grade;
-            const http =
-              report[key].http.length && report[key].http[0].result.grade;
+              report[key].ssl[0].endpoints &&
+              report[key].ssl[0].endpoints.length &&
+              report[key].ssl[0].endpoints[0].grade;
+
+            // HTTP
+            const http = report[key].http.length && report[key].http[0].grade;
+
+            // OWASP
             const owaspAlerts =
               (report[key].owasp.length &&
-                report[key].owasp[0].result.site[0].alerts.filter(
-                  (a: any) => a.riskcode !== "0"
+                report[key].owasp[0].site.flatMap((site: any) =>
+                  site.alerts.filter((a: any) => a.riskcode !== "0")
                 )) ||
               [];
-            const owasp = owaspAlerts.length;
-            const trackers =
+            const owaspCount = report[key].owasp.length && owaspAlerts.length;
+            const owaspGrade = getOwaspGrade(owaspAlerts);
+
+            // TRACKERS
+            const trackersCount =
               (report[key].trackers &&
                 report[key].trackers.length &&
                 report[key].trackers[0].trackers.length) ||
               0;
-            const trackersGrade =
-              trackers > 10
-                ? "F"
-                : trackers > 2
-                ? "C"
-                : trackers > 0
-                ? "B"
-                : "A";
-            const cookies =
+            const trackersGrade = getGradeTrackers(trackersCount);
+
+            // COOKIES
+            const cookiesCount =
               (report[key].trackers &&
                 report[key].trackers.length &&
                 report[key].trackers[0].cookies.length) ||
               0;
-            const cookiesGrade =
-              cookies > 10
-                ? "F"
-                : cookies > 5
-                ? "E"
-                : cookies > 2
-                ? "C"
-                : cookies > 0
-                ? "B"
-                : "A";
-            const nuclei = report[key].nuclei.filter(
-              (n: any) => n.info.severity !== "info"
-            ).length;
-            const nucleiGrade = report[key].nuclei.filter(
-              (n: any) =>
-                n.info.severity === "critical" || n.info.severity === "high"
-            ).length
-              ? "F"
-              : nuclei.length
-              ? "B"
-              : "A";
-            const owaspMax = Math.max(
-              ...owaspAlerts.map((o: any) => parseInt(o.riskcode) || 0)
-            );
+            const cookiesGrade = getGradeCookies(cookiesCount);
 
-            const owaspGrade =
-              owaspMax > 3
-                ? "F"
-                : owaspMax > 2
-                ? "D"
-                : owaspMax > 1
-                ? "C"
-                : owaspMax > 0
-                ? "B"
-                : "A";
+            // NUCLEI
+            const nucleiCount = report[key].nuclei.length;
+            const nucleiGrade = getNucleiGrade(report[key].nuclei);
+
             return (
               <tr key={key}>
                 <td>
                   <Link to={`/url/${key}`}>{smallUrl(key)}</Link>
                 </td>
                 <td className="text-center">
-                  <Grade
-                    small
-                    grade={scoreToGrade(1 - a11y)}
-                    label={(a11y * 100).toFixed() + " %"}
-                  />
-                </td>
-                <td className="text-center">
-                  <Grade
-                    small
-                    grade={scoreToGrade(1 - webPerf)}
-                    label={(webPerf * 100).toFixed() + " %"}
-                  />
-                </td>
-                <td className="text-center">
-                  <Grade
-                    small
-                    grade={scoreToGrade(1 - seo)}
-                    label={(seo * 100).toFixed() + " %"}
-                  />
-                </td>
-                <td className="text-center">
-                  {ssl ? (
-                    <Grade small grade={ssl} />
+                  {lhrCategories ? (
+                    <Grade
+                      small
+                      grade={scoreToGrade(1 - a11y)}
+                      label={(a11y * 100).toFixed() + " %"}
+                    />
                   ) : (
-                    <Grade small grade="F" label="-" />
+                    <IconUnknown />
                   )}
                 </td>
                 <td className="text-center">
-                  {http ? (
-                    <Grade small grade={http} />
+                  {lhrCategories ? (
+                    <Grade
+                      small
+                      grade={scoreToGrade(1 - webPerf)}
+                      label={(webPerf * 100).toFixed() + " %"}
+                    />
                   ) : (
-                    <Grade small grade="F" label="-" />
+                    <IconUnknown />
                   )}
                 </td>
                 <td className="text-center">
-                  <Grade small grade={owaspGrade} label={owasp} />
+                  {lhrCategories ? (
+                    <Grade
+                      small
+                      grade={scoreToGrade(1 - seo)}
+                      label={(seo * 100).toFixed() + " %"}
+                    />
+                  ) : (
+                    <IconUnknown />
+                  )}
                 </td>
                 <td className="text-center">
-                  <Grade small grade={trackersGrade} label={trackers} />
+                  {ssl ? <Grade small grade={ssl} /> : <IconUnknown />}
                 </td>
                 <td className="text-center">
-                  <Grade small grade={cookiesGrade} label={cookies} />
+                  {http ? <Grade small grade={http} /> : <IconUnknown />}
                 </td>
                 <td className="text-center">
-                  <Grade small grade={nucleiGrade} label={nuclei} />
+                  {owaspCount ? (
+                    <Grade small grade={owaspGrade} label={owaspCount} />
+                  ) : (
+                    <IconUnknown />
+                  )}
+                </td>
+                <td className="text-center">
+                  <Grade small grade={trackersGrade} label={trackersCount} />
+                </td>
+                <td className="text-center">
+                  <Grade small grade={cookiesGrade} label={cookiesCount} />
+                </td>
+                <td className="text-center">
+                  <Grade small grade={nucleiGrade} label={nucleiCount} />
                 </td>
               </tr>
             );
@@ -207,6 +284,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
               <a
                 href="https://developers.google.com/web/tools/lighthouse"
                 target="_blank"
+                rel="noreferrer noopener"
               >
                 Google LightHouse
               </a>
@@ -215,7 +293,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>
-              <a href="https://www.zaproxy.org/" target="_blank">
+              <a
+                href="https://www.zaproxy.org/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 ZA proxy
               </a>
             </td>
@@ -226,7 +308,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>
-              <a href="https://www.ssllabs.com/" target="_blank">
+              <a
+                href="https://www.ssllabs.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 SSLLabs
               </a>
             </td>
@@ -234,7 +320,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>
-              <a href="https://observatory.mozilla.org/" target="_blank">
+              <a
+                href="https://observatory.mozilla.org/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Mozilla HTTP observatory
               </a>
             </td>
@@ -246,7 +336,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>
-              <a href="https://nuclei.projectdiscovery.io/" target="_blank">
+              <a
+                href="https://nuclei.projectdiscovery.io/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Nuclei
               </a>
             </td>
@@ -254,7 +348,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
           </tr>
           <tr>
             <td>
-              <a href="https://www.maxmind.com" target="_blank">
+              <a
+                href="https://www.maxmind.com"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 GeoIP
               </a>
             </td>

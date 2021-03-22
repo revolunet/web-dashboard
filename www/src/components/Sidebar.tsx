@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Nav, Table, Badge } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Home, Search } from "react-feather";
 

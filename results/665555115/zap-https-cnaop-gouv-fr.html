@@ -1,0 +1,3800 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ZAP Scanning Report</title>
+        <style>
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #000;
+  font-size: 13px;
+}
+h1{
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px
+}
+h3{
+  font-size: 16px;
+}
+table{
+  border: none;
+  font-size: 13px;
+}
+td, th {
+  padding: 3px 4px;
+  word-break: break-word;
+}
+th{
+  font-weight: bold;
+}
+.results th{
+  text-align: left;
+}
+.spacer{
+  margin: 10px;
+}
+.spacer-lg{
+  margin: 40px;
+}
+.indent1{
+  padding: 4px 20px;
+}
+.indent2{
+  padding: 4px 40px;
+}
+.risk-high{
+  background-color: red;
+  color: #FFF;
+}
+.risk-medium{
+  background-color: orange;
+  color: #FFF;
+}
+.risk-low{
+  background-color: yellow;
+  color: #000;
+}
+.risk-info{
+  background-color: blue;
+  color: #FFF;
+}
+.summary th{
+  color: #FFF;
+}
+.alerts th{
+  color: #FFF;
+}
+.left-header{
+  display: inline-block;
+}
+.time-stamp{
+  float: right;
+}
+</style>
+    </head>
+    <body>
+        <h1>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABqbAAAamwHdbkbTAAAAB3RJTUUH4QsKDDQPKy6k8AAABxpJREFUWMO9l31sVWcdxz+/55xzbwt9QddJExClvIzNxTKJDZi22oJSbFZpmRb4g8sfhpEIwXQNTKh0NYgiMKIwo5AsdIxdQldGNBN5W2OTFRVcIZE1YwExcXOdc1DK+nLvOc/PP87tC9CWsj98bp6ck3Ofc57v7+37/T3wYGMucBR4F/gK/8exAugAdPXq1bpx40YFekZdHYuP+8PuGP+lAc8CmzIyMtLq6uqora3FcRwAzp49m/7Wv5O95tsNEfyEKvwH9B1V2hT7GnB+PABkhGePAvVA9dy5c6mvr2fp0qX3LOru7iYrK4toSQ1OXhGKohpOiyVQe0NVn9PGFb8iFofGFSMCMMPulwEXgbdXrlxZ3dHRQXt7+4ibA2RmZtLc3Ex/y/O4fg8RMUSMS8RxiRiPqPE+4xrnl07syA3Q+aN5wADlwO1oNPpqQ0NDfl9fH4cPH2bOnDn3dV9VVRWVlVV88vsteNF0XCO4xuA6Bs9xiBgPz/EmueKcIxavHyk/BPjnli1bpm3btu1TZ2hmxkTk8aeYMK8aay1WFVWwqgSqBDYgqQFJGxygccWa4e86IhJpbW39Zk5ODgUFBZ8KwOLFZeyr/wHZs0vw0jMxIqFpAuFt+EOYZ/OrAi41t96dhF8HThcWFnpnzpwhGo0+MIhnamvZs+8AM55uIhn4+Cnrkza8Wqv4NiBhfXwNCgxy3jauuKMKPOCPrpHSU2fOUlJS8sAg8qZP50bGY0xeuIFk4JO0SnIYiMAqSRuQDPyPgsbqh++ugqSsPXGC+WsoLS1lzZqnHxhA40svcfPvfyDNjRARwTOCJ+E0IjgiOGIwRnIkFl97NwBMX9dPvEfLSC+t5cCB/eTk5Ix78ylTplBcXMxDjy3EweIZISKSqoxwcyOCYwRXHETkuSEAsTjE4kVGTLrjpdP7p33U1NTQ2dk5bgCbN28Ow7BoA8YmcVOWR1KWuyKIgEEwYjBiJhN75Ushr15qRp747g9dcRZ4RtCuf3HhdBMlpQuZNm3auAAUFBRw+fJlWl/dy9SCaqwGIBIyJGBTUwemWqzy/mAIRPmaEUGsJeNbz+IVfJ+ioiI2bNgwbi80NTUxJWciV47/GM9Lwwg4CA6CSblbBqYYRPjqEACRR8JaVcRPkPHlJ5m66kX27W8kL2/6uMPR3t7Ox+++yQcXjmLEIEYQA8YIkuIHSYVDkBnDk3DSEDwAi5c5mUfWNtGVPovc3FwOHTp0XwDZ2dm0nTvH9Td+zSedVxDVkIQAEQ1BoIgKCpnmflqpQcAXyjYxo6KeVatWUVZWRiKRGPO1+fPns2vXLjoOr7uvFA8HcHMoQ8IHmkqOINnH1d81kJeXR0VFRcqKkUcQBLS0tHD79u2QXHq7UmkIqgKqoIKKAnQPNiSqXFG0QFVCXbcGK4pVIdnTBcDOnTupqqoa06q2tjZKS0uZ8LmZzKiox5nwWXzfx9qBfmGgCkDRa4MeUNE3repg2QSEiwMFk5nDF8vrWLZsGTNnzqS9vX1UAEVFRezYsYOeD68y8fNPEFifAL2rDAfBnJdhGv0NzzgtoYYbHGOICkSMIWKEqBE8x+X91v18cKGJyspKDh48SFZW1ohAlixZQstfLzM99iK9iQQJqySsxVfFDyz9Nolv/fw7gumsPtIbMZE0zxhcR3DFEDVCZIDTjeA5Drb3Jv84sYOu639j69atNDQ0jAgiN3cyPQ/NJXvhM/QnEwRW8dWSDAL6bbLTHlyee0cVWNWfBhpgVbEWfFUSqiSGqVoyCCCaxayndjKn+nm2736BzIyJHDt27B4AFy9eovvtU3R3nA5DkFJEXwNUtWHEptSsPtIXNW7UMy4mJSLeMA+4IrhCKC6A46XR+VYz772xj/z8fJqampg1a9bg906ePElZWRlZy3+DZuSGPUGQ/G/QuDznHjVMeaEyaS2+WqxVbMryxMDVKv0W+qzSr0pPoo/Mx8uZs/51rgdTmD17NrFYbJArFi9ezKZNm7h1dD1B4JO0PgG23KR6QxnlYLHXM846z7i4oX4P6vmA9Q6ENMsQZyiGxK1OPjr5M5Kd77B7925qamoAWLBgAX+59jFU7tmivy3fPvq5INXDSyx+3DXOd1xx8YzBiGBMKCIDwmKMDLEWEnoMUDdK37U2bp/6BQ9PSueV+BEWLVpEdnYW3be6f67wo7EOJoMgiMX3uuKs84zBEQcjghjBMCAmhF1niskGCMaiqFWs8ehrj+Off5nCwkK2b99OcXExwFTgvdEB3AmizIi85oqTNgDCSKrPFWV4DFRD/beqWLX4YUXdst0ffk+b168CVqZWpwN9YwO4Wzhi8c1GpM6ISTcYREJPMOSAQYZLHc1upY5meyjfBq/XAUwGbgL9Y4dgrBGLFwtSITAPkekCk1L73wS9qsoFxR6nceWfx/O5/wGLCSMJ+zJrfwAAAABJRU5ErkJggg==">
+ZAP Scanning Report
+
+        </h1>
+        <p>
+</p>
+        <h3 class="left-header">Summary of Alerts</h3>
+        <h3 class="time-stamp">Generated on Thu, 18 Mar 2021 19:13:07</h3>
+        <table width="45%" class="summary">
+            <tr bgcolor="#666666">
+                <th width="45%" height="24">Risk 
+      Level</th><th width="55%" align="center">Number 
+      of Alerts</th>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#high">High</a></td><td align="center">0</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#medium">Medium</a></td><td align="center">4</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#low">Low</a></td><td align="center">10</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td><a href="#info">Informational</a></td><td align="center">9</td>
+            </tr>
+        </table>
+        <div class="spacer-lg"></div>
+        <h3>Alerts</h3>
+        <table width="75%" class="alerts">
+            <tr bgcolor="#666666">
+                <th width="60%" height="24">Name</th><th width="20%" align="center">Risk Level</th><th width="20%" align="center">Number of Instances</th>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Content Security Policy (CSP) Header Not Set</td><td align="center">Medium</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Source Code Disclosure - Perl</td><td align="center">Medium</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Source Code Disclosure - PHP</td><td align="center">Medium</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Vulnerable JS Library</td><td align="center">Medium</td><td align="center">1</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Absence of Anti-CSRF Tokens</td><td align="center">Low</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Big Redirect Detected (Potential Sensitive Information Leak)</td><td align="center">Low</td><td align="center">5</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cookie No HttpOnly Flag</td><td align="center">Low</td><td align="center">7</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cookie Without SameSite Attribute</td><td align="center">Low</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cookie Without Secure Flag</td><td align="center">Low</td><td align="center">7</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Dangerous JS Functions</td><td align="center">Low</td><td align="center">6</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Feature Policy Header Not Set</td><td align="center">Low</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Incomplete or No Cache-control and Pragma HTTP Header Set</td><td align="center">Low</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Insufficient Site Isolation Against Spectre Vulnerability</td><td align="center">Low</td><td align="center">12</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Strict-Transport-Security Header Not Set</td><td align="center">Low</td><td align="center">12</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Base64 Disclosure</td><td align="center">Informational</td><td align="center">12</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Content-Type Header Missing</td><td align="center">Informational</td><td align="center">12</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Cookie Poisoning</td><td align="center">Informational</td><td align="center">6</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Information Disclosure - Suspicious Comments</td><td align="center">Informational</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Modern Web Application</td><td align="center">Informational</td><td align="center">11</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Non-Storable Content</td><td align="center">Informational</td><td align="center">7</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Storable and Cacheable Content</td><td align="center">Informational</td><td align="center">4</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>Timestamp Disclosure - Unix</td><td align="center">Informational</td><td align="center">2</td>
+            </tr>
+            <tr bgcolor="#e8e8e8">
+                <td>User Controllable HTML Element Attribute (Potential XSS)</td><td align="center">Informational</td><td align="center">10</td>
+            </tr>
+        </table>
+        <div class="spacer-lg"></div>
+        <h3>Alert Detail</h3>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (High)</th><th width="80%">Content Security Policy (CSP) Header Not Set</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page &mdash; covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy</p><p>https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html</p><p>http://www.w3.org/TR/CSP/</p><p>http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html</p><p>http://www.html5rocks.com/en/tutorials/security/content-security-policy/</p><p>http://caniuse.com/#feat=contentsecuritypolicy</p><p>http://content-security-policy.com/</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">Source Code Disclosure - Perl</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Application Source Code was disclosed by the web server - Perl</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/IMG/pdf/vous_allez_accoucher_version_anglaise.pdf</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">$#5DLV</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. </p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>$#5DLV</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://blogs.wsj.com/cio/2013/10/08/adobe-source-code-leak-is-bad-news-for-u-s-government/</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">540</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">Source Code Disclosure - PHP</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Application Source Code was disclosed by the web server - PHP</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/IMG/pdf/ANNEXES.pdf</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;?=&#158;&brvbar;n&reg;R\x0017a#&Ecirc;&sup2;&#139;&#153;X&reg;&ntilde;&Ecirc;&#132;8^&frac14;n&icirc;\x0000&atilde;&Ntilde; ~GJH\x0000&#146;p\x0007Rk"&Oacute;&Auml;\x0016&#147;&Iuml;|$&#158;&Ouml;;kR&#128;\\x000b&#128;Q&divide;\x0003&szlig;&#128;\x000f\x0018&AElig;M]&Otilde;m\x001a&yuml;\x0000K&ordm;&acute;I&lt;&para;&#158;&amp;@&thorn;&#153;\x0015&Euml;&Iacute;&aacute;&frac12;R&acirc;&eth;&Yacute;L&#150;K&oacute;F&THORN;L72&AElig;\x001bj\x0014#r&uml;#&#131;&#144;y&ocirc;&Aring;\x0000t&Ccedil;W&Oacute;D&#158;Y&Ocirc;-\x0003&ntilde;&ograve;&ugrave;&Euml;&#158;FG\x0019&ocirc;&aelig;&#151;&ucirc;WN&Ugrave;\x000b&yacute;&frac34;&times;l&ccedil;\x00117&#156;&cedil;&#144;&ccedil;\x0018^y&uuml;+&#151;&#147;&Atilde;:&#128;2$\x0016&uacute;z&Acirc;M&frac34;&Aring;7\x0012\x0012&laquo;\x001b\x0016&Ucirc;&#146;&#132;&#156;&ccedil;\x001d&#127;&Acirc;&#155;?&#134;&micro;&#139;&#132;&#145;X&Oslash;&nbsp;yd&#151;	+g&aelig;&#144;8\x0004&igrave;&Eacute;\x001cc\x001d;&oacute;&Ograve;&#142;&nbsp;up&ecirc;v\x0017\x0012&#152;&nbsp;&frac34;&para;&#150;@	(&#146;&laquo;\x001c\x000e&frac14;\x0003&Uacute;&copy;Zx&#130;&Ograve;y&iuml;&#132;&#147;&Uacute;&Ccedil;mjP\x000b&#129;p
+&gt;&agrave;{&eth;\x0001&atilde;\x0018&Eacute;&not;I&uuml;7&ordf;\&ugrave;&#138;&Acirc;&Ecirc;\x0015&#146;[&#137;\x0019&#146;f$	W\x0003&#141;&#131;8&uacute;&oacute;D&THORN;\x001b&Otilde;./
+&Ocirc;&Eacute;d&iquest;4m&auml;&Atilde;s,a&para;&iexcl;B7*&#130;89\x0007&#159;LP\x0007Q\x001e&sect;a-&Agrave;&middot;&#142;&ouml;&Ugrave;&ccedil;&lt;&#136;&Ouml;U,x&Iuml;L&ccedil;&sect;5h&#144;\x0001$&agrave;\x000e&curren;&Ouml;\x0016&#133;&curren;\i&#151;&times;\x000c&Ntilde;[Gl&eth;&Ccedil;\x001ck\x0014&reg;&igrave;&raquo;s&Ccedil;&Igrave;:|&Yacute;s&Ucirc;&ograve;&Oacute;&Otilde;m\x001a&yuml;\x0000K&ordm;&acute;I&lt;&para;&#158;&amp;@&thorn;&#153;\x0014? [&ecirc;R&acute;&ntilde;\x0005&curren;&oacute;&szlig;	'&micro;&#142;&Uacute;&Ocirc;&nbsp;\x0017\x0002&agrave;\x0014}&Agrave;&divide;&agrave;\x0003&AElig;1&#147;W&times;P&sup3;k&#148;&para;[&uml;\x001aw]&euml;\x0018&#144;\x0016e&otilde;\x0003&Ograve;&sup1;Y&frac14;7&ordf;\^\x001b&copy;&#146;&Eacute;~h&Ucirc;&Eacute;&#134;&aelig;X&Atilde;mB&#132;nU\x0004pr\x000f&gt;&#152;&shy;
+;C&sup1;&plusmn;&Ocirc;m&auml;&#133;m&nbsp;&micro;&#140;|&egrave;&#146;;&ccedil;&auml;&Uacute;\x0000\x000c\x000f#&ucirc;&Agrave;&#142;\x00061@&#142;&#130;Y\x0012\x0018&#158;I\x001dQ\x0010\x0016fs&#128;\x0000&icirc;OaT&Oacute;W&deg;&Ucirc;\x0012&Iacute;}d&#147;:&copy;&Oslash;&middot;
+s&raquo;&brvbar;\x000f\x0019\x0007&plusmn;&Ccedil;5f&eacute;d{Y&#150;\x0010&brvbar;FB\x00149&Agrave;&Icirc;;&#156;\x001f&aring;\&#140;&#158;\x001c&Otilde;&#158;&Ntilde;!&Ugrave;&sect;&icirc;[\x0018&iacute;7y&iuml;&Otilde;\6~&ccedil;|P&middot;&thorn;&frac14;&AElig;k&sect;&#137;m&#159;S&cedil;&#131;}&ordf;&Uacute;[7&#151;-&Atilde;]*&iacute;l\x0003&divide;Ol&#156;g=A&acirc;&macr;K&shy;iP&gt;&Ugrave;&micro;+(&Ucirc;\x0000&aacute;&ccedil;@pFG~&acirc;&plusmn;\x0017G&Otilde;&AElig;&nbsp;&divide;&brvbar;;\x0002&szlig;ii&Ouml;#;&#149;`&Ntilde;&#132; &#157;&#156;\x0011&#140;&#131;&#131;&Ocirc;&#138;&#134;?
+&ecirc;0Z^&Ucirc;Fl&Yacute;f&plusmn;\x0016&uml;&Iacute;#\x000c\x001c&plusmn;&lt;m8\x001f9&Ccedil;?&Acirc;=x:\x0007S&curren;&#143;U&Oacute;&aring;&#145;#&#138;&thorn;&Otilde;&Yacute;&Oslash;&ordf;&ordf;&Igrave;&curren;&plusmn;\x001d@\x0019&ecirc;*\x000b&#159;\x0010iV&eth;&ugrave;&shy;&#127;n&Eacute;&aelig;&not;$&curren;&ordf;v&plusmn;=&ugrave;&atilde;\x001c&#147;&igrave;+\x0007&ucirc;\x0003V&ucirc;K&Ecirc;&deg;&eacute;&Egrave;\x001ax&amp;&Agrave;&#157;&Icirc;\x0004k&middot;\x001f&ecirc;&ucirc;&Ograve;Z&oslash;oT&#128;3&sup3;Z4&#133;&iacute;&auml;\x0000J&Aacute;s\x0013\x001c&#129;&#132;&Acirc;&#130;\x000f\x0000\x000e:{&ETH;\x001d\x000e&#145;u[1jnf&frac14;&sup3;H7&#148;YE&Agrave;(&#127;&agrave;G\x0003&gt;&Ocirc;&yuml;\x0000&iacute;M?&iacute;\x0002\x000f&middot;Z&ugrave;&Auml;&#133;\x0011&ugrave;&Euml;&raquo;$d\x000cg=+\x0002-\x0013T&#141;&Ouml;r&#150;/"&Iuml;p&thorn;KJ&Aring;\x0019e&divide;&Ugrave;&Aacute;\x001d:r3&Ograve;&laquo;'&#134;u+p#&#135;&igrave;R&cent;&#155;m&reg;&ograve;&sup2;&plusmn;\x0011\x001c&#158;6\x001cg&sect;^&#148; gWm{kv&Ograve;&shy;&micro;&Auml;S\x0018&#155;k&#136;&Uuml;6&Oacute;&egrave;qN&ordm;&ordm;&middot;&sup3;&#128;&Iacute;u&lt;pD&frac12;^F
+?3Y&#154;\x000e&#155;u&sect;&frac12;&Agrave;&#156;&Acirc;"`&cent;8&atilde;b&ucirc;q&#156;&ograve;@ s&Acirc;&#146;q&Iuml;&lt;&Ocirc;&uacute;&Yacute;&#148;&times;&Ouml;&#136;&#150;&aacute;&lt;&Ocirc;}&ecirc;ZFB&sect;\x0004d\x0010\x000f&lt;&divide;\x0004c&lt;P&Aacute;\x0012&yuml;\x0000k&eacute;&curren;g&ucirc;B&Oacute;\x001b&para;g&Icirc;_&frac12;&#140;&atilde;&macr;\T&para;&#151;&Ouml;&#151;&ordf;&Iacute;gu\x0005&Acirc;&macr;\x000cb&#144;&gt;&gt;&cedil;&reg;h&egrave;\x001a&not;r+F&Ouml;2&acirc;ky&Eacute;fh&ograve;&Ntilde;&nbsp;R\x0000
+@\x0007\x0019&Iuml;&eacute;[~\x001f&sup2;&#159;O&Ntilde;&agrave;&acute;&ordm;\x0011y&plusmn;d\x0013\x0013\x0016S&#146;Ny\x0003&Ouml;&#152;\x0016&reg;&macr;ml&#149;\x001a&icirc;&acirc;(\x0003&para;&Otilde;28]&Ccedil;&ETH;f&#154;&Uacute;&#141;&#138;&frac14;&Egrave;&times;&#150;&Aacute;&agrave;\x001b&yen;S*&aelig;1&ecirc;&Uuml;&ntilde;&oslash;&Otilde;
+&#127;M&ordm;&iquest;XM&#153;&#133;%@&Atilde;|&#140;F&Uuml;&atilde;&para;\x0008a&Ccedil;*G&lt;r+&amp;?\x000bO\x001bO&frac34;;y&szlig;{&acute;s&frac12;&Ocirc;&Aacute;&#136;g
+&#141;&pound;&#132;9&thorn;!&#158;@&acirc;&#144;\x001dU&frac14;&eth;&Yacute;@&#147;[&Ecirc;&#146;&Auml;&atilde;*&egrave;r\x000f&atilde;M&sup1;&frac14;&micro;&sup3;\x0008n&reg;a&#128;9&Uacute;&frac34;k&#133;&Uuml;}\x0006z&Ocirc;\x001aE&micro;&Aring;&brvbar;&#157;\x001c7n&#143;0,X&sect;NX&#158;&cedil;\x0019&lt;&ograve;p2y&ordf;:&Ouml;&#149;uyw&ccedil;[}&#157;&Ouml;Kg&micro;&#145;'$\x0005\x000cA&Uuml;0\x000eO\x001d8&Iuml;&shy;\x000c\x0011nmgOG1%&yacute;&#129;&cedil;\x000f&sup3;&Ecirc;{&#149;S&#156;&agrave;&#142;&ccedil;&gt;&Oslash;&yen;&ordm;&Ouml;&acute;&Ucirc;V&#146;)5\x001b\x0018&icirc;\x0010&#127;&laquo;&#150;&aacute;P&ccedil;&deg;=&Ccedil;&aring;Xg@&Ocirc;&Ograve;&AElig;&uacute;&THORN;?&sup2;1&#154;x^7y&#152;\x0012&plusmn;&#133;\x001f7&Eacute;&Ocirc;&igrave;\x001e&iquest;x&uacute;s&#152; {&Ucirc;&raquo;&egrave;m&#141;&not;&#147;&Igrave;&divide;1$_i &Aacute;&iquest;!&#157;&#147;&Euml;&Uuml;\x0001&Agrave;&ecirc;&Oslash;&ccedil;&#128;3@/3&sup2;]R&Auml;&Igrave;&deg;\x001b&Ucirc;ApH_(L&yen;&sup2;F@\x0003&shy;+j&#154;z&not;&igrave;&times;&Ouml;&iexcl;`8&#148;&ugrave;&laquo;&ucirc;&sup3;&egrave;&Uuml;&ntilde;&oslash;&times;9&gt;&#131;&laquo;K+&iquest;&#151;`\x000b\x001bc&#159;=&ograve;&lt;&pound;&#147;&yuml;\x0000,&ucirc;&#154;m&sect;&#133;nm&shy;&Acirc;&ugrave;v&iuml;&lt;@*O&ouml;&sup1;&middot;0
+&cedil;\x00100Dg&egrave;\x0018r~&#132;`&#142;&ordm;)\x0012h&#146;X&#157;^7\x0001&#149;&#148;&auml;\x0010{&#138;}U&Oacute;`&#154;&Ucirc;N&middot;&#130;&aacute;&Ntilde;&aelig;&#142;0&not;&Egrave;&iexcl;T&#145;&egrave;\x0000\x001f&Egrave;U&ordf;l\x0010QE\x0014&#128;(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000&Agrave;&Ocirc;&uuml;E&yacute;&#155;}4S&Ucirc;\x0001\x0004Q&#151;&Uuml;d&Atilde;&Eacute;&#133;&Iuml;&Egrave;&curren;a&#134;x&agrave;&auml;zc&#154;&#130;&szlig;&Auml;&middot;r&Igrave;&#145;&gt;&#146;&ETH;&sup3;&#137;6&#153;]&ETH;1T&Uuml;1&ordm;0H=3&#142;=&euml;Z&atilde;F&deg;&ordm;&cedil;i&ccedil;&#131;&Igrave;v\x00040gb&sect;+&middot;;s&#140;&atilde;&#140;&atilde;5\x0011&eth;&thorn;&#154;b&#142;6&#134;F\x0011&#156;&copy;i&auml;,8&AElig;7\x0016&Icirc;&Uuml;q&#142;&#158;&Ocirc;&ordm;\x000c&Atilde;&#143;&Auml;M
+&Igrave;&times;&brvbar;9&curren;\x0017pZ&acute;V&Ucirc;&Yacute;&Otilde;]&divide;&ocirc;&Agrave;$p9&Acirc;&oacute;&#142;&#149;4&#158;,&ordm;&#138;6&#146;M!&atilde;X&aacute;\x0013&Egrave;&sup2;JQ&Ocirc;o&Oslash;~R&#131;&iquest;#&brvbar;G&yen;ZM\x001f&Atilde;&copy;4&para;&#129;&ETH;&Igrave;&#145;&uml;x&#154;&ntilde;&Euml;&AElig;&#139;&Ecirc;&#156;\x0016&Ecirc;&atilde;&lt;\x0011&#140;g&THORN;&#159;\x001e&#137;&iexcl;jq&acute;&Ntilde;3]#&macr;&#148;&Iuml;\x001d&igrave;&#140;\x0018\x0003&#156;\x0012\x001f&#158;y&aelig;&#152;&#138;&oacute;&oslash;&brvbar;X\x0003Dt&aelig;{&Ntilde;3D!&#141;&Ugrave;&Aacute;&Uacute;&#129;&Eacute;&Ecirc;&iexcl;=\x0018\x000f&raquo;&times;&frac34;9&curren;&yuml;\x0000&#132;&#158;&egrave;&Egrave;W&ucirc;,F&lt;&Egrave;&atilde;&yacute;&igrave;&Aring;X4&#139;&sup1;r&raquo;8&Ccedil;C&eacute;&iuml;We&ETH;&acute;{h&yen;&#154;`&ntilde;(&#127;9&brvbar;{&sup1;\x0001V&AElig;7o-&#145;&Ccedil;\x001d})&deg;&egrave;Z-&szlig;&uacute;D\x001b&yen;Vu&#147;|wr\x0015,&pound;&aring;&lt;68\x0006&#128;"&middot;&times;g&#131;&Acirc;&para;&ordm;&#149;&igrave;"K&#137;&#130;\x0005H&#137;;&Ugrave;&#142;\x0007E&Egrave;&euml;&ETH;\x0003&iacute;&#154;&not;&thorn;+&raquo;&#142;6w&Ograve;\x001a=&#144;&lt;&icirc;%&#149;&#145;&deg;&not;\x0001&Agrave;d\x0004&otilde;\x0004t&Iuml;&micro;k&Atilde;a&yen;&Iacute;&sect;I&brvbar;E&sup2;khN&AElig;&#136;L\&AElig;z&#129;&#156;&aring;H&iacute;&Iuml;\x001d&ordf;)&frac14;5&yen;&Icirc;X&Euml;\x0014&icirc;Z3\x001b\x0013u.YI&Eacute;\x0004&icirc;&ccedil;&nbsp;&euml;&eacute;GP,j&ntilde;G6&#158;&iuml;-&Aring;&Auml;\x0008&ordf;X\x0018$(&Auml;&atilde;&#142;G$&ccedil;&nbsp;&icirc;}k&#154;&#154;&euml;R&#142;\x0019&brvbar;&ordm;&sup1;&#153;.&acute;&oslash;-&#136;&#141;_\x000b#&sup1;&ugrave;&divide;\x0001&Atilde;g&sect;&middot;j&eacute;5\x001bK\x0003i\x0008&frac34;&#153;&aacute;&#134;\x000269&ordm;x&eth;z\x000c&deg;`I&uacute;&#154;\x001bE&deg;i`&#149;&aacute;.&eth;&#128;\x0015&#154;F9&Aacute;&Egrave;&Yacute;&#147;&oacute;`&ograve;7g&#158;h&ecirc;\x001d\x000ea&otilde;&#139;&raquo;\x000bh&micro;/:Y&yen;&ordm;[&#157;&eth;&raquo;&#146;&#136;P&aacute;0?&#135;\x0018\x0000&atilde;\x0019&Iuml;5&sup1;&aacute;&sup1;'\x0006&icirc;&Uacute;&ocirc;&Ecirc;&times;&deg;&sup2;&#153;]&sect;2+&icirc;\&#130;&frac14;\x0000&pound;&macr;\x0000~}jk&#139;
+\x001a&Auml;&Iuml;st-&agrave;[&#128;&Egrave;&iacute;&lt;&cedil;C&raquo;&iuml;\x0000\x0018&agrave;g&frac34;1&#154;&#151;N&plusmn;&Oacute;&aacute;&#133;Z&Aacute;&#139;G&iquest;~&ocirc;&#157;&#159;q&AElig;99;&#134;;\x001c&#142;&#148; f&#141;\x0014Q@\x0005\x0014Q@\x0005\x0014Q@\x0005\x0014Q@\x0005\x0015\x0012&Uuml;B&divide;\x000f\x0002&Iacute;\x001bL&#128;3F\x0018\x0016Pz\x0012:&#138;&#150;&#128;
+*&laquo;j\x0016Iu&ouml;V&frac14;&middot;[&#143;&ugrave;&auml;eP&yuml;\x0000&#150;sV&uml;\x0000&cent;&#138;F`&ordf;Y&#136;U\x0003$&#147;&Agrave;\x0014\x0000&acute;TpO
+&Igrave;+5&frac14;&copy;4O&Ecirc;&frac14;l\x0019O&ETH;&#138;&#146;&#128;
+(&brvbar;E,sF&sup2;D&euml;$m&Egrave;e9\x0007&ntilde;&nbsp;\x0007&Ntilde;E\x0014\x0000QEE&ouml;&#152;&gt;&Oacute;&ouml;o:?&acute;m&szlig;&aring;n\x001b&ouml;&ocirc;&Icirc;:&atilde;&THORN;&#128;%&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&cent;&#150;&acirc;\x0018\x001a5&#154;h&atilde;2&para;&Auml;\x000e&Agrave;ooA&#158;&brvbar;&yen;&nbsp;\x0002&#138;&#130;{&raquo;kg&#141;'&cedil;&#138;'&#148;&iacute;&#141;]&Acirc;&#151;&gt;&#131;=jF&#150;5&#145;#gQ#&#130;UI&aring;&plusmn;&times;\x0002&#128;\x001fE\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0007!&uml;}&#152;\x001dR;;&#137;n&igrave;&yen;&para;&#153;&reg;&cent;&#138;O3&Ecirc;&#147;&#140;m&lt;&iacute;'-&#149;&ouml;&eacute;V&lt;%s\x001e&Euml;&sup3;4&Ouml;&iuml;&lt;&sup3;&ordf;&ugrave;&eth;&cedil;&ograve;&sect;;\x00066\x000fP\x0007#&#158;A&uuml;:9&auml;&ograve;`&#146;]&#140;&ucirc;\x0014&para;&Otilde;&AElig;N;\x000c&agrave;Tv7I}c\x0005&Uuml;A&#150;9&atilde;Y\x00147P\x0008&Iuml;4 e?\x0010Em6&#150;&Eacute;ws&ouml;D&oacute;\x0011&#150;b2\x0011&Atilde;\x0002&curren;&ccedil;&#140;dw&acirc;&sup1;iu&frac12;@D&laquo;m=&#141;&uml;&#150;y\x0015&otilde;\x0000&Ucirc;`&#153;&Acirc;&reg;&Ograve;\x000b+\x0001&#158;&atilde;&sup1;S&#131;]&iacute;\x0014\x0001&Acirc;&Ccedil;&laquo;&acute;w&divide;&#159;&eacute;&plusmn;[&ugrave;&times;0&shy;&Iacute;&Auml;X"\x0011&auml;&#142;~a&#128;\x000b
+&sup1;a&Ccedil;&Ouml;&nbsp;&#151;&Auml;w&ntilde;#&frac14;&ordm;&ordf;F&ntilde;&Ucirc;&not;&iexcl;
+F\x0004&#135;&Iacute;*\x000e\x0008&Icirc;\x00190&Oslash;&divide;&Egrave;&Agrave;&macr;A&uml;&#132;&Auml;&Yacute;\x0018|&copy;0\x00107&#153;&#143;&#147;&#147;&Oacute;&gt;&frac14;Q&yacute;~\x0001&ETH;&Ccedil;&ntilde;l&ntilde;/&#133;&icirc;&curren;iP#&ordf;&iacute;b&Atilde;
+&#150;\x0018&Ccedil;&shy;Q&Ograve;5mB&oacute;&Auml;2&curren;&#151;V&cent;&Uuml;I"}&#151;~d&Uacute;9G\x0000&amp;pG9,A&Iuml;\x0018&reg;&reg;&cent;&cedil;&cedil;&#138;&Uacute;/2w\x0008&#155;&#130;&auml;&uacute;&#147;&#128;?3B&Uuml;:\x001c&thorn;&sect;4v~-&micro;&ordm;&Ocirc;\x0019c&sup2;&ucirc;+$3H?w\x001c&yen;&sup1;&Eacute;&egrave;	\x0018&auml;&acirc;&sup2;&cent;&Otilde;&reg;&pound;&#135;&#155;&Euml;{\x000bi&#158;&aacute;&pound;&sup1;&#130;\x000c$&#142;&curren;m&ucirc;&aring;&#135;&Iacute;&Euml;q&times;&micro;wTR\x0003&#134;]sP\x0013G
+&Yacute;&ucirc;[N&divide;6&agrave;&Auml;Q\x0001X&auml;@Xr&frac12;\x0003\x0012\x0001?BMI6&laquo;&laquo;C&sect;&Icirc;&Euml;v&iuml;5&#147;&ugrave;\x0017,&ntilde;&cent;&uml;&amp;N\x001f&#132;8&Acirc;s&ETH;&#142;A &acirc;&raquo;Zdn&Icirc;\x001btm\x001e\x0018&#129;&raquo;\x001c&#143;^	&agrave;&thorn;t&Agrave;&acirc;"&Otilde;&iuml;&#154;&atilde;&Eacute;&cedil;&ntilde;\x0004*V&Ograve;Y&middot;&Ucirc;\x0018&#153;X&laquo;|&frac14;&acute;c&lt;g8\x0018&ugrave;x&Ccedil;5]|M&#127;&aring;,i&copy;&Atilde;+I\x001d&raquo;&Eacute;3&#148;_#xm&uuml;&#133; \x000c&#133;\x0019*q&raquo;&THORN;&frac12;
+&#138;\x0000&oacute;&Ucirc;&#143;\x0011j\x0016&THORN;o&#153;&reg;[\x0019&cent;&#138;\x0016&Ucirc;\x0018&#140;&curren;&#140;\&laquo;`&#149;\x0004&#141;&cedil;n=r\x000e)&ograve;x&#139;P&#146;V&micro;&micro;&Otilde;mB$&Ograve;&cent;&THORN;N&egrave;&ordf;&oslash;&Ucirc;&micro;I\x0008G &#158;&#128;g\x001c\x001e+&frac14;getQ\x001b0l&aring;&#134;0&iquest;\&#156;&thorn;Y&sect;&ETH;\x0007\x00045&euml;&sect;&cedil;x&#155;YRd&cedil;&#150;\x0001\x001a&#136;&Aacute;Q&aring;n\x0004|&nbsp;&auml;?\x0003?&Icirc;&ordm;O\x000b&Uuml;&Aacute;.&#135;c\x0012^&yen;&Igrave;&Euml;n&#140;&atilde;z&#150;\&#142;&agrave;z\x001c&#143;&Atilde;&Ouml;&para;k"mN&THORN;\x000b&ucirc;&Agrave;mn\x001a{t&#143;q\x0005p&Ecirc;&auml;&atilde;n[&Ocirc;\x001c&#142;	&Agrave;&euml;&Aring;\x000b&deg;&gt;&aelig;&gt;&middot;&copy;&yen;&#150;&iquest;zc&raquo;Xf\x0016p&reg;Wie&Igrave;&sect;?{&#129;&Atilde;\x000eOL&ccedil;\x0006&para;&lt;3{6&iexcl;&iexcl;&Aring;5&Igrave;&#139;%&Agrave;gGa&#142;&iexcl;&#136;&ccedil;\x0000s&#140;v\x0015r&Acirc;&yacute;/&#141;&Egrave;H&auml;&#141;&shy;&aelig;0&cedil;&#147;\x001d@\x0007#\x0004&ntilde;&#130;*&Auml;&#142;&Egrave;&nbsp;&not;m!&Egrave;\x0018\dd&otilde;&auml;&#142;&#157;h&eacute;`{&#156;&reg;&#129;=&#138;&eacute;CO&iquest;U}LN&Iacute;5&raquo;\x000f&THORN;&frac14;&#155;&Eacute;\x000f&#142;&curren;t;&ordm;b&sup3;&aring;&times;u6&acute;y&iexcl;&frac34;c*&Auml;&ograve;\&Acirc;"O&ocirc;FW\x0003i&ugrave;s&#130;	&euml;&#147;&AElig;A&reg;&ouml;&#138;\x0000&acirc;"&times;&amp;&ordm;&times;R&Icirc;=p&not;r^&lt;j\x0014E&#147;\x001f&#150;\x0019q&#149;&eacute;&raquo;&#128;{&ucirc;&Ouml;&yuml;\x0000&#136;od&sup2;&#142;&ETH;\x000b&#143;&sup2;C4&Acirc;9&reg;v&#131;&aring;.	\x001dA\x0003$\x0001&#146;;&Ouml;&sup1; u f&#150;&#142;&#150;\x0003&Icirc;t}^&yuml;\x0000&Ecirc;&sup3;&acute;&acute;&frac34;&micro;&#130;$\x0019\x001ek\x0001&ccedil;&#147;#n\x0000lb[\x0018&agrave;\x0010FGZ&iquest;{&ordf;j6&uacute;}&ouml;&iacute;VX&icirc;4&acirc;&euml;+&acute;q\x0001!f\x001eWU&Ccedil;&Yacute;&ocirc;&reg;&THORN;&#144;&#144;\x0001$&agrave;\x000e&ocirc;\x0001&AElig;\kW\x0016&Uacute;&auml;\x0016&szlig;&Uacute;&igrave;&ouml;&curren;&#133;&#146;I\x0004J0&Ntilde;&sup3;\x0006\x0004/&lt;&atilde;\x0007&#129;&Ucirc;\x0007&#147;N&eth;&aring;&uuml;&ordm;&#134;&macr;cq&gt;&nbsp;&Ograve;&lt;&ordm;~ve\x0002&raquo;o!&cedil;\x0003&macr;\x0000&#156;&#127;*&igrave;&copy;&#145;;:\x0006h&Uacute;3&Iuml;&Ecirc;&Oslash;&Egrave;&uuml;&#137;\x0014 9&#127;\x0012jwV:&#156;&#145;E&copy;&#155;`l&Igrave;&deg;&Auml;Q\x001b&Igrave;&#148;6\x0002&#140;&#140;&#156;&uacute;u&ocirc;&not;&divide;&Ouml;&otilde;/"&aelig;T&Ocirc;&Aacute;&Ugrave;z-&szlig;q&#141;R&Yacute;
+&#131;&#146;&Aacute;\x000e&gt;l&reg;H#&ntilde;&aelig;&ordm;&Oacute;&sect;)&Ouml;\x0006&pound;&ccedil;&Iacute;&aelig;\x0008&frac14;&#159;+&aring;&Ugrave;&middot;9&ocirc;&Icirc;s&iuml;Ve&cedil;&#138;)a&#138;G
+&oacute;1X&times;&raquo;\x0010	?&nbsp;4-&iquest;&reg;&agrave;&yuml;\x0000&macr;&cedil;&aacute;_&Auml;7&Ouml;&Icirc;&thorn;~&middot;l&iuml;
+@&Aring;#&ograve;&Igrave;r\x0016&#144;&laquo;`&#149;\x0007\x001bp&Uuml;z&auml;qT&icirc;&micro;&eacute;|&Ntilde;~ue&#138;&divide;&igrave;r&acirc;2&uml;&lt;&#151;&oacute;\x0013&divide;`\x0011&Iuml;\x0003&frac34;O\x0019&macr;K&ordf;wW&eacute;kyin&ntilde;J&AElig;&eacute;&#153;\x0011&times;\x001bA
+[\x0007'=\x0001&iacute;@\x001c&Uuml;Z&#150;&yen;&yuml;\x0000	
+Z&#141;F\x0006&middot;F&#143;j&Icirc;&Ecirc;\x001e&aelig;6\x0019,&iexcl;c&ugrave;&sup1;&lt;\x0010@\x001by\x001d&ecirc;&yuml;\x0000&#138;&micro;\x000b&Ucirc;%&sup3;KI&acirc;&acute;I&#157;&#149;&icirc;e`&ordf;&#132;\x000f&#148;\x0012U&#128;&Eacute;&otilde;\x001d&plusmn;&#145;[&Ntilde;&plusmn;x&Otilde;&#153;\x001a6a&#146;&#141;&#140;&macr;&plusmn;&Aacute;#&ograve;4&uacute;\x0018#&#133;&#135;&Auml;\x0017Q&ecirc;
+&middot;\x001a&Auml;
+&para;&aelig;\x0008&#154;%\x0008\x0010&#135;_&#159;\x0004&uml;l\x0003&Oacute;&Oacute;&frac34;k&cent;&ntilde;\x0005&igrave;&#150;ih\x0005&Iuml;&Oslash;&nbsp;&#154;m&#146;&Yacute;aO&#148;6&#146;&gt;&eth; d&#128;2kb&#144;\x0010z\x001c&ETH;\x0007\x001d6&sup3;z&#151;^R&ecirc;!&yen;&#140;&Agrave;"&#140;D&ordf;/\x0011&plusmn;&frac34;A&#144;O\x001c&#158;\x000e\x00069&Egrave;5&#150;&lt;Kw&ouml;}&szlig;&Ucirc;&egrave;X&Ucirc;&Uuml;I&divide;a&Egrave;dl &ucirc;&iquest;&Auml;?&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. </p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>&lt;?=&#158;&brvbar;n&reg;R\x0017a#&Ecirc;&sup2;&#139;&#153;X&reg;&ntilde;&Ecirc;&#132;8^&frac14;n&icirc;\x0000&atilde;&Ntilde; ~GJH\x0000&#146;p\x0007Rk"&Oacute;&Auml;\x0016&#147;&Iuml;|$&#158;&Ouml;;kR&#128;\\x000b&#128;Q&divide;\x0003&szlig;&#128;\x000f\x0018&AElig;M]&Otilde;m\x001a&yuml;\x0000K&ordm;&acute;I&lt;&para;&#158;&amp;@&thorn;&#153;\x0015&Euml;&Iacute;&aacute;&frac12;R&acirc;&eth;&Yacute;L&#150;K&oacute;F&THORN;L72&AElig;\x001bj\x0014#r&uml;#&#131;&#144;y&ocirc;&Aring;\x0000t&Ccedil;W&Oacute;D&#158;Y&Ocirc;-\x0003&ntilde;&ograve;&ugrave;&Euml;&#158;FG\x0019&ocirc;&aelig;&#151;&ucirc;WN&Ugrave;\x000b&yacute;&frac34;&times;l&ccedil;\x00117&#156;&cedil;&#144;&ccedil;\x0018^y&uuml;+&#151;&#147;&Atilde;:&#128;2$\x0016&uacute;z&Acirc;M&frac34;&Aring;7\x0012\x0012&laquo;\x001b\x0016&Ucirc;&#146;&#132;&#156;&ccedil;\x001d&#127;&Acirc;&#155;?&#134;&micro;&#139;&#132;&#145;X&Oslash;&nbsp;yd&#151;	+g&aelig;&#144;8\x0004&igrave;&Eacute;\x001cc\x001d;&oacute;&Ograve;&#142;&nbsp;up&ecirc;v\x0017\x0012&#152;&nbsp;&frac34;&para;&#150;@	(&#146;&laquo;\x001c\x000e&frac14;\x0003&Uacute;&copy;Zx&#130;&Ograve;y&iuml;&#132;&#147;&Uacute;&Ccedil;mjP\x000b&#129;p</p><p>&gt;&agrave;{&eth;\x0001&atilde;\x0018&Eacute;&not;I&uuml;7&ordf;\&ugrave;&#138;&Acirc;&Ecirc;\x0015&#146;[&#137;\x0019&#146;f$	W\x0003&#141;&#131;8&uacute;&oacute;D&THORN;\x001b&Otilde;./
+&Ocirc;&Eacute;d&iquest;4m&auml;&Atilde;s,a&para;&iexcl;B7*&#130;89\x0007&#159;LP\x0007Q\x001e&sect;a-&Agrave;&middot;&#142;&ouml;&Ugrave;&ccedil;&lt;&#136;&Ouml;U,x&Iuml;L&ccedil;&sect;5h&#144;\x0001$&agrave;\x000e&curren;&Ouml;\x0016&#133;&curren;\i&#151;&times;\x000c&Ntilde;[Gl&eth;&Ccedil;\x001ck\x0014&reg;&igrave;&raquo;s&Ccedil;&Igrave;:|&Yacute;s&Ucirc;&ograve;&Oacute;&Otilde;m\x001a&yuml;\x0000K&ordm;&acute;I&lt;&para;&#158;&amp;@&thorn;&#153;\x0014? [&ecirc;R&acute;&ntilde;\x0005&curren;&oacute;&szlig;	'&micro;&#142;&Uacute;&Ocirc;&nbsp;\x0017\x0002&agrave;\x0014}&Agrave;&divide;&agrave;\x0003&AElig;1&#147;W&times;P&sup3;k&#148;&para;[&uml;\x001aw]&euml;\x0018&#144;\x0016e&otilde;\x0003&Ograve;&sup1;Y&frac14;7&ordf;\^\x001b&copy;&#146;&Eacute;~h&Ucirc;&Eacute;&#134;&aelig;X&Atilde;mB&#132;nU\x0004pr\x000f&gt;&#152;&shy;
+;C&sup1;&plusmn;&Ocirc;m&auml;&#133;m&nbsp;&micro;&#140;|&egrave;&#146;;&ccedil;&auml;&Uacute;\x0000\x000c\x000f#&ucirc;&Agrave;&#142;\x00061@&#142;&#130;Y\x0012\x0018&#158;I\x001dQ\x0010\x0016fs&#128;\x0000&icirc;OaT&Oacute;W&deg;&Ucirc;\x0012&Iacute;}d&#147;:&copy;&Oslash;&middot;</p><p>s&raquo;&brvbar;\x000f\x0019\x0007&plusmn;&Ccedil;5f&eacute;d{Y&#150;\x0010&brvbar;FB\x00149&Agrave;&Icirc;;&#156;\x001f&aring;\&#140;&#158;\x001c&Otilde;&#158;&Ntilde;!&Ugrave;&sect;&icirc;[\x0018&iacute;7y&iuml;&Otilde;\6~&ccedil;|P&middot;&thorn;&frac14;&AElig;k&sect;&#137;m&#159;S&cedil;&#131;}&ordf;&Uacute;[7&#151;-&Atilde;]*&iacute;l\x0003&divide;Ol&#156;g=A&acirc;&macr;K&shy;iP&gt;&Ugrave;&micro;+(&Ucirc;\x0000&aacute;&ccedil;@pFG~&acirc;&plusmn;\x0017G&Otilde;&AElig;&nbsp;&divide;&brvbar;;\x0002&szlig;ii&Ouml;#;&#149;`&Ntilde;&#132; &#157;&#156;\x0011&#140;&#131;&#131;&Ocirc;&#138;&#134;?
+&ecirc;0Z^&Ucirc;Fl&Yacute;f&plusmn;\x0016&uml;&Iacute;#\x000c\x001c&plusmn;&lt;m8\x001f9&Ccedil;?&Acirc;=x:\x0007S&curren;&#143;U&Oacute;&aring;&#145;#&#138;&thorn;&Otilde;&Yacute;&Oslash;&ordf;&ordf;&Igrave;&curren;&plusmn;\x001d@\x0019&ecirc;*\x000b&#159;\x0010iV&eth;&ugrave;&shy;&#127;n&Eacute;&aelig;&not;$&curren;&ordf;v&plusmn;=&ugrave;&atilde;\x001c&#147;&igrave;+\x0007&ucirc;\x0003V&ucirc;K&Ecirc;&deg;&eacute;&Egrave;\x001ax&amp;&Agrave;&#157;&Icirc;\x0004k&middot;\x001f&ecirc;&ucirc;&Ograve;Z&oslash;oT&#128;3&sup3;Z4&#133;&iacute;&auml;\x0000J&Aacute;s\x0013\x001c&#129;&#132;&Acirc;&#130;\x000f\x0000\x000e:{&ETH;\x001d\x000e&#145;u[1jnf&frac14;&sup3;H7&#148;YE&Agrave;(&#127;&agrave;G\x0003&gt;&Ocirc;&yuml;\x0000&iacute;M?&iacute;\x0002\x000f&middot;Z&ugrave;&Auml;&#133;\x0011&ugrave;&Euml;&raquo;$d\x000cg=+\x0002-\x0013T&#141;&Ouml;r&#150;/"&Iuml;p&thorn;KJ&Aring;\x0019e&divide;&Ugrave;&Aacute;\x001d:r3&Ograve;&laquo;'&#134;u+p#&#135;&igrave;R&cent;&#155;m&reg;&ograve;&sup2;&plusmn;\x0011\x001c&#158;6\x001cg&sect;^&#148; gWm{kv&Ograve;&shy;&micro;&Auml;S\x0018&#155;k&#136;&Uuml;6&Oacute;&egrave;qN&ordm;&ordm;&middot;&sup3;&#128;&Iacute;u&lt;pD&frac12;^F</p><p>?3Y&#154;\x000e&#155;u&sect;&frac12;&Agrave;&#156;&Acirc;"`&cent;8&atilde;b&ucirc;q&#156;&ograve;@ s&Acirc;&#146;q&Iuml;&lt;&Ocirc;&uacute;&Yacute;&#148;&times;&Ouml;&#136;&#150;&aacute;&lt;&Ocirc;}&ecirc;ZFB&sect;\x0004d\x0010\x000f&lt;&divide;\x0004c&lt;P&Aacute;\x0012&yuml;\x0000k&eacute;&curren;g&ucirc;B&Oacute;\x001b&para;g&Icirc;_&frac12;&#140;&atilde;&macr;\T&para;&#151;&Ouml;&#151;&ordf;&Iacute;gu\x0005&Acirc;&macr;\x000cb&#144;&gt;&gt;&cedil;&reg;h&egrave;\x001a&not;r+F&Ouml;2&acirc;ky&Eacute;fh&ograve;&Ntilde;&nbsp;R\x0000</p><p>@\x0007\x0019&Iuml;&eacute;[~\x001f&sup2;&#159;O&Ntilde;&agrave;&acute;&ordm;\x0011y&plusmn;d\x0013\x0013\x0016S&#146;Ny\x0003&Ouml;&#152;\x0016&reg;&macr;ml&#149;\x001a&icirc;&acirc;(\x0003&para;&Otilde;28]&Ccedil;&ETH;f&#154;&Uacute;&#141;&#138;&frac14;&Egrave;&times;&#150;&Aacute;&agrave;\x001b&yen;S*&aelig;1&ecirc;&Uuml;&ntilde;&oslash;&Otilde;
+&#127;M&ordm;&iquest;XM&#153;&#133;%@&Atilde;|&#140;F&Uuml;&atilde;&para;\x0008a&Ccedil;*G&lt;r+&amp;?\x000bO\x001bO&frac34;;y&szlig;{&acute;s&frac12;&Ocirc;&Aacute;&#136;g
+&#141;&pound;&#132;9&thorn;!&#158;@&acirc;&#144;\x001dU&frac14;&eth;&Yacute;@&#147;[&Ecirc;&#146;&Auml;&atilde;*&egrave;r\x000f&atilde;M&sup1;&frac14;&micro;&sup3;\x0008n&reg;a&#128;9&Uacute;&frac34;k&#133;&Uuml;}\x0006z&Ocirc;\x001aE&micro;&Aring;&brvbar;&#157;\x001c7n&#143;0,X&sect;NX&#158;&cedil;\x0019&lt;&ograve;p2y&ordf;:&Ouml;&#149;uyw&ccedil;[}&#157;&Ouml;Kg&micro;&#145;'$\x0005\x000cA&Uuml;0\x000eO\x001d8&Iuml;&shy;\x000c\x0011nmgOG1%&yacute;&#129;&cedil;\x000f&sup3;&Ecirc;{&#149;S&#156;&agrave;&#142;&ccedil;&gt;&Oslash;&yen;&ordm;&Ouml;&acute;&Ucirc;V&#146;)5\x001b\x0018&icirc;\x0010&#127;&laquo;&#150;&aacute;P&ccedil;&deg;=&Ccedil;&aring;Xg@&Ocirc;&Ograve;&AElig;&uacute;&THORN;?&sup2;1&#154;x^7y&#152;\x0012&plusmn;&#133;\x001f7&Eacute;&Ocirc;&igrave;\x001e&iquest;x&uacute;s&#152; {&Ucirc;&raquo;&egrave;m&#141;&not;&#147;&Igrave;&divide;1$_i &Aacute;&iquest;!&#157;&#147;&Euml;&Uuml;\x0001&Agrave;&ecirc;&Oslash;&ccedil;&#128;3@/3&sup2;]R&Auml;&Igrave;&deg;\x001b&Ucirc;ApH_(L&yen;&sup2;F@\x0003&shy;+j&#154;z&not;&igrave;&times;&Ouml;&iexcl;`8&#148;&ugrave;&laquo;&ucirc;&sup3;&egrave;&Uuml;&ntilde;&oslash;&times;9&gt;&#131;&laquo;K+&iquest;&#151;`\x000b\x001bc&#159;=&ograve;&lt;&pound;&#147;&yuml;\x0000,&ucirc;&#154;m&sect;&#133;nm&shy;&Acirc;&ugrave;v&iuml;&lt;@*O&ouml;&sup1;&middot;0
+&cedil;\x00100Dg&egrave;\x0018r~&#132;`&#142;&ordm;)\x0012h&#146;X&#157;^7\x0001&#149;&#148;&auml;\x0010{&#138;}U&Oacute;`&#154;&Ucirc;N&middot;&#130;&aacute;&Ntilde;&aelig;&#142;0&not;&Egrave;&iexcl;T&#145;&egrave;\x0000\x001f&Egrave;U&ordf;l\x0010QE\x0014&#128;(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000(&cent;&#138;\x0000&Agrave;&Ocirc;&uuml;E&yacute;&#155;}4S&Ucirc;\x0001\x0004Q&#151;&Uuml;d&Atilde;&Eacute;&#133;&Iuml;&Egrave;&curren;a&#134;x&agrave;&auml;zc&#154;&#130;&szlig;&Auml;&middot;r&Igrave;&#145;&gt;&#146;&ETH;&sup3;&#137;6&#153;]&ETH;1T&Uuml;1&ordm;0H=3&#142;=&euml;Z&atilde;F&deg;&ordm;&cedil;i&ccedil;&#131;&Igrave;v\x00040gb&sect;+&middot;;s&#140;&atilde;&#140;&atilde;5\x0011&eth;&thorn;&#154;b&#142;6&#134;F\x0011&#156;&copy;i&auml;,8&AElig;7\x0016&Icirc;&Uuml;q&#142;&#158;&Ocirc;&ordm;\x000c&Atilde;&#143;&Auml;M
+&Igrave;&times;&brvbar;9&curren;\x0017pZ&acute;V&Ucirc;&Yacute;&Otilde;]&divide;&ocirc;&Agrave;$p9&Acirc;&oacute;&#142;&#149;4&#158;,&ordm;&#138;6&#146;M!&atilde;X&aacute;\x0013&Egrave;&sup2;JQ&Ocirc;o&Oslash;~R&#131;&iquest;#&brvbar;G&yen;ZM\x001f&Atilde;&copy;4&para;&#129;&ETH;&Igrave;&#145;&uml;x&#154;&ntilde;&Euml;&AElig;&#139;&Ecirc;&#156;\x0016&Ecirc;&atilde;&lt;\x0011&#140;g&THORN;&#159;\x001e&#137;&iexcl;jq&acute;&Ntilde;3]#&macr;&#148;&Iuml;\x001d&igrave;&#140;\x0018\x0003&#156;\x0012\x001f&#158;y&aelig;&#152;&#138;&oacute;&oslash;&brvbar;X\x0003Dt&aelig;{&Ntilde;3D!&#141;&Ugrave;&Aacute;&Uacute;&#129;&Eacute;&Ecirc;&iexcl;=\x0018\x000f&raquo;&times;&frac34;9&curren;&yuml;\x0000&#132;&#158;&egrave;&Egrave;W&ucirc;,F&lt;&Egrave;&atilde;&yacute;&igrave;&Aring;X4&#139;&sup1;r&raquo;8&Ccedil;C&eacute;&iuml;We&ETH;&acute;{h&yen;&#154;`&ntilde;(&#127;9&brvbar;{&sup1;\x0001V&AElig;7o-&#145;&Ccedil;\x001d})&deg;&egrave;Z-&szlig;&uacute;D\x001b&yen;Vu&#147;|wr\x0015,&pound;&aring;&lt;68\x0006&#128;"&middot;&times;g&#131;&Acirc;&para;&ordm;&#149;&igrave;"K&#137;&#130;\x0005H&#137;;&Ugrave;&#142;\x0007E&Egrave;&euml;&ETH;\x0003&iacute;&#154;&not;&thorn;+&raquo;&#142;6w&Ograve;\x001a=&#144;&lt;&icirc;%&#149;&#145;&deg;&not;\x0001&Agrave;d\x0004&otilde;\x0004t&Iuml;&micro;k&Atilde;a&yen;&Iacute;&sect;I&brvbar;E&sup2;khN&AElig;&#136;L\&AElig;z&#129;&#156;&aring;H&iacute;&Iuml;\x001d&ordf;)&frac14;5&yen;&Icirc;X&Euml;\x0014&icirc;Z3\x001b\x0013u.YI&Eacute;\x0004&icirc;&ccedil;&nbsp;&euml;&eacute;GP,j&ntilde;G6&#158;&iuml;-&Aring;&Auml;\x0008&ordf;X\x0018$(&Auml;&atilde;&#142;G$&ccedil;&nbsp;&icirc;}k&#154;&#154;&euml;R&#142;\x0019&brvbar;&ordm;&sup1;&#153;.&acute;&oslash;-&#136;&#141;_\x000b#&sup1;&ugrave;&divide;\x0001&Atilde;g&sect;&middot;j&eacute;5\x001bK\x0003i\x0008&frac34;&#153;&aacute;&#134;\x000269&ordm;x&eth;z\x000c&deg;`I&uacute;&#154;\x001bE&deg;i`&#149;&aacute;.&eth;&#128;\x0015&#154;F9&Aacute;&Egrave;&Yacute;&#147;&oacute;`&ograve;7g&#158;h&ecirc;\x001d\x000ea&otilde;&#139;&raquo;\x000bh&micro;/:Y&yen;&ordm;[&#157;&eth;&raquo;&#146;&#136;P&aacute;0?&#135;\x0018\x0000&atilde;\x0019&Iuml;5&sup1;&aacute;&sup1;'\x0006&icirc;&Uacute;&ocirc;&Ecirc;&times;&deg;&sup2;&#153;]&sect;2+&icirc;\&#130;&frac14;\x0000&pound;&macr;\x0000~}jk&#139;
+\x001a&Auml;&Iuml;st-&agrave;[&#128;&Egrave;&iacute;&lt;&cedil;C&raquo;&iuml;\x0000\x0018&agrave;g&frac34;1&#154;&#151;N&plusmn;&Oacute;&aacute;&#133;Z&Aacute;&#139;G&iquest;~&ocirc;&#157;&#159;q&AElig;99;&#134;;\x001c&#142;&#148; f&#141;\x0014Q@\x0005\x0014Q@\x0005\x0014Q@\x0005\x0014Q@\x0005\x0015\x0012&Uuml;B&divide;\x000f\x0002&Iacute;\x001bL&#128;3F\x0018\x0016Pz\x0012:&#138;&#150;&#128;</p><p>*&laquo;j\x0016Iu&ouml;V&frac14;&middot;[&#143;&ugrave;&auml;eP&yuml;\x0000&#150;sV&uml;\x0000&cent;&#138;F`&ordf;Y&#136;U\x0003$&#147;&Agrave;\x0014\x0000&acute;TpO
+&Igrave;+5&frac14;&copy;4O&Ecirc;&frac14;l\x0019O&ETH;&#138;&#146;&#128;</p><p>(&brvbar;E,sF&sup2;D&euml;$m&Egrave;e9\x0007&ntilde;&nbsp;\x0007&Ntilde;E\x0014\x0000QEE&ouml;&#152;&gt;&Oacute;&ouml;o:?&acute;m&szlig;&aring;n\x001b&ouml;&ocirc;&Icirc;:&atilde;&THORN;&#128;%&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&#138;(\x0000&cent;&cent;&#150;&acirc;\x0018\x001a5&#154;h&atilde;2&para;&Auml;\x000e&Agrave;ooA&#158;&brvbar;&yen;&nbsp;\x0002&#138;&#130;{&raquo;kg&#141;'&cedil;&#138;'&#148;&iacute;&#141;]&Acirc;&#151;&gt;&#131;=jF&#150;5&#145;#gQ#&#130;UI&aring;&plusmn;&times;\x0002&#128;\x001fE\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0001E\x0014P\x0007!&uml;}&#152;\x001dR;;&#137;n&igrave;&yen;&para;&#153;&reg;&cent;&#138;O3&Ecirc;&#147;&#140;m&lt;&iacute;'-&#149;&ouml;&eacute;V&lt;%s\x001e&Euml;&sup3;4&Ouml;&iuml;&lt;&sup3;&ordf;&ugrave;&eth;&cedil;&ograve;&sect;;\x00066\x000fP\x0007#&#158;A&uuml;:9&auml;&ograve;`&#146;]&#140;&ucirc;\x0014&para;&Otilde;&AElig;N;\x000c&agrave;Tv7I}c\x0005&Uuml;A&#150;9&atilde;Y\x00147P\x0008&Iuml;4 e?\x0010Em6&#150;&Eacute;ws&ouml;D&oacute;\x0011&#150;b2\x0011&Atilde;\x0002&curren;&ccedil;&#140;dw&acirc;&sup1;iu&frac12;@D&laquo;m=&#141;&uml;&#150;y\x0015&otilde;\x0000&Ucirc;`&#153;&Acirc;&reg;&Ograve;\x000b+\x0001&#158;&atilde;&sup1;S&#131;]&iacute;\x0014\x0001&Acirc;&Ccedil;&laquo;&acute;w&divide;&#159;&eacute;&plusmn;[&ugrave;&times;0&shy;&Iacute;&Auml;X"\x0011&auml;&#142;~a&#128;\x000b
+&sup1;a&Ccedil;&Ouml;&nbsp;&#151;&Auml;w&ntilde;#&frac14;&ordm;&ordf;F&ntilde;&Ucirc;&not;&iexcl;</p><p>F\x0004&#135;&Iacute;*\x000e\x0008&Icirc;\x00190&Oslash;&divide;&Egrave;&Agrave;&macr;A&uml;&#132;&Auml;&Yacute;\x0018|&copy;0\x00107&#153;&#143;&#147;&#147;&Oacute;&gt;&frac14;Q&yacute;~\x0001&ETH;&Ccedil;&ntilde;l&ntilde;/&#133;&icirc;&curren;iP#&ordf;&iacute;b&Atilde;
+&#150;\x0018&Ccedil;&shy;Q&Ograve;5mB&oacute;&Auml;2&curren;&#151;V&cent;&Uuml;I"}&#151;~d&Uacute;9G\x0000&amp;pG9,A&Iuml;\x0018&reg;&reg;&cent;&cedil;&cedil;&#138;&Uacute;/2w\x0008&#155;&#130;&auml;&uacute;&#147;&#128;?3B&Uuml;:\x001c&thorn;&sect;4v~-&micro;&ordm;&Ocirc;\x0019c&sup2;&ucirc;+$3H?w\x001c&yen;&sup1;&Eacute;&egrave;	\x0018&auml;&acirc;&sup2;&cent;&Otilde;&reg;&pound;&#135;&#155;&Euml;{\x000bi&#158;&aacute;&pound;&sup1;&#130;\x000c$&#142;&curren;m&ucirc;&aring;&#135;&Iacute;&Euml;q&times;&micro;wTR\x0003&#134;]sP\x0013G
+&Yacute;&ucirc;[N&divide;6&agrave;&Auml;Q\x0001X&auml;@Xr&frac12;\x0003\x0012\x0001?BMI6&laquo;&laquo;C&sect;&Icirc;&Euml;v&iuml;5&#147;&ugrave;\x0017,&ntilde;&cent;&uml;&amp;N\x001f&#132;8&Acirc;s&ETH;&#142;A &acirc;&raquo;Zdn&Icirc;\x001btm\x001e\x0018&#129;&raquo;\x001c&#143;^	&agrave;&thorn;t&Agrave;&acirc;"&Otilde;&iuml;&#154;&atilde;&Eacute;&cedil;&ntilde;\x0004*V&Ograve;Y&middot;&Ucirc;\x0018&#153;X&laquo;|&frac14;&acute;c&lt;g8\x0018&ugrave;x&Ccedil;5]|M&#127;&aring;,i&copy;&Atilde;+I\x001d&raquo;&Eacute;3&#148;_#xm&uuml;&#133; \x000c&#133;\x0019*q&raquo;&THORN;&frac12;</p><p>&#138;\x0000&oacute;&Ucirc;&#143;\x0011j\x0016&THORN;o&#153;&reg;[\x0019&cent;&#138;\x0016&Ucirc;\x0018&#140;&curren;&#140;\&laquo;`&#149;\x0004&#141;&cedil;n=r\x000e)&ograve;x&#139;P&#146;V&micro;&micro;&Otilde;mB$&Ograve;&cent;&THORN;N&egrave;&ordf;&oslash;&Ucirc;&micro;I\x0008G &#158;&#128;g\x001c\x001e+&frac14;getQ\x001b0l&aring;&#134;0&iquest;\&#156;&thorn;Y&sect;&ETH;\x0007\x00045&euml;&sect;&cedil;x&#155;YRd&cedil;&#150;\x0001\x001a&#136;&Aacute;Q&aring;n\x0004|&nbsp;&auml;?\x0003?&Icirc;&ordm;O\x000b&Uuml;&Aacute;.&#135;c\x0012^&yen;&Igrave;&Euml;n&#140;&atilde;z&#150;\&#142;&agrave;z\x001c&#143;&Atilde;&Ouml;&para;k"mN&THORN;\x000b&ucirc;&Agrave;mn\x001a{t&#143;q\x0005p&Ecirc;&auml;&atilde;n[&Ocirc;\x001c&#142;	&Agrave;&euml;&Aring;\x000b&deg;&gt;&aelig;&gt;&middot;&copy;&yen;&#150;&iquest;zc&raquo;Xf\x0016p&reg;Wie&Igrave;&sect;?{&#129;&Atilde;\x000eOL&ccedil;\x0006&para;&lt;3{6&iexcl;&iexcl;&Aring;5&Igrave;&#139;%&Agrave;gGa&#142;&iexcl;&#136;&ccedil;\x0000s&#140;v\x0015r&Acirc;&yacute;/&#141;&Egrave;H&auml;&#141;&shy;&aelig;0&cedil;&#147;\x001d@\x0007#\x0004&ntilde;&#130;*&Auml;&#142;&Egrave;&nbsp;&not;m!&Egrave;\x0018\dd&otilde;&auml;&#142;&#157;h&eacute;`{&#156;&reg;&#129;=&#138;&eacute;CO&iquest;U}LN&Iacute;5&raquo;\x000f&THORN;&frac14;&#155;&Eacute;\x000f&#142;&curren;t;&ordm;b&sup3;&aring;&times;u6&acute;y&iexcl;&frac34;c*&Auml;&ograve;\&Acirc;"O&ocirc;FW\x0003i&ugrave;s&#130;	&euml;&#147;&AElig;A&reg;&ouml;&#138;\x0000&acirc;"&times;&amp;&ordm;&times;R&Icirc;=p&not;r^&lt;j\x0014E&#147;\x001f&#150;\x0019q&#149;&eacute;&raquo;&#128;{&ucirc;&Ouml;&yuml;\x0000&#136;od&sup2;&#142;&ETH;\x000b&#143;&sup2;C4&Acirc;9&reg;v&#131;&aring;.	\x001dA\x0003$\x0001&#146;;&Ouml;&sup1; u f&#150;&#142;&#150;\x0003&Icirc;t}^&yuml;\x0000&Ecirc;&sup3;&acute;&acute;&frac34;&micro;&#130;$\x0019\x001ek\x0001&ccedil;&#147;#n\x0000lb[\x0018&agrave;\x0010FGZ&iquest;{&ordf;j6&uacute;}&ouml;&iacute;VX&icirc;4&acirc;&euml;+&acute;q\x0001!f\x001eWU&Ccedil;&Yacute;&ocirc;&reg;&THORN;&#144;&#144;\x0001$&agrave;\x000e&ocirc;\x0001&AElig;\kW\x0016&Uacute;&auml;\x0016&szlig;&Uacute;&igrave;&ouml;&curren;&#133;&#146;I\x0004J0&Ntilde;&sup3;\x0006\x0004/&lt;&atilde;\x0007&#129;&Ucirc;\x0007&#147;N&eth;&aring;&uuml;&ordm;&#134;&macr;cq&gt;&nbsp;&Ograve;&lt;&ordm;~ve\x0002&raquo;o!&cedil;\x0003&macr;\x0000&#156;&#127;*&igrave;&copy;&#145;;:\x0006h&Uacute;3&Iuml;&Ecirc;&Oslash;&Egrave;&uuml;&#137;\x0014 9&#127;\x0012jwV:&#156;&#145;E&copy;&#155;`l&Igrave;&deg;&Auml;Q\x001b&Igrave;&#148;6\x0002&#140;&#140;&#156;&uacute;u&ocirc;&not;&divide;&Ouml;&otilde;/"&aelig;T&Ocirc;&Aacute;&Ugrave;z-&szlig;q&#141;R&Yacute;</p><p>&#131;&#146;&Aacute;\x000e&gt;l&reg;H#&ntilde;&aelig;&ordm;&Oacute;&sect;)&Ouml;\x0006&pound;&ccedil;&Iacute;&aelig;\x0008&frac14;&#159;+&aring;&Ugrave;&middot;9&ocirc;&Icirc;s&iuml;Ve&cedil;&#138;)a&#138;G</p><p>&oacute;1X&times;&raquo;\x0010	?&nbsp;4-&iquest;&reg;&agrave;&yuml;\x0000&macr;&cedil;&aacute;_&Auml;7&Ouml;&Icirc;&thorn;~&middot;l&iuml;</p><p>@&Aring;#&ograve;&Igrave;r\x0016&#144;&laquo;`&#149;\x0007\x001bp&Uuml;z&auml;qT&icirc;&micro;&eacute;|&Ntilde;~ue&#138;&divide;&igrave;r&acirc;2&uml;&lt;&#151;&oacute;\x0013&divide;`\x0011&Iuml;\x0003&frac34;O\x0019&macr;K&ordf;wW&eacute;kyin&ntilde;J&AElig;&eacute;&#153;\x0011&times;\x001bA</p><p>[\x0007'=\x0001&iacute;@\x001c&Uuml;Z&#150;&yen;&yuml;\x0000	</p><p>Z&#141;F\x0006&middot;F&#143;j&Icirc;&Ecirc;\x001e&aelig;6\x0019,&iexcl;c&ugrave;&sup1;&lt;\x0010@\x001by\x001d&ecirc;&yuml;\x0000&#138;&micro;\x000b&Ucirc;%&sup3;KI&acirc;&acute;I&#157;&#149;&icirc;e`&ordf;&#132;\x000f&#148;\x0012U&#128;&Eacute;&otilde;\x001d&plusmn;&#145;[&Ntilde;&plusmn;x&Otilde;&#153;\x001a6a&#146;&#141;&#140;&macr;&plusmn;&Aacute;#&ograve;4&uacute;\x0018#&#133;&#135;&Auml;\x0017Q&ecirc;</p><p>&middot;\x001a&Auml;
+&para;&aelig;\x0008&#154;%\x0008\x0010&#135;_&#159;\x0004&uml;l\x0003&Oacute;&Oacute;&frac34;k&cent;&ntilde;\x0005&igrave;&#150;ih\x0005&Iuml;&Oslash;&nbsp;&#154;m&#146;&Yacute;aO&#148;6&#146;&gt;&eth; d&#128;2kb&#144;\x0010z\x001c&ETH;\x0007\x001d6&sup3;z&#151;^R&ecirc;!&yen;&#140;&Agrave;"&#140;D&ordf;/\x0011&plusmn;&frac34;A&#144;O\x001c&#158;\x000e\x00069&Egrave;5&#150;&lt;Kw&ouml;}&szlig;&Ucirc;&egrave;X&Ucirc;&Uuml;I&divide;a&Egrave;dl &ucirc;&iquest;&Auml;?&gt;</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://blogs.wsj.com/cio/2013/10/08/adobe-source-code-leak-is-bad-news-for-u-s-government/</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">540</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-medium">
+                <th width="20%"><a name="medium"></a>Medium (Medium)</th><th width="80%">Vulnerable JS Library</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The identified library jquery, version 3.2.1 is vulnerable.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/javascript/jquery.js?1615549973</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">* jQuery JavaScript Library v3.2.1</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">1</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Please upgrade to the latest version of jquery.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>CVE-2020-11023</p><p>CVE-2020-11022</p><p>CVE-2019-11358</p><p></p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</p><p>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</p><p>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</p><p>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</p><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">829</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Absence of Anti-CSRF Tokens</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>No Anti-CSRF tokens were found in a HTML submission form.</p><p>A cross-site request forgery is an attack that involves forcing a victim to send an HTTP request to a target destination without their knowledge or intent in order to perform an action as the victim. The underlying cause is application functionality using predictable URL/form actions in a repeatable way. The nature of the attack is that CSRF exploits the trust that a web site has for a user. By contrast, cross-site scripting (XSS) exploits the trust that a user has for a web site. Like XSS, CSRF attacks are not necessarily cross-site, but they can be. Cross-site request forgery is also known as CSRF, XSRF, one-click attack, session riding, confused deputy, and sea surf.</p><p></p><p>CSRF attacks are effective in a number of situations, including:</p><p>    * The victim has an active session on the target site.</p><p>    * The victim is authenticated via HTTP auth on the target site.</p><p>    * The victim is on the same local network as the target site.</p><p></p><p>CSRF has primarily been used to perform an action against a target site using the victim's privileges, but recent techniques have been discovered to disclose information by gaining access to the response. The risk of information disclosure is dramatically increased when the target site is vulnerable to XSS, because XSS can be used as a platform for CSRF, allowing the attack to operate within the bounds of the same-origin policy.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/mediatheque.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;form id="searchform" action="spip.php?page=recherche" method="get"&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Phase: Architecture and Design</p><p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.</p><p>For example, use anti-CSRF packages such as the OWASP CSRFGuard.</p><p></p><p>Phase: Implementation</p><p>Ensure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.</p><p></p><p>Phase: Architecture and Design</p><p>Generate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).</p><p>Note that this can be bypassed using XSS.</p><p></p><p>Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.</p><p>Note that this can be bypassed using XSS.</p><p></p><p>Use the ESAPI Session Management control.</p><p>This control includes a component for CSRF.</p><p></p><p>Do not use the GET method for any request that triggers a state change.</p><p></p><p>Phase: Implementation</p><p>Check the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>No known Anti-CSRF token [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret, __csrf_magic, CSRF] was found in the following HTML form: [Form 1: "page" "recherche" ].</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/Cross-Site-Request-Forgery</p><p>http://cwe.mitre.org/data/definitions/352.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">352</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">9</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Big Redirect Detected (Potential Sensitive Information Leak)</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The server has responded with a redirect that seems to provide a large response. This may indicate that although the server sent a redirect it also responded with body content (which may include sensitive details, PII, etc.).</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plan-du-site.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/ecrire/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">5</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that no sensitive information is leaked via redirect responses. Redirect responses should have almost no content.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>Location header URI length: 40 [https://cnaop.gouv.fr/spip.php?page=plan].</p><p>Predicted response size: 340.</p><p>Response Body Length: 407.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">201</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Cookie No HttpOnly Flag</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A cookie has been set without the HttpOnly flag, which means that the cookie can be accessed by JavaScript. If a malicious script can be run on this page then the cookie will be accessible and can be transmitted to another site. If this is a session cookie then session hijacking may be possible.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">PHPSESSID</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: PHPSESSID</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">7</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that the HttpOnly flag is set for all cookies.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://owasp.org/www-community/HttpOnly</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Cookie Without SameSite Attribute</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A cookie has been set without the SameSite attribute, which means that the cookie can be sent as a result of a 'cross-site' request. The SameSite attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=contact</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_session</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_session</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/robots.txt</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: BIGipServerpool-dicom-cnaop-preprod.cegedim.cloud-HTTP</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">PHPSESSID</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: PHPSESSID</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that the SameSite attribute is set to either 'lax' or ideally 'strict' for all cookies.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Cookie Without Secure Flag</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A cookie has been set without the secure flag, which means that the cookie can be accessed via unencrypted connections.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">spip_lang_ecrire</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: spip_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">PHPSESSID</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Set-Cookie: PHPSESSID</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">7</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Whenever a cookie contains sensitive information or is a session token, then it should always be passed using an encrypted channel. Ensure that the secure flag is set for cookies containing such sensitive information.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/06-Session_Management_Testing/02-Testing_for_Cookies_Attributes.html</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">614</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Low)</th><th width="80%">Dangerous JS Functions</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A dangerous JS function seems to be in use that would leave the site vulnerable.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/squelettes/script/dimensions.js</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins/tarteaucitron/lib/tarteaucitron/tarteaucitron.js</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/javascript/jquery.form.js?1615549973</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins-dist/mediabox/javascript/jquery.colorbox.js?1615549973</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/javascript/jquery.js?1615549973</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">Eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/javascript/ajaxCallback.js?1615549973</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">eval</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">6</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>See the references for security advice on the use of these functions.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://angular.io/guide/security</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">749</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Feature Policy Header Not Set</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Feature Policy Header is an added layer of security that helps to restrict from unauthorized access or usage of browser/client features by web resources. This policy ensures the user privacy by limiting or specifying the features of the browsers can be used by the web resources. Feature Policy provides a set of standard HTTP headers that allow website owners to limit which features of browsers can be used by the page such as camera, microphone, location, full screen etc.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that your web server, application server, load balancer, etc. is configured to set the Feature-Policy header.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy</p><p>https://developers.google.com/web/updates/2018/06/feature-policy</p><p>https://scotthelme.co.uk/a-new-security-header-feature-policy/</p><p>https://w3c.github.io/webappsec-feature-policy/</p><p>https://www.smashingmagazine.com/2018/12/feature-policy/</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Incomplete or No Cache-control and Pragma HTTP Header Set</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/sitemap.xml</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/robots.txt</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cache-Control</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#web-content-caching</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">525</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (Medium)</th><th width="80%">Insufficient Site Isolation Against Spectre Vulnerability</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Cross-Origin-Embedder-Policy header is a response header that prevents a document from loading any cross-origin resources that don't explicitly grant the document permission (using CORP or CORS).</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Flang%3Dfr%26amp%3Bpage%3Dspip_pass</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Embedder-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Drecherche%26amp%3Brecherche%3DRechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Resource-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Embedder-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Drecherche%26amp%3Brecherche%3DRechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Embedder-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Resource-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Flang%3Dfr%26amp%3Bpage%3Dspip_pass</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Opener-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Dplan</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Opener-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Dplan</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Resource-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Opener-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Drecherche%26amp%3Brecherche%3DRechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Opener-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Fpage%3Dplan</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Embedder-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fspip.php%3Flang%3Dfr%26amp%3Bpage%3Dspip_pass</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">Cross-Origin-Resource-Policy</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">12</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that the application/web server sets the Cross-Origin-Embedder-Policy header appropriately, and that it sets the Cross-Origin-Embedder-Policy header to 'require-corp' for documents.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Embedder-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-embedder-policy).</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">14</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-low">
+                <a name="low"></a><th width="20%">Low (High)</th><th width="80%">Strict-Transport-Security Header Not Set</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified in RFC 6797.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-css/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-js/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins-dist/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/squelettes/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fpresentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/squelettes-dist/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">12</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure that your web server, application server, load balancer, etc. is configured to enforce Strict-Transport-Security.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html</p><p>https://owasp.org/www-community/Security_Headers</p><p>http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security</p><p>http://caniuse.com/stricttransportsecurity</p><p>http://tools.ietf.org/html/rfc6797</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">16</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">15</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Base64 Disclosure</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>Base64 encoded data was disclosed by the application/web server. Note: in the interests of performance not all base64 strings in the response were analyzed individually, the entire response should be looked at by the analyst/security team/developer(s).</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">P852gJeB5fUU8g0qJlLL3fNyljz02V33fQ0zoExT8/4bSIR2eROrh7EpA/65ArMpEK/krTyc04P0nWtjhYk1DGI0kT0=</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/robots.txt</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">jowjIvHYAy7PwfEqJlLL3fNyljz02W/6dYLPimYr5ninHAqx7ndvYzspT/6OA5gfw5d9aIjarAHfaEldfyPycNis6vM=</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">org/TR/xhtml1/DTD/xhtml1-strict</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">JqezRMrJdRbIkb0qJlLL3fNyljz02a5dS5Wk/cS0J4hDqHv9Kq4qDI1s33EboHOdUKY0sYxGBPKwJSaB5wefojSaVkY=</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">12</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Manually confirm that the Base64 data does not leak sensitive information, and that the data cannot be aggregated/used to exploit other vulnerabilities.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>��?M\x001f�٥���\x000f�a�iu��k��</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/w/page/13246936/Information%20Leakage</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Content-Type Header Missing</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The Content-Type header was either missing or empty.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-js/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-css/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fpresentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/squelettes-dist/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins-dist/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/squelettes/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/prive/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/oembed.api/?format=json&amp;url=https%3A%2F%2Fcnaop.gouv.fr%2Fle-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">12</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Ensure each page is setting the specific and appropriate content-type value for the content being delivered.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">345</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">12</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">Cookie Poisoning</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>This check looks at user-supplied input in query string parameters and POST data to identify where cookie parameters might be controlled. This is called a cookie poisoning attack, and becomes exploitable when an attacker can manipulate the cookie in various ways. In some cases this will not be exploitable, however, allowing URL parameters to set cookie values is generally considered a bug.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin%26url%3D%252Fecrire%252F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">POST</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">var_lang_ecrire</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">6</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>An attacker may be able to poison cookie values through POST parameters. To test if this is a more serious issue, you should try resending that request as a GET, with the POST parameter included as a query string parameter. For example:  http://nottrusted.com/page?value=maliciousInput.</p><p></p><p>This was identified at:</p><p></p><p>https://cnaop.gouv.fr/spip.php?action=converser&amp;redirect=spip.php%3Fpage%3Dlogin</p><p></p><p>User-input was found in the following cookie:</p><p>spip_lang_ecrire=fr; expires=Fri, 18-Mar-2022 19:12:15 GMT; Max-Age=31536000; path=/</p><p></p><p>The user input was:</p><p>var_lang_ecrire=fr</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://websecuritytool.codeplex.com/wikipage?title=Checks#user-controlled-cookie</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">20</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">20</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">Information Disclosure - Suspicious Comments</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/mediatheque.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">user</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>The following pattern was used: \bUSER\b and was detected in the element starting with: "&lt;script type="text/javascript"&gt;tarteaucitron.user.gajsUa = 'UA-5713943-1';</p><p>tarteaucitron.user.gajsMore = function () { /* add he", see evidence field for the suspicious comment/snippet.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Modern Web Application</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presentation-du-cnaop-4.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-partenaires.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/mediatheque.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-conseil.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-rapports-d-activite.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/les-correspondants-departementaux-13.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-secretariat-general.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/presse-communication.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/le-cnaop.html</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">&lt;a name="formulaire_recherche" id="formulaire_recherche"&gt;&lt;/a&gt;</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">11</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>This is an informational alert and so no changes are required.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>Links have been found that do not have traditional href attributes, which is an indication that this is a modern web application.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p></p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Non-Storable Content</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-css/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">403</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/cache-js/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">403</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/lib/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">no-store</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/local/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">403</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">403</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/ecrire/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">302</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/plugins-dist/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">403</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">7</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>The content may be marked as storable by ensuring that the following conditions are satisfied:</p><p>The request method must be understood by the cache and defined as being cacheable ("GET", "HEAD", and "POST" are currently defined as cacheable)</p><p>The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)</p><p>The "no-store" cache directive must not appear in the request or response header fields</p><p>For caching by "shared" caches such as "proxy" caches, the "private" response directive must not appear in the response</p><p>For caching by "shared" caches such as "proxy" caches, the "Authorization" header field must not appear in the request, unless the response explicitly allows it (using one of the "must-revalidate", "public", or "s-maxage" Cache-Control response directives)</p><p>In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:</p><p>It must contain an "Expires" header field</p><p>It must contain a "max-age" response directive</p><p>For "shared" caches such as "proxy" caches, it must contain a "s-maxage" response directive</p><p>It must contain a "Cache Control Extension" that allows it to be cached</p><p>It must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).   </p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://tools.ietf.org/html/rfc7234</p><p>https://tools.ietf.org/html/rfc7231</p><p>http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">524</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Medium)</th><th width="80%">Storable and Cacheable Content</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users.  If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where "shared" caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/robots.txt</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/sitemap.xml</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">4</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:</p><p>Cache-Control: no-cache, no-store, must-revalidate, private</p><p>Pragma: no-cache</p><p>Expires: 0</p><p>This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request. </p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>https://tools.ietf.org/html/rfc7234</p><p>https://tools.ietf.org/html/rfc7231</p><p>http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">524</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">Timestamp Disclosure - Unix</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>A timestamp was disclosed by the application/web server - Unix</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">1615549973</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Evidence</td><td width="80%">1593502084</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">2</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>1615549973, which evaluates to: 2021-03-12 11:52:53</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://projects.webappsec.org/w/page/13246936/Information%20Leakage</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">200</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">13</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+        <div class="spacer"></div>
+        <table width="100%" class="results">
+              
+  
+  
+  
+            <tr height="24" class="risk-info">
+                <th width="20%"><a name="info"></a>Informational (Low)</th><th width="80%">User Controllable HTML Element Attribute (Potential XSS)</th>
+            </tr>
+              
+  
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Description</td><td width="80%"><p>This check looks at user-supplied input in query string parameters and POST data to identify where certain HTML attribute values might be controlled. This provides hot-spot detection for XSS (cross-site scripting) that will require further review by a security analyst to determine exploitability.</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">recherche</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">recherche</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=login&amp;url=%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">page</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent1">URL</td><td width="80%">https://cnaop.gouv.fr/spip.php?page=login&amp;url=%2Fecrire%2F</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Method</td><td width="80%">GET</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%" class="indent2">Parameter</td><td width="80%">url</td>
+            </tr>
+              
+  
+  
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Instances</td><td width="80%">10</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Solution</td><td width="80%"><p>Validate all input and sanitize output it before writing to any HTML attributes.</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Other information</td><td width="80%"><p>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</p><p></p><p>https://cnaop.gouv.fr/spip.php?page=recherche&amp;recherche=Rechercher</p><p></p><p>appears to include user input in: </p><p></p><p>a(n) [input] tag [value] attribute </p><p></p><p>The user input found was:</p><p>page=recherche</p><p></p><p>The user-controlled value was:</p><p>recherche</p></td>
+            </tr>
+            <TR vAlign="top">
+                <TD colspan="2"></TD>
+            </TR>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Reference</td><td width="80%"><p>http://websecuritytool.codeplex.com/wikipage?title=Checks#user-controlled-html-attribute</p></td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">CWE Id</td><td width="80%">20</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">WASC Id</td><td width="80%">20</td>
+            </tr>
+              
+            <tr bgcolor="#e8e8e8">
+                <td width="20%">Source ID</td><td width="80%">3</td>
+            </tr>
+            
+        </table>
+    </body>
+</html>

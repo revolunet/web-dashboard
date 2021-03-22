@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import Flags from "country-flag-icons/react/3x2";
 
 import { Panel } from "./Panel";
@@ -7,9 +7,6 @@ import { Panel } from "./Panel";
 type GeoIPProps = { data: any };
 
 export const GeoIP: React.FC<GeoIPProps> = ({ data }) => {
-  console.log("data", data);
-  const rows = data;
-  const hasResults = true; //data.result && data.result.length;
   return (
     (data.length && (
       <Panel title="GeoIP" info="Géolocalisation des requêtes de la page">
@@ -25,12 +22,15 @@ export const GeoIP: React.FC<GeoIPProps> = ({ data }) => {
           </thead>
           <tbody>
             {data.flatMap(
-              (row: any) =>
+              (row: any, i: number) =>
                 row.result &&
-                row.result.map((host: any, i: number) => {
-                  const Flag = Flags[host.geoip.country.iso_code];
+                row.result.map((host: any, j: number) => {
+                  const Flag =
+                    (host.geoip.country &&
+                      Flags[host.geoip.country.iso_code]) ||
+                    null;
                   return (
-                    <tr key={host.hostname}>
+                    <tr key={host.hostname + "-" + i + "-" + j}>
                       <td className="text-center">
                         {Flag && (
                           <Flag
@@ -45,7 +45,10 @@ export const GeoIP: React.FC<GeoIPProps> = ({ data }) => {
                         {(host.geoip.city && host.geoip.city.names.fr) || "?"}
                       </td>
 
-                      <td>{host.geoip.country.names.fr}</td>
+                      <td>
+                        {(host.geoip.country && host.geoip.country.names.fr) ||
+                          "?"}
+                      </td>
                     </tr>
                   );
                 })

@@ -8,25 +8,20 @@ import { Grade } from "./Grade";
 type SSLProps = { data: any };
 
 export const SSL: React.FC<SSLProps> = ({ data }) => {
-  const firstGrade =
-    data.length &&
-    data[0].result.endpoints &&
-    data[0].result.endpoints.length &&
-    data[0].result.endpoints[0].grade;
   const url =
     (data.length &&
-      data[0].result.endpoints &&
-      `https://www.ssllabs.com/ssltest/analyze.html?d=${data[0].url}`) ||
+      data[0].endpoints &&
+      `https://www.ssllabs.com/ssltest/analyze.html?d=${data[0].host}`) ||
     null;
   return (
     url && (
       <Panel title="SSL" info="Informations collectées via SSLlabs" url={url}>
-        {data.map((row: any) => {
+        {data.map((row: any, i: number) => {
           return (
-            <React.Fragment key={row.url}>
+            <React.Fragment key={row.url + i}>
               <Row>
                 <Col>
-                  {row.result.endpoints.map((endpoint: any, i: number) => {
+                  {row.endpoints.map((endpoint: any, i: number) => {
                     return (
                       <div key={endpoint.host + i}>
                         {endpoint.host}
