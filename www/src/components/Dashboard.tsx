@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Alert, Table } from "react-bootstrap";
-import { ExternalLink, Slash, Info } from "react-feather";
+import { ExternalLink, Slash, Info, Search } from "react-feather";
 import { Link } from "react-router-dom";
 import Tooltip from "rc-tooltip";
 
@@ -202,7 +202,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
             return (
               <tr key={key}>
                 <td>
-                  <Link to={`/url/${key}`}>{smallUrl(key)}</Link>
+                  <Link to={`/url/${key}`}>
+                    <Search size={16} /> {smallUrl(key)}
+                  </Link>
                 </td>
                 <td className="text-center">
                   {lhrCategories ? (
