@@ -9,6 +9,7 @@ const requireJson = (resultsPath, filename) => {
   try {
     return require(path.join("..", "..", resultsPath, filename));
   } catch (e) {
+    console.error("e", e);
     return [];
   }
 };
