@@ -58,3 +58,7 @@ https://travail-emploi.gouv.fr
 https://www.ars.sante.fr
 https://www.associations.gouv.fr
 https://www.egalite-femmes-hommes.gouv.fr
+https://www.telerc.travail.gouv.fr
+https://election-tpe.travail.gouv.fr
+https://www.teleaccords.travail-emploi.gouv.fr
+https://www.sipsi.travail.gouv.fr
