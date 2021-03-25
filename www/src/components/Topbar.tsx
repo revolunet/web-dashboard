@@ -18,7 +18,7 @@ export const Topbar = () => (
         style={{ height: 30, fontSize: "1.3rem", color: "var(--white)" }}
       >
         <Cloud size={16} style={{ marginTop: -5, marginRight: 10 }} />
-        Météo apps
+        MétéoMapps
       </div>
     </Link>
     {/*<FormControl

@@ -91,21 +91,19 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({ title, info }) => (
 );
 
 export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
-  console.log("report", report);
-
   return (
     <div>
       <br />
       <Alert variant="info">
         Cliquez sur une des URLs pour obtenir le détail puis sur{" "}
-        <ExternalLink size={16} /> pour accéder au rapport par produit. Pour
-        ajouter votre URL, éditez{" "}
+        <ExternalLink size={16} /> pour accéder au rapport par produit. Si votre
+        URL est manquante,{" "}
         <a
-          href="https://github.com/SocialGouv/dnum-dashboard/edit/master/urls.txt"
+          href="https://github.com/SocialGouv/dnum-dashboard/issues/new"
           target="_blank"
           rel="noreferrer noopener"
         >
-          ce fichier
+          ajoutez-là ici
         </a>
         .
       </Alert>
@@ -264,102 +262,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ report }) => {
               </tr>
             );
           })}
-        </tbody>
-      </Table>
-      <br />
-      <br />
-      <h3>Methodology</h3>
-      <p>
-        This dashboard is based on third-parties tools and is generated once a
-        week.
-      </p>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>tool</th>
-            <th>usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <a
-                href="https://developers.google.com/web/tools/lighthouse"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Google LightHouse
-              </a>
-            </td>
-            <td>Automated tool for improving the quality of web pages.</td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://www.zaproxy.org/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                ZA proxy
-              </a>
-            </td>
-            <td>
-              Run OWASP ZAP Baseline scan to find vulnerabilities in your web
-              application.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://www.ssllabs.com/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                SSLLabs
-              </a>
-            </td>
-            <td>Deep analysis of SSL configuration</td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://observatory.mozilla.org/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Mozilla HTTP observatory
-              </a>
-            </td>
-            <td>Mozilla's web security guidelines scan</td>
-          </tr>
-          <tr>
-            <td>Trackers</td>
-            <td>Extract third-parties requests and cookies</td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://nuclei.projectdiscovery.io/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Nuclei
-              </a>
-            </td>
-            <td>Scan server misconfigurations</td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://www.maxmind.com"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                GeoIP
-              </a>
-            </td>
-            <td>MaxMind GeoIP detection for all requests</td>
-          </tr>
         </tbody>
       </Table>
     </div>

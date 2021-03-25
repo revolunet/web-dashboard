@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { Home, Search } from "react-feather";
+import { Home, BarChart, Search } from "react-feather";
 
 import { smallUrl } from "../utils";
 
@@ -23,6 +23,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ urls }) => {
               exact={true}
             >
               <Home size={16} style={{ marginTop: -5, marginRight: 5 }} />
+              Accueil
+            </NavLink>
+            <NavLink
+              to="/dashboard"
+              className="nav-link"
+              activeClassName="active"
+              exact={true}
+            >
+              <BarChart size={16} style={{ marginTop: -5, marginRight: 5 }} />
               Tableau de bord
             </NavLink>
           </li>

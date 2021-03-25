@@ -10,6 +10,7 @@ import { Sidebar } from "./components/Sidebar";
 import { Topbar } from "./components/Topbar";
 import { Dashboard } from "./components/Dashboard";
 import { Url } from "./components/Url";
+import { Intro } from "./components/Intro";
 
 const App = () => {
   const urls = Object.keys(report);
@@ -25,8 +26,11 @@ const App = () => {
                 <Route path="/url/*">
                   <Url report={report} />
                 </Route>
-                <Route path="/">
+                <Route path="/dashboard">
                   <Dashboard report={report} />
+                </Route>
+                <Route path="/">
+                  <Intro />
                 </Route>
               </Switch>
             </main>
