@@ -83,13 +83,13 @@ jobs:
       - name: Mozilla HTTP scan
         shell: bash
         run: |
-          SCAN_OUTPUT=scans/ssl.json
+          SCAN_OUTPUT=scans/http.json
           node src/http/scan.js ${{ matrix.url }} > $SCAN_OUTPUT
 
       - name: Third parties scan
         shell: bash
         run: |
-          SCAN_OUTPUT=scans/ssl.json
+          SCAN_OUTPUT=scans/thirdparties.json
           node src/thirdparties/scan.js ${{ matrix.url }} > $SCAN_OUTPUT
 
       - name: Nuclei scan
@@ -108,6 +108,12 @@ jobs:
           name: zap
           path: zap
 
+      - name: Download lighthouse
+        uses: actions/download-artifact@v2
+        with:
+          name: lighthouse-results
+          path: lighthouse-results
+
       - name: Save results
         run: |
           ls
@@ -115,6 +121,8 @@ jobs:
           ls results
           echo "scans:"
           ls scans
+          echo "lighthouse-results:"
+          ls lighthouse-results
           slugify () {
               echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
           }
