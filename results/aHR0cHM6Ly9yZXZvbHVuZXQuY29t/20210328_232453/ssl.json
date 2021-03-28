@@ -1,0 +1,26 @@
+{
+  "host": "revolunet.com",
+  "port": 443,
+  "protocol": "http",
+  "isPublic": false,
+  "status": "READY",
+  "startTime": 1616973559131,
+  "testTime": 1616973706477,
+  "engineVersion": "2.1.8",
+  "criteriaVersion": "2009q",
+  "endpoints": [
+    {
+      "ipAddress": "54.36.98.5",
+      "serverName": "5.ip-54-36-98.eu",
+      "statusMessage": "Ready",
+      "grade": "B",
+      "gradeTrustIgnored": "B",
+      "hasWarnings": true,
+      "isExceptional": false,
+      "progress": 100,
+      "duration": 146590,
+      "eta": 0,
+      "delegation": 1
+    }
+  ]
+}
