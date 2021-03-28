@@ -6,7 +6,7 @@ name: Scans
 jobs:
   init:
     runs-on: ubuntu-latest
-    name: Scan
+    name: Prepare
     outputs:
       urls: ${{ steps.parse-urls.outputs.urls }}
       urls_json: ${{ steps.parse-urls.outputs.urls_json }}
@@ -27,6 +27,7 @@ jobs:
           URLS="${URLS//$'\r'/'%0D'}"
 
           URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
+          echo $URLS
 
           echo "::set-output name=urls_json::$URLS_JSON"
           echo "::set-output name=urls::$URLS"
@@ -34,14 +35,14 @@ jobs:
 
   scans:
     runs-on: ubuntu-latest
-    name: Zap scan
+    name: Scans
     needs: init
     continue-on-error: true
     strategy:
       fail-fast: false
       max-parallel: 3
       matrix:
-        url: ${{fromJson(needs.scans.outputs.urls_json)}}
+        url: ${{fromJson(needs.init.outputs.urls_json)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
