@@ -1,0 +1,25 @@
+{
+  "host": "lemonde.fr",
+  "port": 443,
+  "protocol": "http",
+  "isPublic": false,
+  "status": "READY",
+  "startTime": 1616968106475,
+  "testTime": 1616968216113,
+  "engineVersion": "2.1.8",
+  "criteriaVersion": "2009q",
+  "endpoints": [
+    {
+      "ipAddress": "151.101.194.217",
+      "statusMessage": "Ready",
+      "grade": "A",
+      "gradeTrustIgnored": "A",
+      "hasWarnings": false,
+      "isExceptional": false,
+      "progress": 100,
+      "duration": 109518,
+      "eta": 5,
+      "delegation": 1
+    }
+  ]
+}
