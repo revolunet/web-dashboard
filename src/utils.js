@@ -33,4 +33,13 @@ const getUrls = () =>
     .filter((r) => !r.match(/^\s*#/))
     .filter(Boolean);
 
-module.exports = { toHostname, getUrls };
+/**
+ * uniquify some array
+ *
+ * @param {any[]} input array
+ *
+ * @returns {any[]} output array
+ */
+const uniqify = (input) => Array.from(new Set(input));
+
+module.exports = { toHostname, getUrls, uniqify };

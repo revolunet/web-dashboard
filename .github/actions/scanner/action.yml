@@ -1,0 +1,22 @@
+name: "SocialGouv scanners Action"
+description: "Run a bunch of scans on a given URL"
+
+inputs:
+  url:
+    description: "URL to scan"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install
+      shell: bash
+      run: |
+        yarn
+        mkdir -p scans || true
+
+    - name: Third Parties scan
+      shell: bash
+      run: |
+        SCAN_OUTPUT=scans/ssl.json
+        node src/ssl/scan.js > $SCAN_OUTPUT

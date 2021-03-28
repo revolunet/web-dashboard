@@ -11,7 +11,7 @@ const API_HTTP = `https://http-observatory.security.mozilla.org/api/v1`;
  *
  * @param {string} url The full URL
  *
- * @returns {Promise<HttpScanResults>}
+ * @returns {Promise<HttpScanResult>}
  */
 const scan = (url, tries = MAX_TRIES) => {
   const hostname = toHostname(url);

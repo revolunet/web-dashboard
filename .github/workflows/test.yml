@@ -1,0 +1,143 @@
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: "0 6 */7 * *"
+name: Test
+jobs:
+  scans:
+    runs-on: ubuntu-latest
+    name: Scan
+    # outputs:
+    #   urls: ${{ steps.parse-urls.outputs.urls }}
+    #   urls_json: ${{ steps.parse-urls.outputs.urls_json }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: "./.github/actions/scanner"
+        with:
+          url: "http://www.free.fr"
+      
+  #     - name: Nuclei scan
+  #       uses: "./.github/actions/nuclei"
+  #       with:
+  #         urls: "urls.txt"
+  #         output: "scans/nuclei.log"
+
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: scans
+  #         path: scans
+
+  # zap_scan:
+  #   runs-on: ubuntu-latest
+  #   name: Zap scan
+  #   needs: scans
+  #   continue-on-error: true
+  #   strategy:
+  #     fail-fast: false
+  #     max-parallel: 3
+  #     matrix:
+  #       url: ${{fromJson(needs.scans.outputs.urls_json)}}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: master
+
+  #     - name: ZAP Scan
+  #       uses: zaproxy/action-baseline@v0.4.0
+  #       with:
+  #         token: "${{ secrets.GITHUB_TOKEN }}"
+  #         docker_name: "owasp/zap2docker-stable"
+  #         target: "${{ matrix.url }}"
+  #         cmd_options: "-a"
+
+  #     - name: Save results
+  #       run: |
+  #         ls
+  #         ls results
+  #         slugify () {
+  #             echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
+  #         }
+  #         URL_SLUG=`slugify ${{matrix.url}}`
+  #         OUT_PATH=zap
+  #         mkdir -p $OUT_PATH || true
+  #         mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
+  #         mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
+  #         mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: zap
+  #         path: zap
+
+  # lighthouse:
+  #   runs-on: ubuntu-latest
+  #   name: Lighthouse scan
+  #   needs:
+  #     - scans
+  #     - zap_scan
+  #   continue-on-error: true
+  #   strategy:
+  #     fail-fast: false
+  #     max-parallel: 3
+  #     matrix:
+  #       url: ${{fromJson(needs.scans.outputs.urls_json)}}
+  #   steps:
+  #     - name: Lighthouse scan
+  #       uses: treosh/lighthouse-ci-action@v7
+  #       with:
+  #         urls: "${{ matrix.url }}"
+  #         uploadArtifacts: true
+  #         temporaryPublicStorage: false
+
+  # summarize:
+  #   runs-on: ubuntu-latest
+  #   name: Summarize results
+  #   needs:
+  #     - scans
+  #     - zap_scan
+  #     - lighthouse
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: master
+  #     - name: Download scans
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: scans
+  #         path: scans
+  #     - name: Download zap
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: zap
+  #         path: zap
+  #     - name: Download zap
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: lighthouse-results
+  #         path: lighthouse-results
+  #     - name: Data massage
+  #       run: |
+  #         ls
+  #         ls scans
+  #         ls zap
+
+  #         # make nuclei log a JSON
+  #         cat scans/nuclei.log | jq -s > scans/nuclei.json
+  #         rm scans/nuclei.log
+
+  #         OUTPUT="results/${GITHUB_RUN_ID}"
+  #         mkdir $OUTPUT || true
+  #         cp lighthouse-results/* $OUTPUT/
+  #         cp scans/* $OUTPUT/
+  #         cp zap/* $OUTPUT/
+  #         ls -la $OUTPUT
+
+  #     - uses: EndBug/add-and-commit@v7
+  #       with:
+  #         add: '["results"]'
+  #         author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+  #         author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+  #         message: "chore: scans update"
+  #         pull_strategy: "--no-ff"

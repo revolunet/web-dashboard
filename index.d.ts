@@ -21,18 +21,23 @@ type HttpScanResults = {
   details: HttpScanRules;
 };
 
-type DnsScanResults = {
-  url: string;
-};
+type DnsScanResult = string;
 
 type ThirdPartiesScanResults = {
   url: string;
 };
 
+type ThirdPartyEndpoint = {
+  hostname: string;
+  ip: string;
+  geoip: object;
+};
+
 type ThirdPartiesScanResult = {
-  trackers: [] | null;
+  trackers: ThirdPartyResult[] | null;
   cookies: [] | null;
   headers: [] | null;
+  endpoints: ThirdPartyEndpoint[] | null;
 };
 
 type ThirdPartyCheckParams = { url: string };
@@ -45,3 +50,10 @@ type ThirdParty = {
 };
 
 type ThirdParties = ThirdParty[];
+
+type ThirdPartyResult = {
+  type: string;
+  url: string;
+  details?: object;
+};
+type SSLScanResult = {};

@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 name: Website
 jobs:
   website:

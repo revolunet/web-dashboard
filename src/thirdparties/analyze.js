@@ -9,9 +9,10 @@ const TIMEOUT = 120;
  *
  * @param {string} url The full URL
  *
- * @returns {boolean}
+ * @returns {ThirdParty|undefined}
  */
-const isTracker = (url) => !!trackers.find((tracker) => tracker.check(url));
+const getKnownThirdParty = (url) =>
+  trackers.find((tracker) => tracker.check(url));
 
 const legitDomains = [
   ".aphp.fr",
@@ -68,7 +69,7 @@ const belongsToSameDomain = (url1, url2) =>
  *
  * @param {number} [duration] how long to wait in ms
  *
- * @returns {void}
+ * @returns {Promise<void>}
  */
 const wait = (duration = 5000) =>
   new Promise((resolve) => setTimeout(resolve, duration));
@@ -79,13 +80,14 @@ const wait = (duration = 5000) =>
  * @param {number} browser puppeteer instance
  * @param {string} url the full URL
  *
- * @returns {ThirdPartiesScanResult}
+ * @returns {Promise<ThirdPartiesScanResult>}
  */
 const analyzeUrl = async (browser, url) => {
   const realUrl = url.startsWith("http") ? url : `http://${url}`;
 
   const page = await browser.newPage();
   await page.setRequestInterception(true);
+  /** @type {ThirdPartyResult[]} */
   const trackers = [];
   // for every external request, check if considered third-party
   page.on("request", (interceptedRequest) => {
@@ -95,12 +97,12 @@ const analyzeUrl = async (browser, url) => {
       !belongsToSameDomain(url, requestUrl) &&
       !isLegit(requestUrl)
     ) {
-      const res = isTracker(requestUrl);
+      const res = getKnownThirdParty(requestUrl);
       if (res) {
-        trackers.push({ tracker: res, url: requestUrl });
+        trackers.push({ type: res.id, url: requestUrl, details: res });
       } else {
         // maybe a tracker
-        trackers.push({ tracker: "unknown", url: requestUrl });
+        trackers.push({ type: "unknown", url: requestUrl });
       }
     }
     interceptedRequest.continue();
