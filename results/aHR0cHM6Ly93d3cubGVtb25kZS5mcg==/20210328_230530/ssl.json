@@ -1,0 +1,61 @@
+{
+  "host": "www.lemonde.fr",
+  "port": 443,
+  "protocol": "http",
+  "isPublic": false,
+  "status": "READY",
+  "startTime": 1616958008506,
+  "testTime": 1616958451031,
+  "engineVersion": "2.1.8",
+  "criteriaVersion": "2009q",
+  "endpoints": [
+    {
+      "ipAddress": "151.101.2.217",
+      "statusMessage": "Ready",
+      "grade": "A+",
+      "gradeTrustIgnored": "A+",
+      "hasWarnings": false,
+      "isExceptional": true,
+      "progress": 100,
+      "duration": 110693,
+      "eta": 691,
+      "delegation": 2
+    },
+    {
+      "ipAddress": "151.101.66.217",
+      "statusMessage": "Ready",
+      "grade": "A+",
+      "gradeTrustIgnored": "A+",
+      "hasWarnings": false,
+      "isExceptional": true,
+      "progress": 100,
+      "duration": 110209,
+      "eta": 686,
+      "delegation": 2
+    },
+    {
+      "ipAddress": "151.101.130.217",
+      "statusMessage": "Ready",
+      "grade": "A+",
+      "gradeTrustIgnored": "A+",
+      "hasWarnings": false,
+      "isExceptional": true,
+      "progress": 100,
+      "duration": 110326,
+      "eta": 681,
+      "delegation": 2
+    },
+    {
+      "ipAddress": "151.101.194.217",
+      "statusMessage": "Ready",
+      "grade": "A+",
+      "gradeTrustIgnored": "A+",
+      "hasWarnings": false,
+      "isExceptional": true,
+      "progress": 100,
+      "duration": 111160,
+      "eta": 675,
+      "delegation": 2
+    }
+  ]
+}
