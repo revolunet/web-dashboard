@@ -139,9 +139,28 @@ const getScansFiles = (resultsPath, pattern, getUrl) => {
     });
 };
 
+const generateReport = () => {
+  const urls = getUrls().map((url) => {
+    console.log(url);
+    const urlb64 = Buffer.from(url).toString("base64");
+    const urlPath = path.join(__dirname, "..", "..", "results", urlb64);
+    const scans = fs.readdirSync(urlPath);
+    scans.sort();
+    const lastScan = scans.length && scans[0];
+    if (!lastScan) {
+      return null;
+    }
+    console.log("lastScan", lastScan);
+
+    return {
+      url,
+    };
+  });
+  return urls;
+};
+
 if (require.main === module) {
-  const input = process.argv[process.argv.length - 1];
-  exportData(input)
-    .then((d) => console.log(JSON.stringify(d, null, 2)))
-    .catch(console.log);
+  generateReport();
+  //.then((d) => console.log(JSON.stringify(d, null, 2)))
+  //.catch(console.log);
 }
