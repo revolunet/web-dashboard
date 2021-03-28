@@ -19,4 +19,4 @@ runs:
       shell: bash
       run: |
         SCAN_OUTPUT=scans/ssl.json
-        node src/ssl/scan.js > $SCAN_OUTPUT
+        node src/ssl/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
