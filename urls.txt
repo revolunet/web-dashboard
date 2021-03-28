@@ -1,2 +1,2 @@
-http://www.free.fr
-http://voila.fr
+https://lemonde.fr
+https://liberation.fr
