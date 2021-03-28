@@ -40,7 +40,7 @@ jobs:
   scans:
     runs-on: ubuntu-latest
     name: Zap scan
-    needs: scans
+    needs: init
     continue-on-error: true
     strategy:
       fail-fast: false
