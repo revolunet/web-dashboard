@@ -1,3 +1,4 @@
+/** @type {ThirdParties} ThirdParties */
 const trackers = [
   {
     id: "google fonts",

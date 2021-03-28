@@ -1,55 +1,106 @@
 const trackers = require("./trackers");
+const { toHostname } = require("../utils");
 
-// in seconds
+// expected response timeout in seconds
 const TIMEOUT = 120;
 
-const hostname = (url) =>
-  url.replace(/^(?:https?:\/\/)?(?:www\d*\.)?([^/]+)\/?.*/i, "$1");
+/**
+ * check if some url is known
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {boolean}
+ */
+const isTracker = (url) => !!trackers.find((tracker) => tracker.check(url));
 
-const isTracker = (requestUrl) => {
-  const match = trackers.find((tracker) => tracker.check(requestUrl));
-  if (match) {
-    return { type: match.id, value: requestUrl };
+const legitDomains = [
+  ".aphp.fr",
+  ".cci.fr",
+  ".openstreetmap.org",
+  ".ameli.fr",
+  ".sante.fr",
+  ".caf.fr",
+  ".cnrs.fr",
+  ".gouv.fr",
+  ".gouvernement.fr",
+].map((d) => new RegExp(d, "i"));
+
+/**
+ * check if some url is legit
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {boolean}
+ */
+const isLegit = (url) => {
+  const hostname = toHostname(url);
+  if (hostname) {
+    return legitDomains.filter((domain) => hostname.match(domain)).length > 0;
   }
-  return { type: "unknown", value: requestUrl };
+  return false;
 };
 
-const isGouvFr = (url) =>
-  hostname(url).match(/\.gouv\.fr/i) ||
-  hostname(url).match(/gouvernement\.fr/i);
+/**
+ * get root domain of some url
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {string} root domain name
+ */
+const rootDomain = (url) =>
+  url
+    .replace(/(?:https?:\/\/)?(?:[^/])*?([^./]+\.[^./]+)(?:\/.*)?$/i, "$1")
+    .toLowerCase();
 
-const isLegit = (url) =>
-  url.match(/\.aphp\.fr/i) ||
-  url.match(/\.cci\.fr/i) ||
-  url.match(/\.openstreetmap\.org/i) ||
-  url.match(/\.ameli\.fr/i) ||
-  url.match(/\.sante\.fr/i) ||
-  url.match(/\.caf\.fr/i) ||
-  url.match(/\.cnrs\.fr/i);
+/**
+ * check if some urls share the same domain
+ *
+ * @param {string} url1 The full URL
+ * @param {string} url2 The full URL
+ *
+ * @returns {boolean}
+ */
+const belongsToSameDomain = (url1, url2) =>
+  rootDomain(url1) === rootDomain(url2);
 
-const isSameHost = (url1, url2) => hostname(url1) === hostname(url2);
-
+/**
+ * wait a while
+ *
+ * @param {number} [duration] how long to wait in ms
+ *
+ * @returns {void}
+ */
 const wait = (duration = 5000) =>
   new Promise((resolve) => setTimeout(resolve, duration));
 
-// return {headers, cookies, trackers} for a given url
-const analyseUrl = async (browser, url) => {
+/**
+ * analyse a given url with puppeteer
+ *
+ * @param {number} browser puppeteer instance
+ * @param {string} url the full URL
+ *
+ * @returns {ThirdPartiesScanResult}
+ */
+const analyzeUrl = async (browser, url) => {
   const realUrl = url.startsWith("http") ? url : `http://${url}`;
 
   const page = await browser.newPage();
   await page.setRequestInterception(true);
   const trackers = [];
+  // for every external request, check if considered third-party
   page.on("request", (interceptedRequest) => {
     const requestUrl = interceptedRequest.url();
     if (
       !requestUrl.match(/^data:/) &&
-      !isSameHost(url, requestUrl) &&
-      !isGouvFr(requestUrl) &&
+      !belongsToSameDomain(url, requestUrl) &&
       !isLegit(requestUrl)
     ) {
       const res = isTracker(requestUrl);
       if (res) {
-        trackers.push(res);
+        trackers.push({ tracker: res, url: requestUrl });
+      } else {
+        // maybe a tracker
+        trackers.push({ tracker: "unknown", url: requestUrl });
       }
     }
     interceptedRequest.continue();
@@ -71,10 +122,6 @@ const analyseUrl = async (browser, url) => {
   } catch (e) {
     await page.close();
     console.error("e", realUrl, e);
-    // if url fail try again with www prefix
-    if (!realUrl.match(/https?:\/\/www\./)) {
-      return analyseUrl(browser, `http://www.${url}`);
-    }
   }
   return {
     trackers: null,
@@ -83,4 +130,4 @@ const analyseUrl = async (browser, url) => {
   };
 };
 
-module.exports = analyseUrl;
+module.exports = { rootDomain, belongsToSameDomain, analyzeUrl };

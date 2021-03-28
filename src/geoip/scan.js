@@ -2,9 +2,19 @@ const dns = require("dns");
 const geolite2 = require("geolite2-redist");
 const maxmind = require("maxmind");
 const pAll = require("p-all");
+const { default: scan } = require("../http/scan");
 
 const { toHostname } = require("../utils");
 
+
+
+/**
+ * Run a hostname to IP lookup
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {Promise<DnsScanResults>}
+ */
 const dnsLookup = (url) =>
   new Promise((resolve, reject) => {
     dns.lookup(url, (err, result) => {
@@ -16,16 +26,30 @@ const dnsLookup = (url) =>
     });
   });
 
+/**
+ * uniquify some array
+ *
+ * @param {any[]} input array
+ *
+ * @returns {any[]} output array
+ */
 const uniqify = (arr) => Array.from(new Set(arr));
 
-const getDNSinfo = async (hostnames) => {
+/**
+ * uniquify some array
+ *
+ * @param {string[]} list of hostnames
+ *
+ * @returns {any[]} output array
+ */
+const getGeoIPinfo = async (hostnames) => {
   await geolite2.downloadDbs();
   const lookup = await geolite2.open("GeoLite2-City", (path) =>
     maxmind.open(path)
   );
 
-  return Promise.all(
-    hostnames.map(async (hostname) => {
+  return pAll(
+    hostnames.map( (hostname) => async () => {
       try {
         const ip = await dnsLookup(hostname);
         return {
@@ -35,7 +59,7 @@ const getDNSinfo = async (hostnames) => {
       } catch (e) {
         return { hostname, ip: null };
       }
-    })
+    }), {concurrency:1}
   )
     .then((hosts) =>
       pAll(
@@ -86,16 +110,21 @@ const scanFromTrackers = (trackersData) =>
       ]);
       return {
         url,
-        result: await getDNSinfo(hostnames),
+        result: await getGeoIPinfo(hostnames),
       };
     }),
     { concurrency: 1, stopOnError: false }
   );
 
+
 if (require.main === module) {
-  scanFromTrackers(require(process.argv[process.argv.length - 1]))
+  const url = process.argv[process.argv.length - 1];
+  scan(url)
     .then((results) => {
       console.log(JSON.stringify(results, null, 2));
     })
     .catch(console.log);
 }
+
+module.exports = scan;
+

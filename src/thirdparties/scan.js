@@ -3,34 +3,44 @@ const path = require("path");
 const puppeteer = require("puppeteer");
 const pAll = require("p-all");
 
-const analyze = require("./analyze");
-const { getUrls } = require("../utils");
+const { analyzeUrl } = require("./analyze");
+const { toHostname } = require("../utils");
 
-const scan = () =>
+/**
+ * Run a third-parties lookup on some URL with puppeteer
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {Promise<ThirdPartiesScanResult>}
+ */
+const scan = (url) =>
   puppeteer
     .launch({
       ignoreHTTPSErrors: true,
     })
-    .then(async (browser) => {
-      const hosts = getUrls();
-      const results = await pAll(
-        hosts.map((url) => async () => {
-          console.warn(`Fetching ${url}`);
+    .then((browser) => {
+      return analyzeUrl(browser, url)
+        .then((result) => {
+          browser.close();
+          return result;
+        })
+        .catch(() => {
+          browser.close();
           return {
-            url,
-            ...(await analyze(browser, url)),
+            trackers: null,
+            cookies: null,
+            headers: null,
           };
-        }),
-        { concurrency: 2, stopOnError: false }
-      );
-      browser.close();
-      return results;
+        });
     });
 
 if (require.main === module) {
-  scan().then((results) => {
-    console.log(JSON.stringify(results, null, 2));
-  });
+  const url = process.argv[process.argv.length - 1];
+  scan(url)
+    .then((results) => {
+      console.log(JSON.stringify(results, null, 2));
+    })
+    .catch(console.log);
 }
 
 module.exports = scan;

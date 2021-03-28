@@ -2,7 +2,8 @@
   "name": "web-dashboard",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "private": true,
+  "license": "Apache-2.0",
   "dependencies": {
     "date-fns": "^2.19.0",
     "geoip-lite": "^1.4.2",
@@ -14,5 +15,20 @@
     "node-ssllabs": "^2.1.0",
     "p-all": "^3.0.0",
     "puppeteer": "^8.0.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "types": "./index.d.ts",
+  "devDependencies": {
+    "@socialgouv/eslint-config-strict": "^1.0.0-beta.5",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.36",
+    "@types/node-fetch": "^2.5.8",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.22.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.3"
   }
 }

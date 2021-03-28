@@ -1,29 +1,22 @@
-const fs = require("fs");
-const path = require("path");
-const pAll = require("p-all");
-const fetch = require("node-fetch");
-
-const { getUrls, toHostname } = require("../utils");
-
-const scan = () => {
-  const urls = getUrls();
-  return pAll(
-    urls.map(toHostname).map((url) => async () => ({
-      url,
-      result: await scanHTTP(url),
-    })),
-    { concurrency: 1 }
-  );
-};
+const { toHostname } = require("../utils");
+const { default: fetch } = require("node-fetch");
 
 const INTERVAL = 10000;
 const MAX_TRIES = 10;
 
 const API_HTTP = `https://http-observatory.security.mozilla.org/api/v1`;
 
-const scanHTTP = (url, tries = MAX_TRIES) => {
+/**
+ * Run a HTTP Mozilla scan for a given URL
+ *
+ * @param {string} url The full URL
+ *
+ * @returns {Promise<HttpScanResults>}
+ */
+const scan = (url, tries = MAX_TRIES) => {
+  const hostname = toHostname(url);
   console.warn(`fetch mozilla HTTP API for ${url}`);
-  return fetch(`${API_HTTP}/analyze?host=${url}&hidden=true&rescan=true`, {
+  return fetch(`${API_HTTP}/analyze?host=${hostname}&hidden=true&rescan=true`, {
     method: "POST",
   })
     .then((r) => r.json())
@@ -46,7 +39,7 @@ const scanHTTP = (url, tries = MAX_TRIES) => {
           `delay HTTP ${url} (${MAX_TRIES - tries + 1}/${MAX_TRIES})`
         );
         return new Promise((resolve) =>
-          setTimeout(() => scanHTTP(url, tries - 1).then(resolve), INTERVAL)
+          setTimeout(() => scan(url, tries - 1).then(resolve), INTERVAL)
         );
       }
       throw new Error(`${MAX_TRIES} failed scans for ${url}`);
@@ -54,7 +47,8 @@ const scanHTTP = (url, tries = MAX_TRIES) => {
 };
 
 if (require.main === module) {
-  scan()
+  const url = process.argv[process.argv.length - 1];
+  scan(url)
     .then((results) => {
       console.log(JSON.stringify(results, null, 2));
     })
