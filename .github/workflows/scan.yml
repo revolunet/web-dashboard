@@ -1,7 +1,14 @@
 on:
   workflow_dispatch:
+    inputs:
+      url:
+        description: 'Single url to scan or any'
+        required: false
+        default: ""
+
 #  schedule:
 #    - cron: "0 6 */7 * *"
+
 name: Scans
 jobs:
   init:
@@ -10,7 +17,6 @@ jobs:
     outputs:
       urls: ${{ steps.parse-urls.outputs.urls }}
       urls_json: ${{ steps.parse-urls.outputs.urls_json }}
-
     steps:
       - uses: actions/checkout@v2
 
@@ -18,15 +24,24 @@ jobs:
         id: "parse-urls"
         shell: bash
         run: |
-          # parse the input urls so we can make use jobs in a "matrix"
-          URLS=$(cat urls.txt | grep -e "^http")
 
-          URLS="${URLS//'%'/'%25'}"
-          URLS="${URLS//$'\n'/'%0A'}"
-          URLS="${URLS//$'\r'/'%0D'}"
+          if [[ -n "${{ github.event.inputs.url }}" ]]
+          then
+            URLS="${{ github.event.inputs.url }}"
+            URLS_JSON="[\"${{ github.event.inputs.url }}\"]"
+          else
+            # parse the input urls so we can make use jobs in a "matrix"
+            URLS=$(cat urls.txt | grep -e "^http")
 
-          URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
+            URLS="${URLS//'%'/'%25'}"
+            URLS="${URLS//$'\n'/'%0A'}"
+            URLS="${URLS//$'\r'/'%0D'}"
+
+            URLS_JSON=$(cat urls.txt | grep -e "^http" | jq -Rsc 'split("\n") [0:-1]' -)
+          fi
+
           echo $URLS
+          echo $URLS_JSON
 
           echo "::set-output name=urls_json::$URLS_JSON"
           echo "::set-output name=urls::$URLS"
