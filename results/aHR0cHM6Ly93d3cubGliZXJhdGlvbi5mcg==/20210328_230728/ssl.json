@@ -1,0 +1,39 @@
+{
+  "host": "www.liberation.fr",
+  "port": 443,
+  "protocol": "http",
+  "isPublic": false,
+  "status": "READY",
+  "startTime": 1616955107907,
+  "testTime": 1616955234076,
+  "engineVersion": "2.1.8",
+  "criteriaVersion": "2009q",
+  "endpoints": [
+    {
+      "ipAddress": "104.123.70.67",
+      "serverName": "a104-123-70-67.deploy.static.akamaitechnologies.com",
+      "statusMessage": "Ready",
+      "grade": "A",
+      "gradeTrustIgnored": "A",
+      "hasWarnings": false,
+      "isExceptional": false,
+      "progress": 100,
+      "duration": 63458,
+      "eta": 825,
+      "delegation": 2
+    },
+    {
+      "ipAddress": "104.123.70.66",
+      "serverName": "a104-123-70-66.deploy.static.akamaitechnologies.com",
+      "statusMessage": "Ready",
+      "grade": "A",
+      "gradeTrustIgnored": "A",
+      "hasWarnings": false,
+      "isExceptional": false,
+      "progress": 100,
+      "duration": 62568,
+      "eta": 822,
+      "delegation": 2
+    }
+  ]
+}
