@@ -1,5 +1,0 @@
-Error: invalid-hostname
-    at /home/runner/work/web-dashboard/web-dashboard/src/http/scan.js:38:15
-    at processTicksAndRejections (internal/process/task_queues.js:93:5)
-    at async /home/runner/work/web-dashboard/web-dashboard/src/http/scan.js:19:15
-    at async /home/runner/work/web-dashboard/web-dashboard/node_modules/p-map/index.js:57:22
