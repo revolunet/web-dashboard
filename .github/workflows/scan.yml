@@ -123,16 +123,45 @@ jobs:
           ls scans
           echo "lighthouse-results:"
           ls lighthouse-results
-          slugify () {
-              echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
-          }
-          URL_SLUG=`slugify ${{matrix.url}}`
-          echo $URL_SLUG
+
+          URL_BASE64=$(printf "%s" "${{ matrix.url }}" | base64)
+          echo $URL_BASE64  
+
+          NOW=$(date +"%Y%m%d_%H%M%S")
+          echo $NOW
+
+          OUT_PATH="./results/${URL_BASE64}/${NOW}"
+          echo $OUT_PATH
+
+          mkdir -p $OUT_PATH || true
+
+          cat scans/nuclei.log | jq -s > scans/nuclei.json
+          rm scans/nuclei.log
+
+          mv scans/* $OUT_PATH/
+          mv lighthouse-results/* $OUT_PATH/
+          mv report_json.json $OUT_PATH/zap.json
+          mv report_md.md $OUT_PATH/zap.md
+          mv report_html.html $OUT_PATH/zap.html
+
+          # slugify () {
+          #     echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
+          # }
+          # URL_SLUG=`slugify ${{matrix.url}}`
+          # echo $URL_SLUG
           # OUT_PATH=zap
           # mkdir -p $OUT_PATH || true
           # mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
           # mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
           # mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+          add: '["results"]'
+         # author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          #author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          message: "update: ${{ matrix.url }}"
+#          pull_strategy: "--no-ff"
 
 
   # lighthouse:
