@@ -145,15 +145,37 @@ const generateReport = () => {
     const urlb64 = Buffer.from(url).toString("base64");
     const urlPath = path.join(__dirname, "..", "..", "results", urlb64);
     const scans = fs.readdirSync(urlPath);
-    scans.sort();
+    scans.sort().reverse();
     const lastScan = scans.length && scans[0];
     if (!lastScan) {
       return null;
     }
     console.log("lastScan", lastScan);
-
+    const latestFilesPath = path.join(urlPath, lastScan);
+    const latestFiles = fs.readdirSync(latestFilesPath);
+    //const files = fs.readdirSync(path.join(urlPath, lastScan));
+    //console.log("files", files);
     return {
       url,
+      http: requireJson(latestFilesPath, "http.json"),
+      ssl: requireJson(latestFilesPath, "ssl.json"),
+      thirdparties: requireJson(latestFilesPath, "thirdparties.json"),
+      zap: requireJson(latestFilesPath, "zap.json"),
+      nuclei: requireJson(latestFilesPath, "nuclei.json"),
+      lhr: requireJson(latestFilesPath, "lhr.json"),
+
+      // nuclei: requireJson(resultsPath, "nuclei.json"),
+      // geoip: requireJson(resultsPath, "geoip.json"),
+      // lhr: await getScansFiles(
+      //   resultsPath,
+      //   /^lhr-.*\.json$/,
+      //   (node) => node.requestedUrl
+      // ),
+      // owasp: await getScansFiles(
+      //   resultsPath,
+      //   /^zap-.*\.json$/,
+      //   (node) => node.site[0]["@host"]
+      // ),
     };
   });
   return urls;

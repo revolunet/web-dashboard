@@ -1,2 +1,2 @@
-https://lemonde.fr
-https://liberation.fr
+https://www.lemonde.fr
+https://www.liberation.fr

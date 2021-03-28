@@ -18,8 +18,7 @@ jobs:
         id: "parse-urls"
         shell: bash
         run: |
-          #jq --version
-          #yq --version
+          # parse the input urls so we can make use jobs in a "matrix"
           URLS=$(cat urls.txt | grep -e "^http")
 
           URLS="${URLS//'%'/'%25'}"
@@ -31,7 +30,6 @@ jobs:
 
           echo "::set-output name=urls_json::$URLS_JSON"
           echo "::set-output name=urls::$URLS"
-
 
   scans:
     runs-on: ubuntu-latest
@@ -111,24 +109,35 @@ jobs:
 
       - name: Save results
         run: |
-
-          URL_BASE64=$(printf "%s" "${{ matrix.url }}" | base64)
-
+          # store results in a folder with then base64 encoded url
+          URL=${{ matrix.url }}
+          URL_BASE64=$(printf "%s" "$URL" | base64)
           NOW=$(date +"%Y%m%d_%H%M%S")
-
           OUT_PATH="./results/${URL_BASE64}/${NOW}"
 
           mkdir -p $OUT_PATH || true
 
+          # jsonify nuclei logs
           cat scans/nuclei.log | jq -s > scans/nuclei.json
           rm scans/nuclei.log
 
+          # archive results in dedicated folder 
           mv scans/* $OUT_PATH/
-          mv lighthouse-results/* $OUT_PATH/
           mv report_json.json $OUT_PATH/zap.json
           mv report_md.md $OUT_PATH/zap.md
           mv report_html.html $OUT_PATH/zap.html
- 
+
+          # due to https://github.com/treosh/lighthouse-ci-action/pull/81
+          for LHR_JSON_PATH in ./lighthouse-results/lhr-*.json; do
+              LHR_URL=$(jq -r ".requestedUrl" $LHR_JSON_PATH)
+              if [[ "${URL%/}" == "${LHR_URL%/}" ]]
+              then
+                  LHR_TIMESTAMP=$(basename $LHR_JSON_PATH | sed -e "s/lhr-\([0-9]*\)\.json/\1/")
+                  mv lighthouse-results/lhr-${LHR_TIMESTAMP}.json $OUT_PATH/lhr.json
+                  mv lighthouse-results/lhr-${LHR_TIMESTAMP}.html $OUT_PATH/lhr.html
+              fi
+          done
+
       - uses: EndBug/add-and-commit@v7
         with:
           add: '["results"]'
