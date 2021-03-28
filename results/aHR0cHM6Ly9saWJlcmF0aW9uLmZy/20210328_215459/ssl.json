@@ -1,0 +1,25 @@
+{
+  "host": "liberation.fr",
+  "port": 443,
+  "protocol": "http",
+  "isPublic": false,
+  "status": "READY",
+  "startTime": 1616968107838,
+  "testTime": 1616968298849,
+  "engineVersion": "2.1.8",
+  "criteriaVersion": "2009q",
+  "endpoints": [
+    {
+      "ipAddress": "91.220.85.182",
+      "statusMessage": "Ready",
+      "grade": "B",
+      "gradeTrustIgnored": "B",
+      "hasWarnings": false,
+      "isExceptional": false,
+      "progress": 100,
+      "duration": 190597,
+      "eta": 1,
+      "delegation": 1
+    }
+  ]
+}
