@@ -35,7 +35,7 @@ jobs:
 
   scans:
     runs-on: ubuntu-latest
-    name: Scans
+    name: Scan
     needs: init
     continue-on-error: true
     strategy:
