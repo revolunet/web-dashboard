@@ -4,7 +4,7 @@ on:
 #    - cron: "0 6 */7 * *"
 name: Scans
 jobs:
-  scans:
+  init:
     runs-on: ubuntu-latest
     name: Scan
     outputs:
@@ -14,10 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Parse urls for lighthouse"
+      - name: "Parse urls for matrix"
         id: "parse-urls"
         shell: bash
         run: |
+          jq -v
+          yq -v
           URLS=$(cat urls.txt | grep -e "^http")
 
           URLS="${URLS//'%'/'%25'}"
@@ -30,42 +32,12 @@ jobs:
           echo "::set-output name=urls::$URLS"
 
       - name: Install
+        shell: bash
         run: |
           yarn
           mkdir -p scans || true
 
-      - name: SSL-scan
-        run: |
-          SCAN_OUTPUT=scans/ssl.json
-          node src/ssl/scan.js > $SCAN_OUTPUT
-
-      - name: HTTP-scan
-        run: |
-          SCAN_OUTPUT=scans/http.json
-          node src/http/scan.js > $SCAN_OUTPUT
-
-      - name: Trackers-scan
-        run: |
-          SCAN_OUTPUT=scans/trackers.json
-          node src/thirdparties/scan.js > $SCAN_OUTPUT
-
-      - name: GeoIP-scan
-        run: |
-          SCAN_OUTPUT=scans/geoip.json
-          node src/geoip/scan.js ../../scans/trackers.json > $SCAN_OUTPUT
-
-      - name: Nuclei scan
-        uses: "./.github/actions/nuclei"
-        with:
-          urls: "urls.txt"
-          output: "scans/nuclei.log"
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: scans
-          path: scans
-
-  zap_scan:
+  scans:
     runs-on: ubuntu-latest
     name: Zap scan
     needs: scans
@@ -84,42 +56,11 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.4.0
         with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
+         # token: "${{ secrets.GITHUB_TOKEN }}"
           docker_name: "owasp/zap2docker-stable"
           target: "${{ matrix.url }}"
           cmd_options: "-a"
 
-      - name: Save results
-        run: |
-          ls
-          ls results
-          slugify () {
-              echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
-          }
-          URL_SLUG=`slugify ${{matrix.url}}`
-          OUT_PATH=zap
-          mkdir -p $OUT_PATH || true
-          mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
-          mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
-          mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
-      - uses: actions/upload-artifact@v2
-        with:
-          name: zap
-          path: zap
-
-  lighthouse:
-    runs-on: ubuntu-latest
-    name: Lighthouse scan
-    needs:
-      - scans
-      - zap_scan
-    continue-on-error: true
-    strategy:
-      fail-fast: false
-      max-parallel: 3
-      matrix:
-        url: ${{fromJson(needs.scans.outputs.urls_json)}}
-    steps:
       - name: Lighthouse scan
         uses: treosh/lighthouse-ci-action@v7
         with:
@@ -127,54 +68,122 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: false
 
-  summarize:
-    runs-on: ubuntu-latest
-    name: Summarize results
-    needs:
-      - scans
-      - zap_scan
-      - lighthouse
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: SSL Labs scan
+        shell: bash
+        run: |
+          SCAN_OUTPUT=scans/ssl.json
+          node src/ssl/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+
+      - name: Mozilla HTTP scan
+        shell: bash
+        run: |
+          SCAN_OUTPUT=scans/ssl.json
+          node src/http/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+
+      - name: Third parties scan
+        shell: bash
+        run: |
+          SCAN_OUTPUT=scans/ssl.json
+          node src/thirdparties/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+
+      - name: Nuclei scan
+        uses: "./.github/actions/nuclei"
         with:
-          ref: master
-      - name: Download scans
-        uses: actions/download-artifact@v2
+          urls: "urls.txt"
+          output: "scans/nuclei.log"
+
+      - uses: actions/upload-artifact@v2
         with:
           name: scans
           path: scans
-      - name: Download zap
-        uses: actions/download-artifact@v2
+
+      # - name: Save results
+      #   run: |
+      #     ls
+      #     ls results
+      #     slugify () {
+      #         echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
+      #     }
+      #     URL_SLUG=`slugify ${{matrix.url}}`
+      #     OUT_PATH=zap
+      #     mkdir -p $OUT_PATH || true
+      #     mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
+      #     mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
+      #     mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
+
+      - uses: actions/upload-artifact@v2
         with:
           name: zap
           path: zap
-      - name: Download zap
-        uses: actions/download-artifact@v2
-        with:
-          name: lighthouse-results
-          path: lighthouse-results
-      - name: Data massage
-        run: |
-          ls
-          ls scans
-          ls zap
 
-          # make nuclei log a JSON
-          cat scans/nuclei.log | jq -s > scans/nuclei.json
-          rm scans/nuclei.log
+  # lighthouse:
+  #   runs-on: ubuntu-latest
+  #   name: Lighthouse scan
+  #   needs:
+  #     - scans
+  #     - zap_scan
+  #   continue-on-error: true
+  #   strategy:
+  #     fail-fast: false
+  #     max-parallel: 3
+  #     matrix:
+  #       url: ${{fromJson(needs.scans.outputs.urls_json)}}
+  #   steps:
+  #     - name: Lighthouse scan
+  #       uses: treosh/lighthouse-ci-action@v7
+  #       with:
+  #         urls: "${{ matrix.url }}"
+  #         uploadArtifacts: true
+  #         temporaryPublicStorage: false
 
-          OUTPUT="results/${GITHUB_RUN_ID}"
-          mkdir $OUTPUT || true
-          cp lighthouse-results/* $OUTPUT/
-          cp scans/* $OUTPUT/
-          cp zap/* $OUTPUT/
-          ls -la $OUTPUT
+  # summarize:
+  #   runs-on: ubuntu-latest
+  #   name: Summarize results
+  #   needs:
+  #     - scans
+  #     - zap_scan
+  #     - lighthouse
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: master
+  #     - name: Download scans
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: scans
+  #         path: scans
+  #     - name: Download zap
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: zap
+  #         path: zap
+  #     - name: Download zap
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: lighthouse-results
+  #         path: lighthouse-results
+  #     - name: Data massage
+  #       run: |
+  #         ls
+  #         ls scans
+  #         ls zap
 
-      - uses: EndBug/add-and-commit@v7
-        with:
-          add: '["results"]'
-          author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-          author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
-          message: "chore: scans update"
-          pull_strategy: "--no-ff"
+  #         # make nuclei log a JSON
+  #         cat scans/nuclei.log | jq -s > scans/nuclei.json
+  #         rm scans/nuclei.log
+
+  #         OUTPUT="results/${GITHUB_RUN_ID}"
+  #         mkdir $OUTPUT || true
+  #         cp lighthouse-results/* $OUTPUT/
+  #         cp scans/* $OUTPUT/
+  #         cp zap/* $OUTPUT/
+  #         ls -la $OUTPUT
+
+  #     - uses: EndBug/add-and-commit@v7
+  #       with:
+  #         add: '["results"]'
+  #         author_name: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+  #         author_email: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+  #         message: "chore: scans update"
+  #         pull_strategy: "--no-ff"

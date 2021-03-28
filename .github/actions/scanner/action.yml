@@ -15,8 +15,20 @@ runs:
         yarn
         mkdir -p scans || true
 
-    - name: Third Parties scan
+    - name: SSL Labs scan
       shell: bash
       run: |
         SCAN_OUTPUT=scans/ssl.json
         node src/ssl/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+
+    - name: Mozilla HTTP scan
+      shell: bash
+      run: |
+        SCAN_OUTPUT=scans/ssl.json
+        node src/http/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+
+    - name: Third parties scan
+      shell: bash
+      run: |
+        SCAN_OUTPUT=scans/ssl.json
+        node src/thirdparties/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
