@@ -72,19 +72,19 @@ jobs:
         shell: bash
         run: |
           SCAN_OUTPUT=scans/ssl.json
-          node src/ssl/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+          node src/ssl/scan.js ${{ matrix.url }} > $SCAN_OUTPUT
 
       - name: Mozilla HTTP scan
         shell: bash
         run: |
           SCAN_OUTPUT=scans/ssl.json
-          node src/http/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+          node src/http/scan.js ${{ matrix.url }} > $SCAN_OUTPUT
 
       - name: Third parties scan
         shell: bash
         run: |
           SCAN_OUTPUT=scans/ssl.json
-          node src/thirdparties/scan.js ${{ inputs.url }} > $SCAN_OUTPUT
+          node src/thirdparties/scan.js ${{ matrix.url }} > $SCAN_OUTPUT
 
       - name: Nuclei scan
         uses: "./.github/actions/nuclei"
@@ -97,24 +97,29 @@ jobs:
           name: scans
           path: scans
 
-      # - name: Save results
-      #   run: |
-      #     ls
-      #     ls results
-      #     slugify () {
-      #         echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
-      #     }
-      #     URL_SLUG=`slugify ${{matrix.url}}`
-      #     OUT_PATH=zap
-      #     mkdir -p $OUT_PATH || true
-      #     mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
-      #     mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
-      #     mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
-
       - uses: actions/upload-artifact@v2
         with:
           name: zap
           path: zap
+
+      - name: Save results
+        run: |
+          ls
+          echo "results:"
+          ls results
+          echo "scans:"
+          ls scans
+          slugify () {
+              echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
+          }
+          URL_SLUG=`slugify ${{matrix.url}}`
+          echo $URL_SLUG
+          # OUT_PATH=zap
+          # mkdir -p $OUT_PATH || true
+          # mv report_json.json $OUT_PATH/zap-${URL_SLUG}.json
+          # mv report_md.md $OUT_PATH/zap-${URL_SLUG}.md
+          # mv report_html.html $OUT_PATH/zap-${URL_SLUG}.html
+
 
   # lighthouse:
   #   runs-on: ubuntu-latest
