@@ -18,8 +18,8 @@ jobs:
         id: "parse-urls"
         shell: bash
         run: |
-          jq --version
-          yq --version
+          #jq --version
+          #yq --version
           URLS=$(cat urls.txt | grep -e "^http")
 
           URLS="${URLS//'%'/'%25'}"
